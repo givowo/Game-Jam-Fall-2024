@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://qly6njncfynb"]
+
+[ext_resource type="Script" path="res://Scripts/Player/Player.gd" id="1_4d540"]
+[ext_resource type="Script" path="res://Core Scripts/AnimationHandler.gd" id="2_s8yus"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uewnd"]
+radius = 7.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7hva6"]
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_4d540")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_uewnd")
+
+[node name="SpriteManager" type="Node2D" parent="."]
+
+[node name="CHAR_WAR" type="AnimatedSprite2D" parent="SpriteManager"]
+sprite_frames = SubResource("SpriteFrames_7hva6")
+
+[node name="AnimationHandler" type="Node" parent="."]
+script = ExtResource("2_s8yus")
+
+[node name="ANI_WAR" type="Node" parent="AnimationHandler"]
