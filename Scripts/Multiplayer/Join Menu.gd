@@ -13,11 +13,15 @@ var typingName = false;
 var server = "";
 var playerName = "";
 var spaceDelay = 0;
+var serverRegex;
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	mainMenuOptions[highlighted].waveStrength = 2;
 	mainMenuOptions[highlighted].textColor = Color(1, 1, 0);
+	
+	serverRegex = RegEx.new();
+	serverRegex.compile("^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$");
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -105,8 +109,9 @@ func _process(delta: float) -> void:
 		mainMenuOptions[highlighted].waveStrength = 1;
 		mainMenuOptions[highlighted].textColor = Color(1, 1, 0);
 		
-	if playerName == "" || server == "":
-		$"Join Cover".waveStrength = mainMenuOptions[1].waveStrength;
+	if playerName == "" || !((server != "" && server == "localhost") || (server != "" && serverRegex.search(server) != null)):
+		$"Join Cover".waveStrength = mainMenuOptions[2].waveStrength;
+		$"Join Cover".visible = true;
 	else:
 		$"Join Cover".visible = false;
 		
@@ -151,8 +156,16 @@ func TypeName():
 	hiddenNameInput.caret_column = playerName.length();
 	
 func Join():
-	if playerName != "" && server != "":
+	if playerName != "" && ((server != "" && server == "localhost") || (server != "" && serverRegex.search(server) != null)):
+		MultiplayerManager.player_info.name = playerName;
 		MultiplayerManager.join_game(server);
+		
+		self.visible = false;
+		self.process_mode = Node.PROCESS_MODE_DISABLED;
+		$"../Lobby".visible = true;
+		$"../Lobby".process_mode = Node.PROCESS_MODE_ALWAYS;
+		$"../Lobby".WakeUp();
+		$"../Lobby".spaceDelay = 0.1;
 		pass
 
 func Back():

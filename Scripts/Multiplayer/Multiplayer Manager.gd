@@ -22,6 +22,15 @@ func _ready():
 	multiplayer.connected_to_server.connect(_on_connected_ok)
 	multiplayer.connection_failed.connect(_on_connected_fail)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
+	
+	for i in range(OS.get_cmdline_args().size()):
+		if OS.get_cmdline_args()[i] == "host":
+			player_info.name = OS.get_cmdline_args()[i+1];
+			create_game();
+			
+		if OS.get_cmdline_args()[i] == "join":
+			player_info.name = OS.get_cmdline_args()[i+1];
+			join_game();
 
 func join_game(address = ""):
 	if address.is_empty():
@@ -41,6 +50,7 @@ func create_game():
 
 	players[1] = player_info
 	player_connected.emit(1, player_info)
+	print(player_info.name, ": hosting");
 
 func remove_multiplayer_peer():
 	multiplayer.multiplayer_peer = null
@@ -54,6 +64,7 @@ func _on_player_connected(id):
 
 @rpc("any_peer", "reliable")
 func _register_player(new_player_info):
+	print(player_info.name, ": ", new_player_info.name, " joined");
 	var new_player_id = multiplayer.get_remote_sender_id()
 	players[new_player_id] = new_player_info
 	player_connected.emit(new_player_id, new_player_info)
@@ -74,3 +85,10 @@ func _on_server_disconnected():
 	multiplayer.multiplayer_peer = null
 	players.clear()
 	server_disconnected.emit()
+	
+@rpc("any_peer",  "call_remote", "reliable")
+func SetCharacter(character_id):
+	print(player_info);
+	print(multiplayer.get_unique_id())
+	print(players);
+	return;

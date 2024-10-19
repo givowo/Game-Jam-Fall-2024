@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://capug2stcmcll"]
+[gd_scene load_steps=12 format=3 uid="uid://capug2stcmcll"]
 
 [ext_resource type="Script" path="res://Scripts/Multiplayer/Menu Scaler.gd" id="1_lyrrw"]
 [ext_resource type="Script" path="res://Scripts/Multiplayer/Main Menu.gd" id="2_gyjpi"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://Scripts/Wavy Text.gd" id="3_oqjl6"]
 [ext_resource type="Script" path="res://Scripts/Multiplayer/Host Menu.gd" id="5_2tid8"]
 [ext_resource type="Script" path="res://Scripts/Multiplayer/Join Menu.gd" id="6_4686n"]
+[ext_resource type="Script" path="res://Scripts/Multiplayer/Lobby.gd" id="7_aaljt"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_3dv75"]
 line_spacing = 0.0
@@ -263,6 +264,7 @@ scale = Vector2(0.001, 0.001)
 max_length = 10
 
 [node name="Join" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -440,3 +442,65 @@ grow_vertical = 0
 scale = Vector2(0.001, 0.001)
 pivot_offset = Vector2(49, 20)
 max_length = 10
+
+[node name="Lobby" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_aaljt")
+
+[node name="Lobby" type="Label" parent="Lobby"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -32.0
+offset_top = -71.0
+offset_right = 32.0
+offset_bottom = -39.0
+grow_horizontal = 2
+text = "Lobby
+"
+label_settings = SubResource("LabelSettings_3dv75")
+horizontal_alignment = 1
+
+[node name="Arrow Selector" type="Label" parent="Lobby"]
+layout_mode = 0
+offset_left = -41.0
+offset_top = 46.0
+offset_right = -33.0
+offset_bottom = 62.0
+pivot_offset = Vector2(4, 8)
+text = ">"
+label_settings = SubResource("LabelSettings_fcadw")
+
+[node name="Player 1" type="Label" parent="Lobby"]
+offset_left = -41.0
+offset_top = -7.0
+offset_right = -33.0
+offset_bottom = 9.0
+pivot_offset = Vector2(4, 8)
+text = ">"
+label_settings = SubResource("LabelSettings_fcadw")
+
+[node name="Leave" type="Label" parent="Lobby"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = 48.0
+offset_right = 16.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Leave"
+label_settings = SubResource("LabelSettings_tg3jv")
+script = ExtResource("3_oqjl6")

@@ -56,8 +56,6 @@ func _process(delta: float) -> void:
 		nameActualView.text = nameview;
 		return;
 	
-	print('"', playerName, '"')
-	
 	arrowSelector.global_position.y = mainMenuOptions[highlighted].global_position.y;
 	arrowSelector.global_position.x = mainMenuOptions[highlighted].global_position.x - 12 + cos(Time.get_ticks_msec() / 150) * 3;
 	
@@ -77,6 +75,7 @@ func _process(delta: float) -> void:
 		
 	if playerName == "":
 		$"Create Cover".waveStrength = mainMenuOptions[1].waveStrength;
+		$"Create Cover".visible = true;
 	else:
 		$"Create Cover".visible = false;
 		
@@ -105,7 +104,15 @@ func TypeName():
 	
 func Create():
 	if playerName != "":
+		MultiplayerManager.player_info.name = playerName;
 		MultiplayerManager.create_game();
+		
+		self.visible = false;
+		self.process_mode = Node.PROCESS_MODE_DISABLED;
+		$"../Lobby".visible = true;
+		$"../Lobby".process_mode = Node.PROCESS_MODE_ALWAYS;
+		$"../Lobby".WakeUp();
+		$"../Lobby".spaceDelay = 0.1;
 		pass
 
 func Back():
