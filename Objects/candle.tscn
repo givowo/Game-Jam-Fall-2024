@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://d0vvilrd63k36"]
+
+[ext_resource type="Script" path="res://Scripts/candle.gd" id="1_5mqnc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ii8w"]
+size = Vector2(8, 8)
+
+[node name="Candle" type="Area2D"]
+collision_layer = 128
+collision_mask = 128
+script = ExtResource("1_5mqnc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_5ii8w")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

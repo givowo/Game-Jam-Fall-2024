@@ -9,9 +9,11 @@ radius = 7.0
 [sub_resource type="SpriteFrames" id="SpriteFrames_7hva6"]
 
 [node name="Player" type="CharacterBody2D"]
+collision_layer = 129
+collision_mask = 129
 script = ExtResource("1_4d540")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="TerrainCol" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_uewnd")
 
 [node name="SpriteManager" type="Node2D" parent="."]
