@@ -26,9 +26,10 @@ func _ready():
 func _process(delta: float) -> void:
 	
 	timeout = 0
-	move_timer = fmod(move_timer + 5, 100) 
-	if move_timer == 0:
+	move_timer = move_timer + (SPEED * delta) 
+	if move_timer >= 100:
 		move_index = (move_index + 1) 
+		move_timer = 0
 		_determine_status()
 		_update_status()
 	if move_arr.size() > 1:
@@ -47,7 +48,7 @@ func _determine_status():
 			$SightBeem.target_position = obj.position - position
 			$SightBeem.force_raycast_update()
 			if $SightBeem.is_colliding() and ($SightBeem.get_collider() is Player):
-				staus_queue.append([player.position, 1])
+				staus_queue.append([obj.global_position, 1])
 				
 func _update_status():
 	for i in staus_queue.size():
@@ -73,7 +74,7 @@ func _got_lost():
 					$SightBeem.target_position = obj.position - position
 					$SightBeem.force_raycast_update()
 					if $SightBeem.is_colliding() and ($SightBeem.get_collider() is Player):
-						staus_queue.append([player.global_position, 1])
+						staus_queue.append([obj.global_position, 1])
 			
 			if timeout >= 60:
 				move_index = 0

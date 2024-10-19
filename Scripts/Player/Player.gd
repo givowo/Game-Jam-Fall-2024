@@ -9,7 +9,7 @@ signal update_character_2
 @onready var world = $"../Procedural Generation"
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	_char = MultiplayerManager.players[multiplayer.get_unique_id()].character
+	##_char = MultiplayerManager.players[multiplayer.get_unique_id()].character
 	print(_char)
 	position = world.tileSize* (Vector2(world.worldSize, world.worldSize) + Vector2(1, 1)) + (world.tileSize/2)
 	update_character()
