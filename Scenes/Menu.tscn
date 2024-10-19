@@ -47,7 +47,6 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="Main" type="Control" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -448,6 +447,7 @@ pivot_offset = Vector2(49, 20)
 max_length = 10
 
 [node name="Lobby" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
