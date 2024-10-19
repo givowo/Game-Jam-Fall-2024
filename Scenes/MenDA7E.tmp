@@ -491,49 +491,18 @@ offset_right = 5.0
 offset_bottom = -7.0
 script = ExtResource("8_2gkta")
 
+[node name="Sprite" type="AnimatedSprite2D" parent="Lobby/Player 0"]
+position = Vector2(-48, -21)
+sprite_frames = ExtResource("9_ybc58")
+animation = &"Down"
+
 [node name="Name" type="Label" parent="Lobby/Player 0"]
-layout_mode = 0
 offset_left = -23.0
 offset_top = -29.0
 offset_right = 49.0
 offset_bottom = -13.0
 pivot_offset = Vector2(4, 8)
 text = "Test Name"
-label_settings = SubResource("LabelSettings_fcadw")
-
-[node name="Sprite?" type="Label" parent="Lobby/Player 0"]
-layout_mode = 0
-offset_left = -52.0
-offset_top = -29.0
-offset_right = -44.0
-offset_bottom = -13.0
-text = "?"
-label_settings = SubResource("LabelSettings_fcadw")
-script = ExtResource("3_oqjl6")
-
-[node name="Sprite" type="AnimatedSprite2D" parent="Lobby/Player 0"]
-position = Vector2(-48, -21)
-sprite_frames = ExtResource("9_ybc58")
-animation = &"Down"
-
-[node name="Right" type="Label" parent="Lobby/Player 0"]
-layout_mode = 0
-offset_left = -40.0
-offset_top = -28.0
-offset_right = -32.0
-offset_bottom = -12.0
-pivot_offset = Vector2(4, 8)
-text = ">"
-label_settings = SubResource("LabelSettings_fcadw")
-
-[node name="Left" type="Label" parent="Lobby/Player 0"]
-layout_mode = 0
-offset_left = -64.0
-offset_top = -28.0
-offset_right = -56.0
-offset_bottom = -12.0
-pivot_offset = Vector2(4, 8)
-text = "<"
 label_settings = SubResource("LabelSettings_fcadw")
 
 [node name="Player 1" type="Control" parent="Lobby"]
@@ -545,8 +514,12 @@ offset_right = 5.0
 offset_bottom = 14.0
 script = ExtResource("8_2gkta")
 
+[node name="Sprite" type="AnimatedSprite2D" parent="Lobby/Player 1"]
+position = Vector2(-48, -21)
+sprite_frames = ExtResource("10_0hu2a")
+animation = &"Down"
+
 [node name="Name" type="Label" parent="Lobby/Player 1"]
-layout_mode = 0
 offset_left = -23.0
 offset_top = -29.0
 offset_right = 49.0
@@ -554,20 +527,6 @@ offset_bottom = -13.0
 pivot_offset = Vector2(4, 8)
 text = "Test Name"
 label_settings = SubResource("LabelSettings_fcadw")
-
-[node name="Sprite?" type="Label" parent="Lobby/Player 1"]
-layout_mode = 0
-offset_left = -52.0
-offset_top = -29.0
-offset_right = -44.0
-offset_bottom = -13.0
-text = "?"
-label_settings = SubResource("LabelSettings_fcadw")
-
-[node name="Sprite" type="AnimatedSprite2D" parent="Lobby/Player 1"]
-position = Vector2(-48, -21)
-sprite_frames = ExtResource("10_0hu2a")
-animation = &"Down"
 
 [node name="Player 2" type="Control" parent="Lobby"]
 layout_mode = 3
@@ -578,8 +537,12 @@ offset_right = 5.0
 offset_bottom = 35.0
 script = ExtResource("8_2gkta")
 
+[node name="Sprite" type="AnimatedSprite2D" parent="Lobby/Player 2"]
+position = Vector2(-48, -21)
+sprite_frames = ExtResource("11_ulitg")
+animation = &"Death"
+
 [node name="Name" type="Label" parent="Lobby/Player 2"]
-layout_mode = 0
 offset_left = -23.0
 offset_top = -29.0
 offset_right = 49.0
@@ -587,20 +550,6 @@ offset_bottom = -13.0
 pivot_offset = Vector2(4, 8)
 text = "Test Name"
 label_settings = SubResource("LabelSettings_fcadw")
-
-[node name="Sprite?" type="Label" parent="Lobby/Player 2"]
-layout_mode = 0
-offset_left = -52.0
-offset_top = -29.0
-offset_right = -44.0
-offset_bottom = -13.0
-text = "?"
-label_settings = SubResource("LabelSettings_fcadw")
-
-[node name="Sprite" type="AnimatedSprite2D" parent="Lobby/Player 2"]
-position = Vector2(-48, -21)
-sprite_frames = ExtResource("11_ulitg")
-animation = &"Death"
 
 [node name="Leave" type="Label" parent="Lobby"]
 layout_mode = 1

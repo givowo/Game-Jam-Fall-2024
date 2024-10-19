@@ -13,9 +13,7 @@ const MAX_CONNECTIONS = 3
 var players = {}
 var players_loaded = 0
 
-var player_info = {"name": "Name", "character": -1};
-
-var lobbyPlayers = [$"Lobby/Player 0", $"Lobby/Player 1", $"Lobby/Player 2"];
+var player_info = {"name": "Name", "character": -1, "host": false};
 
 func _ready():
 	Instance = self;
@@ -42,6 +40,9 @@ func join_game(address = ""):
 	if error:
 		return error
 	multiplayer.multiplayer_peer = peer
+	player_info.host = false;
+	
+	
 
 func create_game():
 	var peer = ENetMultiplayerPeer.new()
@@ -52,6 +53,7 @@ func create_game():
 
 	players[1] = player_info
 	player_connected.emit(1, player_info)
+	player_info.host = true;
 	print(player_info.name, ": hosting");
 
 func remove_multiplayer_peer():
@@ -71,8 +73,11 @@ func _register_player(new_player_info):
 	players[new_player_id] = new_player_info
 	player_connected.emit(new_player_id, new_player_info)
 	
+	var lobbyPlayers = [$"../Menu/Lobby/Player 0", $"../Menu/Lobby/Player 1", $"../Menu/Lobby/Player 2"];
 	for i in range(players.values().size()):
 		lobbyPlayers[i].SetInfo(players.values()[i]);
+	for i in range(players.values().size(), 3):
+		lobbyPlayers[i].SetInfo([], false);
 
 func _on_player_disconnected(id):
 	players.erase(id)
@@ -91,9 +96,9 @@ func _on_server_disconnected():
 	players.clear()
 	server_disconnected.emit()
 	
-@rpc("any_peer",  "call_remote", "reliable")
+@rpc("any_peer",  "call_local", "reliable")
 func SetCharacter(character_id):
-	print(player_info);
-	print(multiplayer.get_unique_id())
-	print(players);
+	var lobbyPlayers = [$"../Menu/Lobby/Player 0", $"../Menu/Lobby/Player 1", $"../Menu/Lobby/Player 2"];
+	players[multiplayer.get_remote_sender_id()].character = character_id;
+	lobbyPlayers[players.keys().find(multiplayer.get_remote_sender_id())].SetInfo(players[multiplayer.get_remote_sender_id()]);
 	return;
