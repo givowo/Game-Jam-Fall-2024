@@ -1,9 +1,22 @@
-[gd_scene load_steps=3 format=3 uid="uid://d0vvilrd63k36"]
+[gd_scene load_steps=8 format=3 uid="uid://d0vvilrd63k36"]
 
 [ext_resource type="Script" path="res://Scripts/candle.gd" id="1_5mqnc"]
+[ext_resource type="Shader" path="res://Assets/pal_swap.gdshader" id="2_jwpxh"]
+[ext_resource type="Texture2D" uid="uid://kqoa80ffa7ae" path="res://Assets/2color_pal_IN.png" id="3_r6u5f"]
+[ext_resource type="Texture2D" uid="uid://dxdumsjdnthyu" path="res://Assets/2color_pal_OUT.png" id="4_y0n8g"]
+[ext_resource type="Texture2D" uid="uid://blwoloe6pcxki" path="res://Assets/space.png" id="5_ebd4s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5ii8w"]
 size = Vector2(8, 8)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_36nqg"]
+shader = ExtResource("2_jwpxh")
+shader_parameter/screen_mode = false
+shader_parameter/precision = 0.3
+shader_parameter/palette_in = ExtResource("3_r6u5f")
+shader_parameter/palette_out = ExtResource("4_y0n8g")
+shader_parameter/cycleRate = 0.0
+shader_parameter/cycleOffset = 0.7
 
 [node name="Candle" type="Area2D"]
 collision_layer = 128
@@ -12,5 +25,10 @@ script = ExtResource("1_5mqnc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_5ii8w")
+
+[node name="Interact" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_36nqg")
+position = Vector2(0, -13)
+texture = ExtResource("5_ebd4s")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

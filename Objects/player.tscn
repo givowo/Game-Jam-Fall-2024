@@ -1,7 +1,20 @@
-[gd_scene load_steps=5 format=3 uid="uid://qly6njncfynb"]
+[gd_scene load_steps=10 format=3 uid="uid://qly6njncfynb"]
 
 [ext_resource type="Script" path="res://Scripts/Player/Player.gd" id="1_4d540"]
+[ext_resource type="Shader" path="res://Assets/pal_swap.gdshader" id="2_n7j68"]
 [ext_resource type="Script" path="res://Core Scripts/AnimationHandler.gd" id="2_s8yus"]
+[ext_resource type="Texture2D" uid="uid://kqoa80ffa7ae" path="res://Assets/2color_pal_IN.png" id="3_iukxa"]
+[ext_resource type="Texture2D" uid="uid://dxdumsjdnthyu" path="res://Assets/2color_pal_OUT.png" id="4_a48qs"]
+[ext_resource type="Texture2D" uid="uid://blwoloe6pcxki" path="res://Assets/space.png" id="5_xbhkn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4aht5"]
+shader = ExtResource("2_n7j68")
+shader_parameter/screen_mode = false
+shader_parameter/precision = 0.1
+shader_parameter/palette_in = ExtResource("3_iukxa")
+shader_parameter/palette_out = ExtResource("4_a48qs")
+shader_parameter/cycleRate = null
+shader_parameter/cycleOffset = null
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_uewnd"]
 radius = 7.0
@@ -13,6 +26,12 @@ collision_layer = 129
 collision_mask = 129
 script = ExtResource("1_4d540")
 
+[node name="Interact" type="Sprite2D" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_4aht5")
+position = Vector2(0, -13)
+texture = ExtResource("5_xbhkn")
+
 [node name="TerrainCol" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_uewnd")
 
@@ -21,7 +40,17 @@ shape = SubResource("CircleShape2D_uewnd")
 [node name="CHAR_WAR" type="AnimatedSprite2D" parent="SpriteManager"]
 sprite_frames = SubResource("SpriteFrames_7hva6")
 
+[node name="CHAR_FAMINE" type="AnimatedSprite2D" parent="SpriteManager"]
+sprite_frames = SubResource("SpriteFrames_7hva6")
+
+[node name="CHAR_PLAGUE" type="AnimatedSprite2D" parent="SpriteManager"]
+sprite_frames = SubResource("SpriteFrames_7hva6")
+
 [node name="AnimationHandler" type="Node" parent="."]
 script = ExtResource("2_s8yus")
 
 [node name="ANI_WAR" type="Node" parent="AnimationHandler"]
+
+[node name="ANI_FAMINE" type="Node" parent="AnimationHandler"]
+
+[node name="ANI_PLAGUE" type="Node" parent="AnimationHandler"]
