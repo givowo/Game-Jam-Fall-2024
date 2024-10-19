@@ -1,0 +1,68 @@
+[gd_scene load_steps=4 format=3 uid="uid://c8m4vgeuydece"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ge37w"]
+size = Vector2(80, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sf4cw"]
+size = Vector2(16, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_niurf"]
+size = Vector2(30, 16)
+
+[node name="L" type="Node2D"]
+
+[node name="down" type="StaticBody2D" parent="."]
+position = Vector2(80, 80)
+rotation = 3.14159
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="down"]
+position = Vector2(40, 72)
+shape = SubResource("RectangleShape2D_ge37w")
+
+[node name="right" type="StaticBody2D" parent="."]
+position = Vector2(80, 80)
+rotation = 3.14159
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="right"]
+position = Vector2(8, 15)
+shape = SubResource("RectangleShape2D_sf4cw")
+
+[node name="right2" type="StaticBody2D" parent="."]
+position = Vector2(80, 80)
+rotation = 3.14159
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="right2"]
+position = Vector2(8, 65)
+shape = SubResource("RectangleShape2D_sf4cw")
+
+[node name="right3" type="StaticBody2D" parent="."]
+position = Vector2(80, 80)
+rotation = 3.14159
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="right3"]
+position = Vector2(72, 15)
+shape = SubResource("RectangleShape2D_sf4cw")
+
+[node name="right4" type="StaticBody2D" parent="."]
+position = Vector2(80, 80)
+rotation = 3.14159
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="right4"]
+position = Vector2(72, 65)
+shape = SubResource("RectangleShape2D_sf4cw")
+
+[node name="right5" type="StaticBody2D" parent="."]
+position = Vector2(80, 80)
+rotation = 3.14159
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="right5"]
+position = Vector2(15, 8)
+shape = SubResource("RectangleShape2D_niurf")
+
+[node name="right6" type="StaticBody2D" parent="."]
+position = Vector2(80, 80)
+rotation = 3.14159
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="right6"]
+position = Vector2(65, 8)
+shape = SubResource("RectangleShape2D_niurf")

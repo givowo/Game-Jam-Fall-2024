@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://bdhhn6f0jx53j"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_drjit"]
+size = Vector2(80, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_72o2h"]
+size = Vector2(16, 30)
+
+[node name="U" type="Node2D"]
+
+[node name="down" type="StaticBody2D" parent="."]
+position = Vector2(0, 80)
+rotation = -1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="down"]
+position = Vector2(40, 72)
+shape = SubResource("RectangleShape2D_drjit")
+
+[node name="right" type="StaticBody2D" parent="."]
+position = Vector2(0, 80)
+rotation = -1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="right"]
+position = Vector2(71.9998, 15.0003)
+shape = SubResource("RectangleShape2D_72o2h")
+
+[node name="right2" type="StaticBody2D" parent="."]
+position = Vector2(0, 80)
+rotation = -1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="right2"]
+position = Vector2(71.9998, 65.0003)
+shape = SubResource("RectangleShape2D_72o2h")

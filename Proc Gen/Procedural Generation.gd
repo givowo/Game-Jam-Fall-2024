@@ -3,29 +3,33 @@ extends Node2D
 # name, right down left up
 # -1: any, 0: open, 1: door, 2: wall
 @onready var tiles = [
-	["OOOW", [0, 2, 2, 2], [2, 0, 2, 2], [2, 2, 0, 2], [2, 2, 2, 0]],
-	["OOOD", [1, 2, 2, 2], [2, 1, 2, 2], [2, 2, 1, 2], [2, 2, 2, 1]],
-	["OWWO", [0, 2, 2, 0], [0, 0, 2, 2], [2, 0, 0, 2], [2, 2, 0, 0]],
-	["DWWO", [1, 2, 2, 0], [0, 1, 2, 2], [2, 0, 1, 2], [2, 2, 0, 1]],
-	["OWWD", [0, 2, 2, 1], [1, 0, 2, 2], [2, 1, 0, 2], [2, 2, 1, 0]],
-	["OWOO", [0, 2, 0, 0], [0, 0, 2, 0], [0, 0, 0, 2], [2, 0, 0, 0]],
-	["OWDO", [0, 2, 1, 0], [0, 0, 2, 1], [1, 0, 0, 2], [2, 1, 0, 0]],
-	["DWDO", [1, 2, 1, 0], [0, 1, 2, 1], [1, 0, 1, 2], [2, 1, 0, 1]],
-	["DWDD", [1, 2, 1, 1], [1, 1, 2, 1], [1, 1, 1, 2], [2, 1, 1, 1]],
-	["DWOO", [1, 2, 0, 0], [0, 1, 2, 0], [0, 0, 1, 2], [2, 0, 0, 1]],
-	["DWOD", [1, 2, 0, 1], [1, 1, 2, 0], [0, 1, 1, 2], [2, 0, 1, 1]],
-	["OWDD", [0, 2, 1, 1], [1, 0, 2, 1], [1, 1, 0, 2], [2, 1, 1, 0]],
-	["OOOO", [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
-	["DDDD", [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1]],
-	["DDDO", [1, 1, 1, 0], [0, 1, 1, 1], [1, 0, 1, 1], [1, 1, 0, 1]],
-	["WWWW", [2, 2, 2, 2], [2, 2, 2, 2], [2, 2, 2, 2], [1, 1, 1, 1]],
-	["OWOW", [0, 2, 0, 2], [2, 0, 2, 0], [0, 2, 0, 2], [2, 0, 2, 0]],
-	["OWDO", [0, 2, 1, 0], [0, 0, 2, 1], [1, 0, 0, 2], [2, 1, 0, 0]],
-	["DWDW", [1, 2, 1, 2], [2, 1, 2, 1], [1, 2, 1, 2], [2, 1, 2, 1]]
+	["OWWW", [0, 2, 2, 2]],
+	["DWWW", [1, 2, 2, 2]],
+	["OWWO", [0, 2, 2, 0]],
+	["DWWO", [1, 2, 2, 0]],
+	["OWWD", [0, 2, 2, 1]],
+	["OWOO", [0, 2, 0, 0]],
+	["OWDO", [0, 2, 1, 0]],
+	["DWDO", [1, 2, 1, 0]],
+	["DWDD", [1, 2, 1, 1]],
+	["DWOO", [1, 2, 0, 0]],
+	["DWOD", [1, 2, 0, 1]],
+	["OWDD", [0, 2, 1, 1]],
+	["OOOO", [0, 0, 0, 0]],
+	["DDDD", [1, 1, 1, 1]],
+	["DDDO", [1, 1, 1, 0]],
+	["WWWW", [2, 2, 2, 2]],
+	["OWOW", [0, 2, 0, 2]],
+	["OWDO", [0, 2, 1, 0]],
+	["DWDW", [1, 2, 1, 2]],
+	["ODDO", [0, 1, 1, 0]],
+	["ODOO", [0, 1, 0, 0]],
+	["ODOD", [0, 1, 0, 1]],
+	["DWWD", [1, 2, 2, 1]]
 ];
 
 var tileSize = Vector2(80, 80);
-var worldSize = 3;
+var worldSize = 2;
 var emptyTiles = [];
 var placedTiles = {};
 
@@ -35,6 +39,11 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 func GenerateWorld() -> void:
+	for tile in tiles:
+		tile.append([tile[1][3], tile[1][0], tile[1][1], tile[1][2]]);
+		tile.append([tile[1][2], tile[1][3], tile[1][0], tile[1][1]]);
+		tile.append([tile[1][1], tile[1][2], tile[1][3], tile[1][0]]);
+	
 	for i in range(0, worldSize * 2 + 1):
 		for j in range(0, worldSize * 2 + 1):
 			var x = j;
@@ -48,7 +57,7 @@ func GenerateWorld() -> void:
 				emptyTiles.append(Vector2(x, y)); 
 	
 	var startingRandom = PickRandomTile([-1, -1, -1, -1]);
-	var startingTile = load("res://Will/Tiles/" + startingRandom[0]).instantiate();
+	var startingTile = load("res://Proc Gen/Tiles/" + startingRandom[0]).instantiate();
 	startingTile.position = Vector2(0, 0);
 	add_child(startingTile);
 	placedTiles[Vector2(0, 0)] = startingRandom[1];
@@ -57,8 +66,9 @@ func GenerateWorld() -> void:
 	for i in emptyTiles:
 		var newRandom = PickRandomTile(GetTilesAround(i));
 		if (newRandom == null):
+			print("COULDNT PLACE TILE AT ", i)
 			continue;
-		var newTile = load("res://Will/Tiles/" + newRandom[0]).instantiate();
+		var newTile = load("res://Proc Gen/Tiles/" + newRandom[0]).instantiate();
 		newTile.position = i * tileSize;
 		add_child(newTile);
 		placedTiles[i] = newRandom[1];
@@ -95,21 +105,21 @@ func GetTilesAround(tile):
 	else:
 		sides.append(placedTiles[tile + Vector2(1, 0)][2]);
 		
-	if (!placedTiles.has(tile + Vector2(0, 1)) && Vector2(0, 0).distance_to(tile + Vector2(0, 1))  <= worldSize):
+	if (!placedTiles.has(tile + Vector2(0, 1)) && Vector2(0, 0).distance_to(tile + Vector2(0, 1)) <= worldSize):
 		sides.append(-1);
 	elif (Vector2(0, 0).distance_to(tile + Vector2(0, 1)) > worldSize):
 		sides.append(2);
 	else:
 		sides.append(placedTiles[tile + Vector2(0, 1)][3]);
 		
-	if (!placedTiles.has(tile + Vector2(-1, 0)) && Vector2(0, 0).distance_to(tile + Vector2(-1, 0))  <= worldSize):
+	if (!placedTiles.has(tile + Vector2(-1, 0)) && Vector2(0, 0).distance_to(tile + Vector2(-1, 0)) <= worldSize):
 		sides.append(-1);
 	elif (Vector2(0, 0).distance_to(tile + Vector2(-1, 0)) > worldSize):
 		sides.append(2);
 	else:
 		sides.append(placedTiles[tile + Vector2(-1, 0)][0]);
 		
-	if (!placedTiles.has(tile + Vector2(0, -1)) && Vector2(0, 0).distance_to(tile + Vector2(0, -1))  <= worldSize):
+	if (!placedTiles.has(tile + Vector2(0, -1)) && Vector2(0, 0).distance_to(tile + Vector2(0, -1)) <= worldSize):
 		sides.append(-1);
 	elif (Vector2(0, 0).distance_to(tile + Vector2(0, -1)) > worldSize):
 		sides.append(2);
