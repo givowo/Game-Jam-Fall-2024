@@ -13,7 +13,9 @@ const MAX_CONNECTIONS = 3
 var players = {}
 var players_loaded = 0
 
-var player_info = {"name": "Name"}
+var player_info = {"name": "Name", "character": -1};
+
+var lobbyPlayers = [$"Lobby/Player 0", $"Lobby/Player 1", $"Lobby/Player 2"];
 
 func _ready():
 	Instance = self;
@@ -68,6 +70,9 @@ func _register_player(new_player_info):
 	var new_player_id = multiplayer.get_remote_sender_id()
 	players[new_player_id] = new_player_info
 	player_connected.emit(new_player_id, new_player_info)
+	
+	for i in range(players.values().size()):
+		lobbyPlayers[i].SetInfo(players.values()[i]);
 
 func _on_player_disconnected(id):
 	players.erase(id)
