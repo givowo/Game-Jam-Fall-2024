@@ -7,6 +7,7 @@ class_name Candle
 @export var ani_state = 0
 @onready var excor = $"/root/Stage/Excorsist"
 @export var color = [0,0.5,0.7]
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$AnimatedSprite2D.play("unused")
