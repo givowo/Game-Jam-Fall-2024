@@ -1,23 +1,38 @@
-[gd_scene load_steps=5 format=4 uid="uid://be3vwnqwh7skn"]
+[gd_scene load_steps=8 format=3 uid="uid://be3vwnqwh7skn"]
 
+[ext_resource type="PackedScene" uid="uid://gwwdekxixfsr" path="res://Objects/excorsist.tscn" id="1_38vj4"]
 [ext_resource type="Script" path="res://Scripts/Player/PlayerCamera.gd" id="1_f5h7r"]
 [ext_resource type="PackedScene" uid="uid://qly6njncfynb" path="res://Objects/player.tscn" id="1_hp678"]
-[ext_resource type="TileSet" uid="uid://b41wgj8i25tn5" path="res://Objects/Test_Solid.tres" id="3_lqv6d"]
+[ext_resource type="PackedScene" uid="uid://brqrdsbw0ffqe" path="res://Proc Gen/Procedural Generation.tscn" id="1_jiigb"]
 [ext_resource type="PackedScene" uid="uid://d0vvilrd63k36" path="res://Objects/candle.tscn" id="3_pxfay"]
+[ext_resource type="Script" path="res://Scenes/astarpath.gd" id="5_eljlb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s3vua"]
+size = Vector2(8, 8)
 
 [node name="Stage" type="Node2D"]
 
-[node name="Camera2D" type="Camera2D" parent="."]
-script = ExtResource("1_f5h7r")
+[node name="Procedural Generation" parent="." instance=ExtResource("1_jiigb")]
 
-[node name="Player" parent="." instance=ExtResource("1_hp678")]
+[node name="Node2D" type="Node2D" parent="."]
+script = ExtResource("5_eljlb")
+
+[node name="ColGrid" type="ShapeCast2D" parent="Node2D"]
+shape = SubResource("RectangleShape2D_s3vua")
+target_position = Vector2(0, 0)
+max_results = 2
 
 [node name="Candle" parent="." instance=ExtResource("3_pxfay")]
-position = Vector2(-27, -36)
+position = Vector2(-57, -36)
 
 [node name="Candle2" parent="." instance=ExtResource("3_pxfay")]
-position = Vector2(-15, -36)
+position = Vector2(-31, -36)
 
-[node name="TileMapLayer" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAD8//3/AAAJAAIAAAD8//7/AAAJAAIAAAD8////AAAJAAIAAAD8/wAAAAAJAAIAAAD9/wAAAAAJAAIAAAD+/wAAAAAJAAIAAAAAAAMAAAAKAAIAAAABAAMAAAALAAIAAAACAAMAAAAMAAIAAAACAP3/AAAGAAMAAAACAP7/AAAGAAQAAAADAAEAAAAGAAMAACADAAAAAAAGAAQAACA=")
-tile_set = ExtResource("3_lqv6d")
+[node name="Player" parent="." instance=ExtResource("1_hp678")]
+position = Vector2(-40, 37)
+
+[node name="Excorsist" parent="." instance=ExtResource("1_38vj4")]
+position = Vector2(41, -36)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("1_f5h7r")

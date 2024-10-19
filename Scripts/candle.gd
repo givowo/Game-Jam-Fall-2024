@@ -19,7 +19,7 @@ func _process(delta: float) -> void:
 	var bodys = get_overlapping_bodies()
 	
 	for i in bodys.size():
-		if bodys[i] is CharacterBody2D:
+		if bodys[i] is Player:
 			if !interacted:
 				is_interactable = true
 				$Interact.material.set_shader_parameter("cycleOffset",color[bodys[i]._char])

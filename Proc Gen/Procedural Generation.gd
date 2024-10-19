@@ -32,9 +32,11 @@ var tileSize = Vector2(80, 80);
 var worldSize = 2;
 var emptyTiles = [];
 var placedTiles = {};
+var emptySpaces = [];
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	position += tileSize * Vector2(worldSize,worldSize)
 	GenerateWorld();
 	pass # Replace with function body.
 
@@ -72,6 +74,19 @@ func GenerateWorld() -> void:
 		newTile.position = i * tileSize;
 		add_child(newTile);
 		placedTiles[i] = newRandom[1];
+	
+	for i in placedTiles.size():
+		var array = placedTiles.values()[i]
+		for j in array.size():
+			if (array[j] == 0 || array[j] == 1): 
+				var value = (placedTiles.keys()[i] * tileSize + Vector2(40,40)) + Vector2(40, 0).rotated(deg_to_rad(j*90)) 
+				if emptySpaces.find(value) == -1:
+					var obj = load("res://Objects/placeholder_place.tscn").instantiate();
+					add_child(obj);
+					obj.position = value
+					print_debug(value)
+					#emptySpaces.append(value)
+			
 	pass
 
 func PickRandomTile(edges):
