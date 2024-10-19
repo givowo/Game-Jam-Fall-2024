@@ -5,7 +5,7 @@ extends Node
 ## Size of the games window at native 1x resolution.
 var VisibleViewport : Vector2 = Vector2(160,144)
 ## Multiplier to the window size.
-var ScreenScale : int = 3
+var ScreenScale : int = 6
 
 #if you somehow get this beyond or below the limit: your ears are not safe
 ## For all sound effects. Scales from 0 - 1. 0 is highest volume, 
@@ -53,7 +53,7 @@ func _ready():
 	on_load()
 	
 	DisplayServer.window_set_size(VisibleViewport * ScreenScale)
-	DisplayServer.window_set_position(DisplayServer.window_get_position() - Vector2i(VisibleViewport * (ScreenScale/2)))
+	DisplayServer.window_set_position(DisplayServer.screen_get_size() / 2 - DisplayServer.window_get_size() / 2);
 	var root = get_tree().root
 	current_scene = root.get_child(root.get_child_count() - 1)
 	
