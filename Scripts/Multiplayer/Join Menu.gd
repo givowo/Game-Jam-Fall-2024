@@ -1,19 +1,27 @@
 extends Control
 
 @onready var arrowSelector = $"Arrow Selector";
-@onready var mainMenuOptions = [$Name, $Create, $Back];
+@onready var mainMenuOptions = [$Name, $Server, $Join, $Back];
+@onready var serverActualView = $"Server Actual";
 @onready var nameActualView = $"Name Actual";
-@onready var hiddenNameInput = $LineEdit;
-@onready var mainMenuFunctions = [Callable.create(self, "TypeName"), Callable.create(self, "Create"), Callable.create(self, "Back")];
+@onready var hiddenServerInput = $LineEdit;
+@onready var hiddenNameInput = $LineEdit2;
+@onready var mainMenuFunctions = [Callable.create(self, "TypeName"), Callable.create(self, "TypeServer"), Callable.create(self, "Join"), Callable.create(self, "Back")];
 var highlighted = 0;
+var typingServer = false;
 var typingName = false;
+var server = "";
 var playerName = "";
 var spaceDelay = 0;
+var serverRegex;
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	mainMenuOptions[highlighted].waveStrength = 2;
 	mainMenuOptions[highlighted].textColor = Color(1, 1, 0);
+	
+	serverRegex = RegEx.new();
+	serverRegex.compile("^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$");
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -45,7 +53,6 @@ func _process(delta: float) -> void:
 			fakeClick.pressed = false;
 			Input.parse_input_event(fakeClick);
 			return;
-			
 		
 		if nameview.length() < 9:
 			nameview += "_" if fmod(Time.get_ticks_msec() / 200, 2) < 1 else " ";
@@ -54,6 +61,35 @@ func _process(delta: float) -> void:
 			nameview += "_";
 	
 		nameActualView.text = nameview;
+		return;
+		
+	if typingServer:
+		server = hiddenServerInput.text;
+		var serverView = hiddenServerInput.text;
+		
+		if server.length() > 0 && server[server.length() - 1] == " ":
+			server = server.substr(0, server.length() - 1);
+			typingServer = false;
+			mainMenuOptions[highlighted].waveStrength = 1;
+			mainMenuOptions[highlighted].textColor = Color(1, 1, 0);
+			serverActualView.text = server;
+			
+			hiddenServerInput.text = hiddenServerInput.text.substr(0, hiddenServerInput.text.length() - 1);
+			if hiddenServerInput.text == "":
+				serverActualView.text = "_._._._";
+			
+			var fakeClick = InputEventKey.new();
+			fakeClick.keycode = KEY_ESCAPE;
+			fakeClick.pressed = true;
+			Input.parse_input_event(fakeClick);
+			await get_tree().process_frame;
+			fakeClick.pressed = false;
+			Input.parse_input_event(fakeClick);
+			return;
+		
+		serverView += "_" if fmod(Time.get_ticks_msec() / 200, 2) < 1 else " ";
+	
+		serverActualView.text = serverView;
 		return;
 	
 	arrowSelector.global_position.y = mainMenuOptions[highlighted].global_position.y;
@@ -73,11 +109,11 @@ func _process(delta: float) -> void:
 		mainMenuOptions[highlighted].waveStrength = 1;
 		mainMenuOptions[highlighted].textColor = Color(1, 1, 0);
 		
-	if playerName == "":
-		$"Create Cover".waveStrength = mainMenuOptions[1].waveStrength;
-		$"Create Cover".visible = true;
+	if playerName == "" || !((server != "" && server == "localhost") || (server != "" && serverRegex.search(server) != null)):
+		$"Join Cover".waveStrength = mainMenuOptions[2].waveStrength;
+		$"Join Cover".visible = true;
 	else:
-		$"Create Cover".visible = false;
+		$"Join Cover".visible = false;
 		
 	if Input.is_action_just_pressed("interact_object") && spaceDelay <= 0:
 		mainMenuFunctions[highlighted].call();
@@ -85,8 +121,8 @@ func _process(delta: float) -> void:
 	spaceDelay -= delta;
 	pass
 
-func TypeName():
-	typingName = true;
+func TypeServer():
+	typingServer = true;
 	
 	mainMenuOptions[highlighted].waveStrength = 0.5;
 	mainMenuOptions[highlighted].textColor = Color(1, 1, 0.5);
@@ -100,12 +136,29 @@ func TypeName():
 	fakeClick.pressed = false;
 	Input.parse_input_event(fakeClick);
 	
+	hiddenServerInput.caret_column = server.length();
+	
+func TypeName():
+	typingName = true;
+	
+	mainMenuOptions[highlighted].waveStrength = 0.5;
+	mainMenuOptions[highlighted].textColor = Color(1, 1, 0.5);
+	
+	var fakeClick = InputEventMouseButton.new();
+	fakeClick.position = DisplayServer.window_get_size();
+	fakeClick.button_index = MOUSE_BUTTON_LEFT;
+	fakeClick.pressed = true;
+	Input.parse_input_event(fakeClick);
+	await get_tree().process_frame;
+	fakeClick.pressed = false;
+	Input.parse_input_event(fakeClick);
+	
 	hiddenNameInput.caret_column = playerName.length();
 	
-func Create():
-	if playerName != "":
+func Join():
+	if playerName != "" && ((server != "" && server == "localhost") || (server != "" && serverRegex.search(server) != null)):
 		MultiplayerManager.player_info.name = playerName;
-		MultiplayerManager.create_game();
+		MultiplayerManager.join_game(server);
 		
 		self.visible = false;
 		self.process_mode = Node.PROCESS_MODE_DISABLED;

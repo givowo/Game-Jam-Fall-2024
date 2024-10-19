@@ -1,10 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://capug2stcmcll"]
+[gd_scene load_steps=14 format=3 uid="uid://capug2stcmcll"]
 
 [ext_resource type="Script" path="res://Scripts/Multiplayer/Menu Scaler.gd" id="1_lyrrw"]
 [ext_resource type="Script" path="res://Scripts/Multiplayer/Main Menu.gd" id="2_gyjpi"]
 [ext_resource type="FontFile" uid="uid://b1du2euwdhx0a" path="res://web_ibm_model3x_alt1.woff" id="2_u2r10"]
 [ext_resource type="Script" path="res://Scripts/Wavy Text.gd" id="3_oqjl6"]
 [ext_resource type="Script" path="res://Scripts/Multiplayer/Host Menu.gd" id="5_2tid8"]
+[ext_resource type="Script" path="res://Scripts/Multiplayer/Join Menu.gd" id="6_4686n"]
+[ext_resource type="Script" path="res://Scripts/Multiplayer/Lobby.gd" id="7_aaljt"]
+[ext_resource type="Script" path="res://Scripts/Multiplayer/Lobby Player.gd" id="8_2gkta"]
+[ext_resource type="Texture2D" uid="uid://coxwj5o0qbqlt" path="res://icon.svg" id="8_pni63"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_3dv75"]
 line_spacing = 0.0
@@ -17,6 +21,10 @@ font = ExtResource("2_u2r10")
 [sub_resource type="LabelSettings" id="LabelSettings_tg3jv"]
 line_spacing = 2.67
 font = ExtResource("2_u2r10")
+
+[sub_resource type="LabelSettings" id="LabelSettings_v374h"]
+font = ExtResource("2_u2r10")
+font_color = Color(1, 0, 0, 1)
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -37,6 +45,7 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="Main" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -212,6 +221,23 @@ text = "Create"
 label_settings = SubResource("LabelSettings_tg3jv")
 script = ExtResource("3_oqjl6")
 
+[node name="Create Cover" type="Label" parent="Host"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = 13.0
+offset_right = 24.0
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "------"
+label_settings = SubResource("LabelSettings_v374h")
+script = ExtResource("3_oqjl6")
+
 [node name="Back" type="Label" parent="Host"]
 layout_mode = 1
 anchors_preset = 8
@@ -236,5 +262,304 @@ offset_left = -80.0
 offset_top = -72.0
 offset_right = -12.9375
 offset_bottom = -41.0
-scale = Vector2(0.01, 0.01)
-max_length = 9
+scale = Vector2(0.001, 0.001)
+max_length = 10
+
+[node name="Join" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_4686n")
+
+[node name="Join Text" type="Label" parent="Join"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -32.0
+offset_top = -71.0
+offset_right = 32.0
+offset_bottom = -39.0
+grow_horizontal = 2
+text = "Join"
+label_settings = SubResource("LabelSettings_3dv75")
+horizontal_alignment = 1
+
+[node name="Arrow Selector" type="Label" parent="Join"]
+layout_mode = 0
+offset_left = -57.0
+offset_top = -27.0
+offset_right = -49.0
+offset_bottom = -11.0
+pivot_offset = Vector2(4, 8)
+text = ">"
+label_settings = SubResource("LabelSettings_fcadw")
+
+[node name="Name" type="Label" parent="Join"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Your name:"
+label_settings = SubResource("LabelSettings_tg3jv")
+script = ExtResource("3_oqjl6")
+
+[node name="Name Actual" type="Label" parent="Join"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -36.0
+offset_top = -26.0
+offset_right = 36.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "_________"
+label_settings = SubResource("LabelSettings_tg3jv")
+
+[node name="Server" type="Label" parent="Join"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -6.0
+offset_right = 40.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Server ip:"
+label_settings = SubResource("LabelSettings_tg3jv")
+script = ExtResource("3_oqjl6")
+
+[node name="Server Actual" type="Label" parent="Join"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -28.0
+offset_top = 8.0
+offset_right = 28.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "_._._._"
+label_settings = SubResource("LabelSettings_tg3jv")
+
+[node name="Join" type="Label" parent="Join"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = 30.0
+offset_right = 16.0
+offset_bottom = 46.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Join"
+label_settings = SubResource("LabelSettings_tg3jv")
+script = ExtResource("3_oqjl6")
+
+[node name="Join Cover" type="Label" parent="Join"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = 30.0
+offset_right = 16.0
+offset_bottom = 46.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "----"
+label_settings = SubResource("LabelSettings_v374h")
+script = ExtResource("3_oqjl6")
+
+[node name="Back" type="Label" parent="Join"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = 48.0
+offset_right = 16.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Back"
+label_settings = SubResource("LabelSettings_tg3jv")
+script = ExtResource("3_oqjl6")
+
+[node name="LineEdit" type="LineEdit" parent="Join"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_left = -80.0
+offset_top = -72.0
+offset_right = -12.9375
+offset_bottom = -41.0
+scale = Vector2(0.001, 0.001)
+
+[node name="LineEdit2" type="LineEdit" parent="Join"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 31.0
+offset_top = 52.0
+offset_right = 99.0
+offset_bottom = 83.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.001, 0.001)
+pivot_offset = Vector2(49, 20)
+max_length = 10
+
+[node name="Lobby" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_aaljt")
+
+[node name="Lobby" type="Label" parent="Lobby"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -32.0
+offset_top = -71.0
+offset_right = 32.0
+offset_bottom = -39.0
+grow_horizontal = 2
+text = "Lobby
+"
+label_settings = SubResource("LabelSettings_3dv75")
+horizontal_alignment = 1
+
+[node name="Arrow Selector" type="Label" parent="Lobby"]
+layout_mode = 0
+offset_left = -41.0
+offset_top = 46.0
+offset_right = -33.0
+offset_bottom = 62.0
+pivot_offset = Vector2(4, 8)
+text = ">"
+label_settings = SubResource("LabelSettings_fcadw")
+
+[node name="Player 0" type="Control" parent="Lobby"]
+anchors_preset = 0
+offset_left = 5.0
+offset_top = -7.0
+offset_right = 5.0
+offset_bottom = -7.0
+script = ExtResource("8_2gkta")
+
+[node name="Sprite" type="Sprite2D" parent="Lobby/Player 0"]
+position = Vector2(-48, -21)
+scale = Vector2(0.125, 0.125)
+texture = ExtResource("8_pni63")
+
+[node name="Name" type="Label" parent="Lobby/Player 0"]
+offset_left = -23.0
+offset_top = -29.0
+offset_right = 49.0
+offset_bottom = -13.0
+pivot_offset = Vector2(4, 8)
+text = "Test Name"
+label_settings = SubResource("LabelSettings_fcadw")
+
+[node name="Player 1" type="Control" parent="Lobby"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 5.0
+offset_top = 14.0
+offset_right = 5.0
+offset_bottom = 14.0
+
+[node name="Sprite" type="Sprite2D" parent="Lobby/Player 1"]
+position = Vector2(-48, -21)
+scale = Vector2(0.125, 0.125)
+texture = ExtResource("8_pni63")
+
+[node name="Name" type="Label" parent="Lobby/Player 1"]
+offset_left = -23.0
+offset_top = -29.0
+offset_right = 49.0
+offset_bottom = -13.0
+pivot_offset = Vector2(4, 8)
+text = "Test Name"
+label_settings = SubResource("LabelSettings_fcadw")
+
+[node name="Player 2" type="Control" parent="Lobby"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 5.0
+offset_top = 35.0
+offset_right = 5.0
+offset_bottom = 35.0
+
+[node name="Sprite" type="Sprite2D" parent="Lobby/Player 2"]
+position = Vector2(-48, -21)
+scale = Vector2(0.125, 0.125)
+texture = ExtResource("8_pni63")
+
+[node name="Name" type="Label" parent="Lobby/Player 2"]
+offset_left = -23.0
+offset_top = -29.0
+offset_right = 49.0
+offset_bottom = -13.0
+pivot_offset = Vector2(4, 8)
+text = "Test Name"
+label_settings = SubResource("LabelSettings_fcadw")
+
+[node name="Leave" type="Label" parent="Lobby"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = 48.0
+offset_right = 16.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Leave"
+label_settings = SubResource("LabelSettings_tg3jv")
+script = ExtResource("3_oqjl6")

@@ -11,10 +11,11 @@ const DEFAULT_SERVER_IP = "127.0.0.1"
 const MAX_CONNECTIONS = 3
 
 var players = {}
-
-var player_info = {"name": "Name"}
-
 var players_loaded = 0
+
+var player_info = {"name": "Name", "character": -1};
+
+var lobbyPlayers = [$"Lobby/Player 0", $"Lobby/Player 1", $"Lobby/Player 2"];
 
 func _ready():
 	Instance = self;
@@ -23,6 +24,15 @@ func _ready():
 	multiplayer.connected_to_server.connect(_on_connected_ok)
 	multiplayer.connection_failed.connect(_on_connected_fail)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
+	
+	for i in range(OS.get_cmdline_args().size()):
+		if OS.get_cmdline_args()[i] == "host":
+			player_info.name = OS.get_cmdline_args()[i+1];
+			create_game();
+			
+		if OS.get_cmdline_args()[i] == "join":
+			player_info.name = OS.get_cmdline_args()[i+1];
+			join_game();
 
 func join_game(address = ""):
 	if address.is_empty():
@@ -42,6 +52,7 @@ func create_game():
 
 	players[1] = player_info
 	player_connected.emit(1, player_info)
+	print(player_info.name, ": hosting");
 
 func remove_multiplayer_peer():
 	multiplayer.multiplayer_peer = null
@@ -49,14 +60,19 @@ func remove_multiplayer_peer():
 @rpc("call_local", "reliable")
 func load_game(game_scene_path):
 	get_tree().change_scene_to_file(game_scene_path)
+	
 func _on_player_connected(id):
 	_register_player.rpc_id(id, player_info)
 
 @rpc("any_peer", "reliable")
 func _register_player(new_player_info):
+	print(player_info.name, ": ", new_player_info.name, " joined");
 	var new_player_id = multiplayer.get_remote_sender_id()
 	players[new_player_id] = new_player_info
 	player_connected.emit(new_player_id, new_player_info)
+	
+	for i in range(players.values().size()):
+		lobbyPlayers[i].SetInfo(players.values()[i]);
 
 func _on_player_disconnected(id):
 	players.erase(id)
@@ -74,3 +90,10 @@ func _on_server_disconnected():
 	multiplayer.multiplayer_peer = null
 	players.clear()
 	server_disconnected.emit()
+	
+@rpc("any_peer",  "call_remote", "reliable")
+func SetCharacter(character_id):
+	print(player_info);
+	print(multiplayer.get_unique_id())
+	print(players);
+	return;

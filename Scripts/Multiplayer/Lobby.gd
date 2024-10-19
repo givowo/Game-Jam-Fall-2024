@@ -1,16 +1,16 @@
 extends Control
 
 @onready var arrowSelector = $"Arrow Selector";
-@onready var mainMenuOptions = [$Host, $Join, $Quit];
-@onready var mainMenuFunctions = [Callable.create(self, "Host"), Callable.create(self, "Join"), Callable.create(self, "Quit")];
+@onready var mainMenuOptions = [$Leave];
+@onready var mainMenuFunctions = [Callable.create(self, "Leave")];
 var highlighted = 0;
 var spaceDelay = 0;
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	mainMenuOptions[highlighted].waveStrength = 1;
-	mainMenuOptions[highlighted].textColor = Color(1, 1, 0);
+	WakeUp();
 	pass # Replace with function body.
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -30,31 +30,14 @@ func _process(delta: float) -> void:
 		highlighted = max(highlighted - 1, 0);
 		mainMenuOptions[highlighted].waveStrength = 1;
 		mainMenuOptions[highlighted].textColor = Color(1, 1, 0);
+
 		
 	if Input.is_action_just_pressed("interact_object") && spaceDelay <= 0:
 		mainMenuFunctions[highlighted].call();
-	
-	spaceDelay -= delta;
 	pass
 
-func Host():
-	self.visible = false;
-	self.process_mode = Node.PROCESS_MODE_DISABLED;
-	$"../Host".visible = true;
-	$"../Host".process_mode = Node.PROCESS_MODE_ALWAYS;
-	$"../Host".WakeUp();
-	$"../Host".spaceDelay = 0.1;
-	
-func Join():
-	self.visible = false;
-	self.process_mode = Node.PROCESS_MODE_DISABLED;
-	$"../Join".visible = true;
-	$"../Join".process_mode = Node.PROCESS_MODE_ALWAYS;
-	$"../Join".WakeUp();
-	$"../Join".spaceDelay = 0.1;
-
-func Quit():
-	get_tree().quit();
+func Leave():
+	MultiplayerManager.remove_multiplayer_peer();
 
 func WakeUp():
 	mainMenuOptions[highlighted].waveStrength = 1;
