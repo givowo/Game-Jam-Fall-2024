@@ -33,6 +33,7 @@ func _ready():
 			join_game();
 
 func join_game(address = ""):
+	print(address);
 	if address.is_empty():
 		address = DEFAULT_SERVER_IP
 	var peer = ENetMultiplayerPeer.new()

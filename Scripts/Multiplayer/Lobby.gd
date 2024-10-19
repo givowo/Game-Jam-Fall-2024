@@ -78,6 +78,8 @@ func _process(delta: float) -> void:
 		
 	if Input.is_action_just_pressed("interact_object") && spaceDelay <= 0:
 		mainMenuFunctions[highlighted].call();
+		
+	spaceDelay -= delta;
 	pass
 
 func Change():
