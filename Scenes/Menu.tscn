@@ -602,6 +602,23 @@ position = Vector2(-48, -21)
 sprite_frames = ExtResource("11_ulitg")
 animation = &"Death"
 
+[node name="Start" type="Label" parent="Lobby"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = 29.0
+offset_right = 20.0
+offset_bottom = 45.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Start"
+label_settings = SubResource("LabelSettings_tg3jv")
+script = ExtResource("3_oqjl6")
+
 [node name="Leave" type="Label" parent="Lobby"]
 layout_mode = 1
 anchors_preset = 8
@@ -609,9 +626,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -16.0
+offset_left = -20.0
 offset_top = 48.0
-offset_right = 16.0
+offset_right = 20.0
 offset_bottom = 64.0
 grow_horizontal = 2
 grow_vertical = 2

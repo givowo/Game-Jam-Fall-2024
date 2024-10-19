@@ -3,8 +3,8 @@ extends Control
 @onready var arrowSelector = $"Arrow Selector";
 @onready var leftArrowChar = $"Player 0/Left";
 @onready var rightArrowChar = $"Player 0/Right";
-@onready var mainMenuOptions = [$"Player 0/Sprite?", $Leave];
-@onready var mainMenuFunctions = [Callable.create(self, "Change"), Callable.create(self, "Leave")];
+@onready var mainMenuOptions = [$"Player 0/Sprite?", $Start, $Leave];
+@onready var mainMenuFunctions = [Callable.create(self, "Change"), Callable.create(self, "Start"), Callable.create(self, "Leave")];
 var highlighted = 0;
 var spaceDelay = 0;
 var changingCharacter = false;
@@ -84,9 +84,14 @@ func Change():
 	mainMenuOptions[highlighted].textColor = Color(1, 1, 1);
 	pass
 
+func Start():
+	MultiplayerManager.rpc("PlayGame");
+	pass
+
 func Leave():
 	#MultiplayerManager.remove_multiplayer_peer();
 	pass
+	
 func WakeUp():
 	mainMenuOptions[highlighted].waveStrength = 1;
 	mainMenuOptions[highlighted].textColor = Color(1, 1, 0);

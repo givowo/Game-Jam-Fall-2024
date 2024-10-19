@@ -1,7 +1,7 @@
 extends Node2D
 
 # name, right down left up
-# -1: any, 0: open, 1: door, 2: wall
+# -2 not wall, -1: any, 0: open, 1: door, 2: wall
 @onready var tiles = [
 	["OWWW", [0, 2, 2, 2]],
 	["DWWW", [1, 2, 2, 2]],
@@ -28,10 +28,13 @@ extends Node2D
 	["DWWD", [1, 2, 2, 1]]
 ];
 
+var colors = [Color(0.639216, 1, 0, 0.25), Color(1, 0.45098, 0, 0.25), Color(0.635294, 0, 1, 0.25)];
+@onready var tileContainer = $Tiles;
 var tileSize = Vector2(80, 80);
 var worldSize = 2;
 var emptyTiles = [];
 var placedTiles = {};
+var tileColors = {};
 var emptySpaces = [];
 
 # Called when the node enters the scene tree for the first time.
@@ -61,12 +64,19 @@ func GenerateWorld() -> void:
 	var startingRandom = PickRandomTile([-1, -1, -1, -1]);
 	var startingTile = load("res://Proc Gen/Tiles/" + startingRandom[0]).instantiate();
 	startingTile.position = Vector2(0, 0);
-	add_child(startingTile);
-	var area = load("res://Objects/valid_area.tscn").instantiate();
-	area.position = Vector2(0, 0);
-	add_child(area);
+	tileContainer.add_child(startingTile);
 	placedTiles[Vector2(0, 0)] = startingRandom[1];
 	emptyTiles.remove_at(emptyTiles.find(Vector2(0, 0)));
+	var testColorStart = ColorRect.new();
+	testColorStart.name = "color";
+	testColorStart.color = Color(1, 1, 1, 0.25);
+	testColorStart.size = Vector2(80, 80);
+	startingTile.add_child(testColorStart);
+	
+	if get_parent() != get_tree().root:
+		var area = load("res://Objects/valid_area.tscn").instantiate();
+		area.position = Vector2(0, 0);
+		add_child(area);
 	
 	for i in emptyTiles:
 		var newRandom = PickRandomTile(GetTilesAround(i));
@@ -75,17 +85,31 @@ func GenerateWorld() -> void:
 			continue;
 		var newTile = load("res://Proc Gen/Tiles/" + newRandom[0]).instantiate();
 		newTile.position = i * tileSize;
-		add_child(newTile);
+		tileContainer.add_child(newTile);
+		var testColor = ColorRect.new();
+		testColor.name = "color";
+		testColor.color = Color(1, 1, 1, 0.25);
+		testColor.size = Vector2(80, 80);
+		newTile.add_child(testColor);
+		placedTiles[i] = newRandom[1];
+		
+		print(newRandom[1])
+		
+		if get_parent() == get_tree().root:
+			continue;
+		
 		var area_n = load("res://Objects/valid_area.tscn").instantiate();
 		area_n.position = i * tileSize;
 		add_child(area_n);
 		var candle = load("res://Objects/candle.tscn").instantiate();
 		candle.position = (i * tileSize) + Vector2(40, 40);
 		add_child(candle);
-		placedTiles[i] = newRandom[1];
+	
+	if get_parent() == get_tree().root:
+		return;
 	
 	for i in placedTiles.size():
-		var array = placedTiles.values()[i]
+		var array = placedTiles.values()[i];
 		for j in array.size():
 			if (array[j] == 0 || array[j] == 1): 
 				var value = (placedTiles.keys()[i] * tileSize + Vector2(40,40)) + Vector2(40, 0).rotated(deg_to_rad(j*90)) 
@@ -93,9 +117,12 @@ func GenerateWorld() -> void:
 					var obj = load("res://Objects/placeholder_place.tscn").instantiate();
 					add_child(obj);
 					obj.position = value
-					print_debug(value)
 					#emptySpaces.append(value)
-			
+	
+	for tile in placedTiles:
+		if tile.get_node("color") == Color(1, 1, 1, 0.25):
+			var color
+		pass
 	pass
 
 func PickRandomTile(edges):
@@ -149,6 +176,8 @@ func GetTilesAround(tile):
 		sides.append(2);
 	else:
 		sides.append(placedTiles[tile + Vector2(0, -1)][1]);
+	
+	print(tile, sides);
 	
 	return sides;
 	pass

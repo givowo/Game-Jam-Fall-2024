@@ -95,7 +95,13 @@ func _on_server_disconnected():
 	multiplayer.multiplayer_peer = null
 	players.clear()
 	server_disconnected.emit()
-	
+
+@rpc("any_peer",  "call_local", "reliable")
+func PlayGame():
+	print("starting game!");
+	# Change scene here :D
+	return;
+
 @rpc("any_peer",  "call_local", "reliable")
 func SetCharacter(character_id):
 	var lobbyPlayers = [$"../Menu/Lobby/Player 0", $"../Menu/Lobby/Player 1", $"../Menu/Lobby/Player 2"];
