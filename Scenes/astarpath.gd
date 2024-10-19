@@ -17,19 +17,26 @@ func _ready():
 		for j in astar_grid.size.y:
 			$ColGrid.global_position = Vector2(-world.worldSize*world.tileSize.x, -world.worldSize*world.tileSize.y) + Vector2( 8,8) + Vector2(i* cell_size.x, j* cell_size.y)  
 			$ColGrid.force_shapecast_update()
-			for k in $ColGrid.get_collision_count():
-				var obj = $ColGrid.get_collider(k)
-				if $ColGrid.is_colliding() && obj is not CharacterBody2D:
-					var pos = $ColGrid.global_position / cell_size
-					if astar_grid.is_in_boundsv(pos):
-						astar_grid.set_point_solid(pos, true)
-						var obj2 = load("res://Objects/placeholder_place.tscn").instantiate();
-						add_child(obj2);
-						obj2.position = $ColGrid.global_position
+			$ColGrid2.global_position = $ColGrid.global_position
+			$ColGrid2.force_shapecast_update()
+			if !$ColGrid2.is_colliding():
+				var pos = $ColGrid.global_position / cell_size
+				if astar_grid.is_in_boundsv(pos):
+					astar_grid.set_point_solid(pos, true)
+			else:
+				for k in $ColGrid.get_collision_count():
+					var obj = $ColGrid.get_collider(k)
+					if $ColGrid.is_colliding() && obj is StaticBody2D:
+						var pos = $ColGrid.global_position / cell_size
+						if astar_grid.is_in_boundsv(pos):
+							astar_grid.set_point_solid(pos, true)
+						#var obj2 = load("res://Objects/placeholder_place.tscn").instantiate();
+						#add_child(obj2);
+						#obj2.position = $ColGrid.global_position
 	
 
 func initialize_grid():
-	grid_size = Rect2(0, 0, world.worldSize * 2* cell_size.x, world.worldSize * 2* cell_size.y) 
+	grid_size = Rect2(0, 0, (world.worldSize * 2)* cell_size.x, (world.worldSize * 2)* cell_size.y) 
 	astar_grid.region = grid_size
 	astar_grid.cell_size = cell_size
 	astar_grid.offset = cell_size / 2
@@ -44,12 +51,21 @@ func _process(delta: float) -> void:
 func start_new_path(start_pos, end_pos, must_complete = false):
 	start = start_pos / cell_size
 	end = end_pos / cell_size
+	#while astar_grid.is_point_solid(end):
+		#if !astar_grid.is_point_solid(end + Vector2(0,1)) && astar_grid.is_in_boundsv(end + Vector2(0,1)):
+			#end += Vector2(0,1)
+		#if !astar_grid.is_point_solid(end + Vector2(0,-1))&& astar_grid.is_in_boundsv(end + Vector2(0,-1)):
+			#end += Vector2(0,-1)
+		#if !astar_grid.is_point_solid(end + Vector2(1,0))&& astar_grid.is_in_boundsv(end + Vector2(1,0)):
+			#end += Vector2(1,0)
+		#if !astar_grid.is_point_solid(end + Vector2(-1,0))&& astar_grid.is_in_boundsv(end + Vector2(-1,0)):
+			#end += Vector2(-1,0)
 	return astar_grid.get_point_path(start, end, must_complete)
 
 func _draw():
 	pass
-	#draw_grid()
-	#fill_walls()
+	draw_grid()
+	fill_walls()
 	#draw_rect(Rect2(start * cell_size, cell_size), Color.GREEN_YELLOW)
 	#draw_rect(Rect2(end * cell_size, cell_size), Color.ORANGE_RED)
 	

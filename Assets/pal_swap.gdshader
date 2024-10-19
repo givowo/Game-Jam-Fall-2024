@@ -10,11 +10,11 @@ uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
 
 group_uniforms		cycling;
 uniform float		cycleRate: hint_range(-120, 120, 1);
-uniform float		cycleOffset: hint_range(0, 256, 0.1);
+uniform float		cycleOffset: hint_range(0, 1, 0.1);
 //uniform bool		colorBlending;
 
 vec4 swap_color(vec4 color) {
-	ivec2	palSize	 = textureSize(palette_out, 0);
+	ivec2	palSize	 = textureSize(palette_out, 0) + ivec2(1,0);
 
 	float idxCycle	 = cycleOffset + TIME * cycleRate;	// Cycle frame
 	vec2 trueCycle	 = mod(vec2(idxCycle), float(palSize.x / palSize.y));

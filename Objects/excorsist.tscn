@@ -1,9 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://gwwdekxixfsr"]
+[gd_scene load_steps=5 format=3 uid="uid://gwwdekxixfsr"]
 
 [ext_resource type="Script" path="res://Scripts/excorsist.gd" id="1_4ls2q"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ivoby"]
 radius = 7.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_23pgt"]
+radius = 101.178
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hn33j"]
 
 [node name="Excorsist" type="CharacterBody2D"]
 collision_layer = 128
@@ -12,7 +17,27 @@ script = ExtResource("1_4ls2q")
 [node name="TerrainCol" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ivoby")
 
+[node name="FindCandle" type="Area2D" parent="."]
+visible = false
+collision_layer = 128
+collision_mask = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FindCandle"]
+shape = SubResource("CircleShape2D_23pgt")
+debug_color = Color(0.950524, 1.73271e-06, 0.568178, 0.42)
+
+[node name="FindCandle2" type="Area2D" parent="."]
+visible = false
+collision_layer = 128
+collision_mask = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FindCandle2"]
+shape = SubResource("RectangleShape2D_hn33j")
+debug_color = Color(0.950524, 1.73271e-06, 0.568178, 0.42)
+
 [node name="Area2D" type="Area2D" parent="."]
+collision_layer = 128
+collision_mask = 128
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="Area2D"]
 scale = Vector2(2.84, 3.24)
@@ -21,3 +46,6 @@ polygon = PackedVector2Array(0, 0, 15.8163, 16.0714, 8, 21, 2, 22, -2, 22, -8, 2
 [node name="SightBeem" type="RayCast2D" parent="."]
 target_position = Vector2(0, 72)
 collision_mask = 129
+
+[node name="NextPlace" type="RayCast2D" parent="."]
+target_position = Vector2(0, 72)

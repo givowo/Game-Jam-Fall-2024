@@ -62,6 +62,9 @@ func GenerateWorld() -> void:
 	var startingTile = load("res://Proc Gen/Tiles/" + startingRandom[0]).instantiate();
 	startingTile.position = Vector2(0, 0);
 	add_child(startingTile);
+	var area = load("res://Objects/valid_area.tscn").instantiate();
+	area.position = Vector2(0, 0);
+	add_child(area);
 	placedTiles[Vector2(0, 0)] = startingRandom[1];
 	emptyTiles.remove_at(emptyTiles.find(Vector2(0, 0)));
 	
@@ -73,6 +76,12 @@ func GenerateWorld() -> void:
 		var newTile = load("res://Proc Gen/Tiles/" + newRandom[0]).instantiate();
 		newTile.position = i * tileSize;
 		add_child(newTile);
+		var area_n = load("res://Objects/valid_area.tscn").instantiate();
+		area_n.position = i * tileSize;
+		add_child(area_n);
+		var candle = load("res://Objects/candle.tscn").instantiate();
+		candle.position = (i * tileSize) + Vector2(40, 40);
+		add_child(candle);
 		placedTiles[i] = newRandom[1];
 	
 	for i in placedTiles.size():
