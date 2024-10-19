@@ -1,4 +1,5 @@
 extends Player
+class_name Player_Peer
 
 var player_id = -2
 

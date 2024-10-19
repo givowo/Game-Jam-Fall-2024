@@ -103,3 +103,9 @@ func Leave():
 func WakeUp():
 	mainMenuOptions[highlighted].waveStrength = 1;
 	mainMenuOptions[highlighted].textColor = Color(1, 1, 0);
+	
+	var lobbyPlayers = [$"Player 0", $"Player 1", $"Player 2"];
+	for i in range(MultiplayerManager.players.values().size()):
+		lobbyPlayers[i].SetInfo(MultiplayerManager.players.values()[i]);
+	for i in range(MultiplayerManager.players.values().size(), 3):
+		lobbyPlayers[i].SetInfo([], false);

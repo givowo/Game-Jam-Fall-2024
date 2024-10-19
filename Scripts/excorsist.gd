@@ -1,18 +1,18 @@
 extends CharacterBody2D
 
 
-const SPEED = 60
-var direction = 0
-var sight_dist = 64
-var sight_direction = 1
-var move_index = 0
-var move_timer = 0
-var moving = false
-var move_arr
-var move_mode = 0
-var scan_mode = 0
-var timeout = 0
-var staus_queue : Array = [[Vector2.ZERO,0]]
+const SPEED = 300
+@export var direction = 0
+@export var sight_dist = 64
+@export var sight_direction = 1
+@export var move_index = 0
+@export var move_timer = 0
+@export var moving = false
+@export var move_arr = []
+@export var move_mode = 0
+@export var scan_mode = 0
+@export var timeout = 0
+@export var staus_queue : Array = [[Vector2.ZERO,0]]
 @onready var world = $"/root/Stage/Procedural Generation"
 @onready var player = $"/root/Stage/Player"
 @onready var path = $"/root/Stage/Node2D"

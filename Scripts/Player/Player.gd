@@ -1,5 +1,6 @@
 extends CharacterBody2D
 class_name Player
+
 const speed = 100 # speed in delta units (not pixels. argh...)
 var _char = 0
 var can_interact = false
@@ -7,6 +8,7 @@ var died = false
 var input_dir = 0
 signal update_character_2
 @onready var world = $"../Procedural Generation"
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	_char = MultiplayerManager.players[multiplayer.get_unique_id()].character
@@ -21,9 +23,6 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if died:
 		can_interact = false
-	if Input.is_action_just_pressed("debug_character"):
-			GlobalPref.main_char = fmod((GlobalPref.main_char + 1), GlobalPref.charname.size())
-			update_character()
 	
 	if !died:
 		input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")

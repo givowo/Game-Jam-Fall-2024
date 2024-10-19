@@ -13,6 +13,7 @@ const MAX_CONNECTIONS = 3
 var players = {}
 var players_loaded = 0
 var worldGenSeed = 0;
+var worldCandles = [];
 
 var player_info = {"name": "Name", "character": -1, "host": false, "position": Vector2(0,0), "animation": "Down", "input": Vector2(0,0)};
 
@@ -116,3 +117,8 @@ func updateCharacter(char, pos, ani, inp):
 	players[multiplayer.get_remote_sender_id()].position = pos
 	players[multiplayer.get_remote_sender_id()].animation = ani
 	players[multiplayer.get_remote_sender_id()].input = char
+
+@rpc("any_peer", "call_local", "reliable")
+func LightCandle(index):
+	worldCandles[index].Light(players[multiplayer.get_remote_sender_id()].character);
+	pass

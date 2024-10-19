@@ -117,6 +117,7 @@ func GenerateWorld(RNGseed = Time.get_unix_time_from_system()) -> void:
 		var candle = load("res://Objects/candle.tscn").instantiate();
 		candle.position = (i * tileSize) + Vector2(40, 40);
 		add_child(candle);
+		MultiplayerManager.worldCandles.append(candle);
 		
 	
 	for tile in needToColor:

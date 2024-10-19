@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://gwwdekxixfsr"]
+[gd_scene load_steps=6 format=3 uid="uid://gwwdekxixfsr"]
 
 [ext_resource type="Script" path="res://Scripts/excorsist.gd" id="1_4ls2q"]
 
@@ -9,6 +9,47 @@ radius = 7.0
 radius = 101.178
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hn33j"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_kseal"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:direction")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath(".:sight_dist")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath(".:sight_direction")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath(".:move_index")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath(".:move_timer")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+properties/7/path = NodePath(".:moving")
+properties/7/spawn = true
+properties/7/replication_mode = 1
+properties/8/path = NodePath(".:move_arr")
+properties/8/spawn = true
+properties/8/replication_mode = 1
+properties/9/path = NodePath(".:move_mode")
+properties/9/spawn = true
+properties/9/replication_mode = 1
+properties/10/path = NodePath(".:scan_mode")
+properties/10/spawn = true
+properties/10/replication_mode = 1
+properties/11/path = NodePath(".:timeout")
+properties/11/spawn = true
+properties/11/replication_mode = 1
+properties/12/path = NodePath(".:staus_queue")
+properties/12/spawn = true
+properties/12/replication_mode = 1
 
 [node name="Excorsist" type="CharacterBody2D"]
 collision_layer = 128
@@ -49,3 +90,6 @@ collision_mask = 129
 
 [node name="NextPlace" type="RayCast2D" parent="."]
 target_position = Vector2(0, 72)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_kseal")

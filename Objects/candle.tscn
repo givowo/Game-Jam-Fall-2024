@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://d0vvilrd63k36"]
+[gd_scene load_steps=30 format=3 uid="uid://d0vvilrd63k36"]
 
 [ext_resource type="Script" path="res://Scripts/candle.gd" id="1_5mqnc"]
 [ext_resource type="Shader" path="res://Assets/pal_swap.gdshader" id="2_jwpxh"]
@@ -165,17 +165,6 @@ shader_parameter/cycleOffset = 0.7
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_th5gw"]
 size = Vector2(10, 11)
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_bn754"]
-properties/0/path = NodePath("AnimatedSprite2D:animation")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath("AnimatedSprite2D:frame")
-properties/1/spawn = true
-properties/1/replication_mode = 1
-properties/2/path = NodePath(".:interacted")
-properties/2/spawn = true
-properties/2/replication_mode = 1
-
 [node name="Candle" type="StaticBody2D"]
 collision_layer = 128
 collision_mask = 128
@@ -206,8 +195,5 @@ collision_mask = 128
 position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_th5gw")
 debug_color = Color(0.871313, 0.000482655, 0.846629, 0.42)
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_bn754")
 
 [connection signal="animation_looped" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_looped"]

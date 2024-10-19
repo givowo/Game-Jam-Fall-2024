@@ -1,7 +1,6 @@
 extends StaticBody2D
 class_name Candle
 
-
 @export var interacted = false
 @export var is_interactable = false
 @export var ani_state = 0
@@ -22,14 +21,12 @@ func _process(delta: float) -> void:
 	var bodys = $Area2D.get_overlapping_bodies()
 	
 	for i in bodys.size():
-		if bodys[i] is Player:
+		if bodys[i] is Player && bodys[i] is not Player_Peer:
 			if !interacted:
 				is_interactable = true
 				$Interact.material.set_shader_parameter("cycleOffset",color[bodys[i]._char])
 			if Input.is_action_just_pressed("interact_object") && !interacted:
-				interacted = true
-				excor.staus_queue.append([global_position, 1])
-				$AnimatedSprite2D.material.set_shader_parameter("cycleOffset",color[bodys[i]._char])
+				MultiplayerManager.rpc("LightCandle", MultiplayerManager.worldCandles.find(self));
 				
 	$Interact.visible = is_interactable
 	
@@ -40,3 +37,9 @@ func _process(delta: float) -> void:
 func _on_animated_sprite_2d_animation_looped() -> void:
 	if $AnimatedSprite2D.animation == "just_lit":
 		$AnimatedSprite2D.play("used")
+
+func Light(char):
+	interacted = true
+	excor.staus_queue.append([global_position, 1])
+	$AnimatedSprite2D.material.set_shader_parameter("cycleOffset", color[char]);
+	pass

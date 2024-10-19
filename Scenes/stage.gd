@@ -7,7 +7,7 @@ func _ready() -> void:
 		var obj = load("res://Objects/player_peer.tscn").instantiate();
 		add_child(obj);
 		obj.position = $Player.global_position
-		var value = MultiplayerManager.players.keys()[i +1]
+		var value = MultiplayerManager.players.keys()[i + 1]
 		obj.player_id = value
 
 
