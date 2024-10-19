@@ -93,7 +93,7 @@ func Change():
 	pass
 
 func Start():
-	MultiplayerManager.rpc("PlayGame");
+	MultiplayerManager.rpc("PlayGame", Time.get_unix_time_from_system());
 	pass
 
 func Leave():
