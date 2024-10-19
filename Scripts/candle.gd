@@ -29,6 +29,7 @@ func _process(delta: float) -> void:
 			if Input.is_action_just_pressed("interact_object") && !interacted:
 				interacted = true
 				excor.staus_queue.append([global_position, 1])
+				$AnimatedSprite2D.material.set_shader_parameter("cycleOffset",color[bodys[i]._char])
 				
 	$Interact.visible = is_interactable
 	

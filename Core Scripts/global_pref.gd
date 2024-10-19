@@ -49,7 +49,9 @@ enum CHAR {
 func _ready():
 	#add_child(Audio)
 	#Audio = $"GlobalAudio"
-	
+	for i in range(OS.get_cmdline_args().size()):
+		if OS.get_cmdline_args()[i] == "low_scale":
+			GlobalPref.ScreenScale = 3
 	on_load()
 	
 	DisplayServer.window_set_size(VisibleViewport * ScreenScale)

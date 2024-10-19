@@ -13,6 +13,7 @@
 size = Vector2(6, 6)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5palc"]
+resource_local_to_scene = true
 shader = ExtResource("2_jwpxh")
 shader_parameter/screen_mode = false
 shader_parameter/precision = 0.0
@@ -152,6 +153,7 @@ animations = [{
 }]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_36nqg"]
+resource_local_to_scene = true
 shader = ExtResource("2_jwpxh")
 shader_parameter/screen_mode = false
 shader_parameter/precision = 0.3
@@ -172,13 +174,7 @@ properties/1/spawn = true
 properties/1/replication_mode = 1
 properties/2/path = NodePath(".:interacted")
 properties/2/spawn = true
-properties/2/replication_mode = 2
-properties/3/path = NodePath(".:ani_state")
-properties/3/spawn = true
-properties/3/replication_mode = 2
-properties/4/path = NodePath(".:color")
-properties/4/spawn = true
-properties/4/replication_mode = 2
+properties/2/replication_mode = 1
 
 [node name="Candle" type="StaticBody2D"]
 collision_layer = 128
