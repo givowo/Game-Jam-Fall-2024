@@ -1,12 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://qly6njncfynb"]
+[gd_scene load_steps=8 format=3 uid="uid://qly6njncfynb"]
 
 [ext_resource type="Script" path="res://Scripts/Player/Player.gd" id="1_4d540"]
+[ext_resource type="SpriteFrames" uid="uid://hc7iu7w7i4o6" path="res://Assets/Characters/Orange.tres" id="2_hjn04"]
 [ext_resource type="Script" path="res://Core Scripts/AnimationHandler.gd" id="2_s8yus"]
+[ext_resource type="SpriteFrames" uid="uid://dm8b1ckvat4cn" path="res://Assets/Characters/Purple.tres" id="3_hq7ps"]
+[ext_resource type="SpriteFrames" uid="uid://c06co4d2yte5y" path="res://Assets/Characters/Green.tres" id="4_eje00"]
+[ext_resource type="Script" path="res://Scripts/Player/Player_ani.gd" id="6_wleuy"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_uewnd"]
 radius = 7.0
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_7hva6"]
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 128
@@ -18,19 +20,33 @@ shape = SubResource("CircleShape2D_uewnd")
 [node name="SpriteManager" type="Node2D" parent="."]
 
 [node name="CHAR_WAR" type="AnimatedSprite2D" parent="SpriteManager"]
-sprite_frames = SubResource("SpriteFrames_7hva6")
+sprite_frames = ExtResource("2_hjn04")
+animation = &"Down"
 
 [node name="CHAR_FAMINE" type="AnimatedSprite2D" parent="SpriteManager"]
-sprite_frames = SubResource("SpriteFrames_7hva6")
+visible = false
+sprite_frames = ExtResource("3_hq7ps")
+animation = &"Down"
 
 [node name="CHAR_PLAGUE" type="AnimatedSprite2D" parent="SpriteManager"]
-sprite_frames = SubResource("SpriteFrames_7hva6")
+visible = false
+sprite_frames = ExtResource("4_eje00")
+animation = &"Down"
 
 [node name="AnimationHandler" type="Node" parent="."]
 script = ExtResource("2_s8yus")
 
 [node name="ANI_WAR" type="Node" parent="AnimationHandler"]
+process_mode = 4
+script = ExtResource("6_wleuy")
 
 [node name="ANI_FAMINE" type="Node" parent="AnimationHandler"]
+process_mode = 4
+script = ExtResource("6_wleuy")
 
 [node name="ANI_PLAGUE" type="Node" parent="AnimationHandler"]
+process_mode = 4
+script = ExtResource("6_wleuy")
+
+[connection signal="update_character_2" from="." to="AnimationHandler" method="_on_player_update_character"]
+[connection signal="animationQueue" from="AnimationHandler" to="AnimationHandler" method="_on_animation_queue"]
