@@ -14,11 +14,17 @@ func _ready() -> void:
 	WakeUp();
 	leftArrowChar.visible = false;
 	rightArrowChar.visible = false;
+	
+	if !multiplayer.is_server():
+		mainMenuOptions[1].visible = false;
+		mainMenuOptions.remove_at(1);
+		mainMenuFunctions.remove_at(1);
 	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	
 	if changingCharacter:
 		leftArrowChar.position.x = -64 + cos(Time.get_ticks_msec() / 150) * 2;
 		rightArrowChar.position.x = -40 - cos(Time.get_ticks_msec() / 150) * 2;

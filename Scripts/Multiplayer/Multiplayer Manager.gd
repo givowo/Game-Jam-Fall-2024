@@ -41,8 +41,6 @@ func join_game(address = ""):
 		return error
 	multiplayer.multiplayer_peer = peer
 	player_info.host = false;
-	
-	
 
 func create_game():
 	var peer = ENetMultiplayerPeer.new()

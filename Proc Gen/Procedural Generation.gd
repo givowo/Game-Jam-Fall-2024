@@ -28,22 +28,32 @@ extends Node2D
 	["DWWD", [1, 2, 2, 1]]
 ];
 
+var rng = RandomNumberGenerator.new();
 var colors = [Color(0.639216, 1, 0, 0.25), Color(1, 0.45098, 0, 0.25), Color(0.635294, 0, 1, 0.25)];
+var colorCounts = [1, 1, 1];
 @onready var tileContainer = $Tiles;
 var tileSize = Vector2(80, 80);
-var worldSize = 2;
+var worldSize = 5;
 var emptyTiles = [];
 var placedTiles = {};
-var tileColors = {};
+var tilePositions = {};
+var needToColor = [];
 var emptySpaces = [];
+var accessibleAreas = [];
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	position += tileSize * Vector2(worldSize,worldSize)
-	GenerateWorld();
+	
+	if get_parent() == get_tree().root:
+		GenerateWorld();
+	
 	pass # Replace with function body.
 
-func GenerateWorld() -> void:
+func GenerateWorld(RNGseed = Time.get_unix_time_from_system()) -> void:
+	seed(RNGseed);
+	rng.seed = RNGseed;
+	
 	for tile in tiles:
 		tile.append([tile[1][3], tile[1][0], tile[1][1], tile[1][2]]);
 		tile.append([tile[1][2], tile[1][3], tile[1][0], tile[1][1]]);
@@ -66,6 +76,8 @@ func GenerateWorld() -> void:
 	startingTile.position = Vector2(0, 0);
 	tileContainer.add_child(startingTile);
 	placedTiles[Vector2(0, 0)] = startingRandom[1];
+	tilePositions[Vector2(0, 0)] = startingTile;
+	needToColor.append(Vector2(0, 0));
 	emptyTiles.remove_at(emptyTiles.find(Vector2(0, 0)));
 	var testColorStart = ColorRect.new();
 	testColorStart.name = "color";
@@ -92,8 +104,8 @@ func GenerateWorld() -> void:
 		testColor.size = Vector2(80, 80);
 		newTile.add_child(testColor);
 		placedTiles[i] = newRandom[1];
-		
-		print(newRandom[1])
+		tilePositions[i] = newTile;
+		needToColor.append(i);
 		
 		if get_parent() == get_tree().root:
 			continue;
@@ -104,6 +116,14 @@ func GenerateWorld() -> void:
 		var candle = load("res://Objects/candle.tscn").instantiate();
 		candle.position = (i * tileSize) + Vector2(40, 40);
 		add_child(candle);
+		
+	
+	for tile in needToColor:
+		pass
+	
+	while needToColor.size() > 0:
+		ColorTheTiles(needToColor.pick_random());
+		pass
 	
 	if get_parent() == get_tree().root:
 		return;
@@ -118,12 +138,6 @@ func GenerateWorld() -> void:
 					add_child(obj);
 					obj.position = value
 					#emptySpaces.append(value)
-	
-	for tile in placedTiles:
-		if tile.get_node("color") == Color(1, 1, 1, 0.25):
-			var color
-		pass
-	pass
 
 func PickRandomTile(edges):
 	var validTiles = [];
@@ -177,11 +191,31 @@ func GetTilesAround(tile):
 	else:
 		sides.append(placedTiles[tile + Vector2(0, -1)][1]);
 	
-	print(tile, sides);
-	
 	return sides;
 	pass
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func ColorTheTiles(tilePosition, color = false):
+	var tile = tilePositions[tilePosition];
+	var tileSides = placedTiles[tilePosition];
+
+	if !color:
+		var maxThing = max(colorCounts[0], max(colorCounts[1], colorCounts[2]));
+		var colorIndex = rng.rand_weighted(PackedFloat32Array([-colorCounts[0] + maxThing, -colorCounts[1] + maxThing, -colorCounts[2] + maxThing]));
+		colorCounts[colorIndex] += 1;
+		color = colors[colorIndex];
+		
+	tile.get_node("color").color = color;
+	
+	needToColor.remove_at(needToColor.find(tilePosition));
+	
+	if tileSides[0] == 0 && needToColor.find(tilePosition + Vector2(1, 0)) != -1:
+		ColorTheTiles(tilePosition + Vector2(1, 0), color);
+		
+	if tileSides[1] == 0 && needToColor.find(tilePosition + Vector2(0, 1)) != -1:
+		ColorTheTiles(tilePosition + Vector2(0, 1), color);
+		
+	if tileSides[2] == 0 && needToColor.find(tilePosition - Vector2(1, 0)) != -1:
+		ColorTheTiles(tilePosition - Vector2(1, 0), color);
+		
+	if tileSides[3] == 0 && needToColor.find(tilePosition - Vector2(0, 1)) != -1:
+		ColorTheTiles(tilePosition - Vector2(0, 1), color);
