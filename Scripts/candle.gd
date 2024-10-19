@@ -1,14 +1,15 @@
 extends StaticBody2D
 class_name Candle
-var interacted = false
-var is_interactable = false
-var ani_state = 0
+
+
+@export var interacted = false
+@export var is_interactable = false
+@export var ani_state = 0
 @onready var excor = $"/root/Stage/Excorsist"
-var color = [0,0.5,0.7]
+@export var color = [0,0.5,0.7]
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$AnimatedSprite2D.play("unused")
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
