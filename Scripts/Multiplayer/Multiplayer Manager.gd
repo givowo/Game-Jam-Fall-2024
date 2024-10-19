@@ -11,10 +11,9 @@ const DEFAULT_SERVER_IP = "127.0.0.1"
 const MAX_CONNECTIONS = 3
 
 var players = {}
+var players_loaded = 0
 
 var player_info = {"name": "Name"}
-
-var players_loaded = 0
 
 func _ready():
 	Instance = self;
@@ -49,6 +48,7 @@ func remove_multiplayer_peer():
 @rpc("call_local", "reliable")
 func load_game(game_scene_path):
 	get_tree().change_scene_to_file(game_scene_path)
+	
 func _on_player_connected(id):
 	_register_player.rpc_id(id, player_info)
 

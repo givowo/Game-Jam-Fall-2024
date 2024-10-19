@@ -2,7 +2,7 @@ extends Control
 
 @onready var arrowSelector = $"Arrow Selector";
 @onready var mainMenuOptions = [$Host, $Join, $Quit];
-@onready var mainMenuFunctions = [Callable.create(self, "Host"), null, Callable.create(self, "Quit")];
+@onready var mainMenuFunctions = [Callable.create(self, "Host"), Callable.create(self, "Join"), Callable.create(self, "Quit")];
 var highlighted = 0;
 var spaceDelay = 0;
 
@@ -31,7 +31,7 @@ func _process(delta: float) -> void:
 		mainMenuOptions[highlighted].waveStrength = 1;
 		mainMenuOptions[highlighted].textColor = Color(1, 1, 0);
 		
-	if Input.is_action_just_pressed("interact_object") && spaceDelay < 0:
+	if Input.is_action_just_pressed("interact_object") && spaceDelay <= 0:
 		mainMenuFunctions[highlighted].call();
 	
 	spaceDelay -= delta;
@@ -44,6 +44,14 @@ func Host():
 	$"../Host".process_mode = Node.PROCESS_MODE_ALWAYS;
 	$"../Host".WakeUp();
 	$"../Host".spaceDelay = 0.1;
+	
+func Join():
+	self.visible = false;
+	self.process_mode = Node.PROCESS_MODE_DISABLED;
+	$"../Join".visible = true;
+	$"../Join".process_mode = Node.PROCESS_MODE_ALWAYS;
+	$"../Join".WakeUp();
+	$"../Join".spaceDelay = 0.1;
 
 func Quit():
 	get_tree().quit();
