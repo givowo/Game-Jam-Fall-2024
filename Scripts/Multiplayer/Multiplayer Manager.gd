@@ -13,7 +13,7 @@ const MAX_CONNECTIONS = 3
 var players = {}
 var players_loaded = 0
 
-var player_info = {"name": "Name", "character": -1, "host": false};
+var player_info = {"name": "Name", "character": -1, "host": false, "position": Vector2(0,0), "animation": "Down", "input": Vector2(0,0)};
 
 func _ready():
 	Instance = self;
@@ -97,7 +97,8 @@ func _on_server_disconnected():
 @rpc("any_peer",  "call_local", "reliable")
 func PlayGame():
 	print("starting game!");
-	# Change scene here :D
+	get_tree().change_scene_to_file("res://Scenes/stage.tscn")
+	
 	return;
 
 @rpc("any_peer",  "call_local", "reliable")
@@ -106,3 +107,10 @@ func SetCharacter(character_id):
 	players[multiplayer.get_remote_sender_id()].character = character_id;
 	lobbyPlayers[players.keys().find(multiplayer.get_remote_sender_id())].SetInfo(players[multiplayer.get_remote_sender_id()]);
 	return;
+	
+@rpc("any_peer", "call_remote", "unreliable")
+func updateCharacter(char, pos, ani, inp):
+	players[multiplayer.get_remote_sender_id()].character = char
+	players[multiplayer.get_remote_sender_id()].position = pos
+	players[multiplayer.get_remote_sender_id()].animation = ani
+	players[multiplayer.get_remote_sender_id()].input = char

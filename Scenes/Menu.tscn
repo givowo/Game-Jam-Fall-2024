@@ -513,7 +513,7 @@ script = ExtResource("3_oqjl6")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="Lobby/Player 0"]
 position = Vector2(-48, -21)
-sprite_frames = ExtResource("9_ybc58")
+sprite_frames = ExtResource("10_0hu2a")
 animation = &"Down"
 
 [node name="Right" type="Label" parent="Lobby/Player 0"]
@@ -566,7 +566,7 @@ label_settings = SubResource("LabelSettings_fcadw")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="Lobby/Player 1"]
 position = Vector2(-48, -21)
-sprite_frames = ExtResource("10_0hu2a")
+sprite_frames = ExtResource("11_ulitg")
 animation = &"Down"
 
 [node name="Player 2" type="Control" parent="Lobby"]
@@ -599,7 +599,7 @@ label_settings = SubResource("LabelSettings_fcadw")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="Lobby/Player 2"]
 position = Vector2(-48, -21)
-sprite_frames = ExtResource("11_ulitg")
+sprite_frames = ExtResource("9_ybc58")
 animation = &"Death"
 
 [node name="Start" type="Label" parent="Lobby"]

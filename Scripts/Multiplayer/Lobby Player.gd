@@ -4,7 +4,7 @@ var playerCharacter;
 var playerName;
 var playerHost;
 
-@onready var sprites = ["res://Assets/Characters/Green.tres", "res://Assets/Characters/Orange.tres", "res://Assets/Characters/Purple.tres"];
+@onready var sprites = ["res://Assets/Characters/Orange.tres", "res://Assets/Characters/Purple.tres", "res://Assets/Characters/Green.tres"];
 
 func SetInfo(data, exists = true):
 	if !exists:

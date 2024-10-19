@@ -1,15 +1,17 @@
-[gd_scene load_steps=7 format=3 uid="uid://be3vwnqwh7skn"]
+[gd_scene load_steps=8 format=3 uid="uid://be3vwnqwh7skn"]
 
 [ext_resource type="PackedScene" uid="uid://gwwdekxixfsr" path="res://Objects/excorsist.tscn" id="1_38vj4"]
 [ext_resource type="Script" path="res://Scripts/Player/PlayerCamera.gd" id="1_f5h7r"]
 [ext_resource type="PackedScene" uid="uid://qly6njncfynb" path="res://Objects/player.tscn" id="1_hp678"]
 [ext_resource type="PackedScene" uid="uid://brqrdsbw0ffqe" path="res://Proc Gen/Procedural Generation.tscn" id="1_jiigb"]
+[ext_resource type="Script" path="res://Scenes/stage.gd" id="1_t6kwe"]
 [ext_resource type="Script" path="res://Scenes/astarpath.gd" id="5_eljlb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s3vua"]
 size = Vector2(8, 8)
 
 [node name="Stage" type="Node2D"]
+script = ExtResource("1_t6kwe")
 
 [node name="Procedural Generation" parent="." instance=ExtResource("1_jiigb")]
 
