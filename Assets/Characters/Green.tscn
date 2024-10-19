@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://btgj8qcta4uwb"]
+
+[ext_resource type="SpriteFrames" uid="uid://dm8b1ckvat4cn" path="res://Assets/Characters/Purple.tres" id="1_rnckd"]
+
+[node name="Green" type="Node2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(8, 8)
+sprite_frames = ExtResource("1_rnckd")
+animation = &"Death"
