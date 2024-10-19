@@ -47,7 +47,8 @@ func _ready() -> void:
 	
 	if get_parent() == get_tree().root:
 		GenerateWorld();
-	
+	else:
+		GenerateWorld(MultiplayerManager.worldGenSeed);
 	pass # Replace with function body.
 
 func GenerateWorld(RNGseed = Time.get_unix_time_from_system()) -> void:

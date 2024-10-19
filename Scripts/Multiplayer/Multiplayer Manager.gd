@@ -12,6 +12,7 @@ const MAX_CONNECTIONS = 3
 
 var players = {}
 var players_loaded = 0
+var worldGenSeed = 0;
 
 var player_info = {"name": "Name", "character": -1, "host": false, "position": Vector2(0,0), "animation": "Down", "input": Vector2(0,0)};
 
@@ -96,10 +97,10 @@ func _on_server_disconnected():
 	server_disconnected.emit()
 
 @rpc("any_peer",  "call_local", "reliable")
-func PlayGame():
+func PlayGame(gameSeed):
 	print("starting game!");
-	get_tree().change_scene_to_file("res://Scenes/stage.tscn")
-	
+	worldGenSeed = gameSeed;
+	get_tree().change_scene_to_file("res://Scenes/stage.tscn");
 	return;
 
 @rpc("any_peer",  "call_local", "reliable")
