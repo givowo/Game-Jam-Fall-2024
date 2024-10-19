@@ -132,6 +132,7 @@ label_settings = SubResource("LabelSettings_tg3jv")
 script = ExtResource("3_oqjl6")
 
 [node name="Host" type="Control" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -252,15 +253,16 @@ label_settings = SubResource("LabelSettings_tg3jv")
 script = ExtResource("3_oqjl6")
 
 [node name="LineEdit" type="LineEdit" parent="Host"]
+modulate = Color(1, 1, 1, 0)
 layout_mode = 0
 offset_left = -80.0
 offset_top = -72.0
 offset_right = -12.9375
 offset_bottom = -41.0
+scale = Vector2(0.001, 0.001)
 max_length = 10
 
 [node name="Join" type="Control" parent="."]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
