@@ -64,8 +64,8 @@ func start_new_path(start_pos, end_pos, must_complete = false):
 
 func _draw():
 	pass
-	draw_grid()
-	fill_walls()
+	#draw_grid()
+	#fill_walls()
 	#draw_rect(Rect2(start * cell_size, cell_size), Color.GREEN_YELLOW)
 	#draw_rect(Rect2(end * cell_size, cell_size), Color.ORANGE_RED)
 	

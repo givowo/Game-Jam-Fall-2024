@@ -4,10 +4,13 @@ const speed = 100 # speed in delta units (not pixels. argh...)
 var _char = GlobalPref.main_char
 var can_interact = false
 var died = false
+var input_dir = 0
+signal update_character_2
 @onready var world = $"../Procedural Generation"
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	position = world.tileSize* (Vector2(world.worldSize, world.worldSize) + Vector2(1, 1)) + (world.tileSize/2)
+	update_character()
 	pass # Replace with function body.
 
 
@@ -21,7 +24,7 @@ func _process(delta: float) -> void:
 			update_character()
 	
 	if !died:
-		var input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+		input_dir = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 		velocity = input_dir * speed
 		move_and_slide()
 	
@@ -29,3 +32,4 @@ func _process(delta: float) -> void:
 
 func update_character():
 	_char = GlobalPref.main_char
+	update_character_2.emit()
