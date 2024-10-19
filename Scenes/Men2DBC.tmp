@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://capug2stcmcll"]
+
+[ext_resource type="Script" path="res://Scripts/Multiplayer/Menu Scaler.gd" id="1_lyrrw"]
+[ext_resource type="FontFile" uid="uid://b1du2euwdhx0a" path="res://web_ibm_model3x_alt1.woff" id="2_u2r10"]
+[ext_resource type="Script" path="res://Scripts/Wavy Text.gd" id="3_oqjl6"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_tg3jv"]
+font = ExtResource("2_u2r10")
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lyrrw")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 46.0
+offset_top = 70.0
+offset_right = 150.0
+offset_bottom = 93.0
+text = "asdikflhjasdf"
+label_settings = SubResource("LabelSettings_tg3jv")
+script = ExtResource("3_oqjl6")
