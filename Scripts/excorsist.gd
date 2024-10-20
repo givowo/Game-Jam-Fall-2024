@@ -50,7 +50,7 @@ func processMove(delta):
 	
 	if lastPositions.size() >= 3:
 		lastPositions.remove_at(0);
-	
+	var last_pos = position
 	timeout = 0
 	move_timer = move_timer + (SPEED * delta) 
 	if move_timer >= 100:
@@ -63,16 +63,21 @@ func processMove(delta):
 	if move_arr.size() > 1:
 		position = lerp(move_arr[min(move_index, move_arr.size()-1)], move_arr[min(move_index+1, move_arr.size()-1)], move_timer /100)
 		$Area2D.rotation = move_arr[min(move_index, move_arr.size()-1)].angle_to_point(move_arr[min(move_index+1, move_arr.size()-1)]) - deg_to_rad(90)
-		
-	move_and_slide()
 	
-	if lastPositions.size() >= 3 && lastPositions[2] == position:
+	if last_pos == position:
 		stuck_timer += 1
 		if stuck_timer == 60:
 			var obj = MultiplayerManager.worldCandles.pick_random()
-			staus_queue.append([obj.global_position, 0])
+			staus_queue.clear()
+			move_arr.clear()
+			#staus_queue.append([obj.global_position, 0])
+			global_position = obj.global_position
+			stuck_timer = 0
 	else:
 		stuck_timer = 0
+	
+	
+	move_and_slide()
 	
 	var moveOffset = (position - lastPositions[0]).normalized();
 	if abs(Vector2(1, 0).angle_to(moveOffset)) < PI / 4:
