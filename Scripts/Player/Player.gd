@@ -30,7 +30,8 @@ func _process(delta: float) -> void:
 		move_and_slide()
 	
 	can_interact = false #disables after everything so when objects set it doesnt instantly disapear lol
-	MultiplayerManager.rpc("updateCharacter", _char, global_position, $AnimationHandler.sprite.animation, input_dir)
+	if multiplayer.has_multiplayer_peer():
+		MultiplayerManager.rpc("updateCharacter", _char, global_position, $AnimationHandler.sprite.animation, input_dir)
 
 func update_character():
 	update_character_2.emit()

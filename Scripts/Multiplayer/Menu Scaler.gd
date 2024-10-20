@@ -3,18 +3,6 @@ extends Control
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	scale = Vector2(160 / size.x, 144 / size.y)
-	
-	for command in OS.get_cmdline_args():
-		if command == "host" || command == "join":
-			$Main.visible = false;
-			$Main.process_mode = Node.PROCESS_MODE_DISABLED;
-			$Host.visible = false;
-			$Host.process_mode = Node.PROCESS_MODE_DISABLED;
-			$Join.visible = false;
-			$Join.process_mode = Node.PROCESS_MODE_DISABLED;
-			$Lobby.visible = true;
-			$Lobby.process_mode = Node.PROCESS_MODE_ALWAYS;
-			return;
 			
 	if $Main.visible:
 		$Host.visible = false;

@@ -12,10 +12,10 @@ var changingCharacter = false;
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	WakeUp();
+	MultiplayerManager.player_disconnected.connect(on_player_disconnected)
 	leftArrowChar.visible = false;
 	rightArrowChar.visible = false;
-	
-	if !multiplayer.is_server():
+	if multiplayer.has_multiplayer_peer() && !multiplayer.is_server():
 		mainMenuOptions[1].visible = false;
 		mainMenuOptions.remove_at(1);
 		mainMenuFunctions.remove_at(1);
@@ -24,6 +24,8 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if !multiplayer.has_multiplayer_peer():
+		Leave()
 	
 	if changingCharacter:
 		leftArrowChar.position.x = -64 + cos(Time.get_ticks_msec() / 150) * 2;
@@ -97,8 +99,26 @@ func Start():
 	pass
 
 func Leave():
-	#MultiplayerManager.remove_multiplayer_peer();
+	$"../Main".visible = true;
+	$"../Main".WakeUp()
+	$"../Main".spaceDelay = 0.1;
+	$"../Main".process_mode = Node.PROCESS_MODE_ALWAYS;
+	$"../Lobby".visible = false;
+	$"../Lobby".process_mode = Node.PROCESS_MODE_DISABLED;
+	MultiplayerManager.players.clear()
+	if multiplayer.has_multiplayer_peer():
+		multiplayer.multiplayer_peer.disconnect_peer(1)
+	if multiplayer.is_server():
+		multiplayer.multiplayer_peer.close()
 	pass
+
+func on_player_disconnected(id):
+	var lobbyPlayers = [$"Player 0", $"Player 1", $"Player 2"];
+	for i in range(MultiplayerManager.players.values().size()):
+		lobbyPlayers[i].SetInfo(MultiplayerManager.players.values()[i]);
+	for i in range(MultiplayerManager.players.values().size(), 3):
+		lobbyPlayers[i].SetInfo([], false);
+
 	
 func WakeUp():
 	mainMenuOptions[highlighted].waveStrength = 1;
