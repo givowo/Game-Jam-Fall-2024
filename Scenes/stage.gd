@@ -21,15 +21,13 @@ func _process(delta: float) -> void:
 		stagger_update = 0
 
 func _check_all_candles():
-	print(MultiplayerManager.worldCandles.size())
 	var ammount_lit = $Excorsist.candles_lit
-	print(ammount_lit)
 
 func server_closed():
 	MultiplayerManager.players.clear()
 	if multiplayer.has_multiplayer_peer():
 		multiplayer.multiplayer_peer.disconnect_peer(1)
-	if multiplayer.is_server():
+	if multiplayer.multiplayer_peer != null && multiplayer.is_server():
 		multiplayer.multiplayer_peer.close()
 	get_tree().change_scene_to_file("res://Scenes/Menu.tscn");
 	pass

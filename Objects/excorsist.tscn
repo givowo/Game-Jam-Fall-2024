@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://gwwdekxixfsr"]
 
 [ext_resource type="Script" path="res://Scripts/excorsist.gd" id="1_4ls2q"]
-[ext_resource type="SpriteFrames" uid="uid://s5rt1lor0f1e" path="res://Assets/Characters/Death.tres" id="2_mex8r"]
+[ext_resource type="SpriteFrames" uid="uid://dbemm3ui4uork" path="res://Assets/Characters/Death.tres" id="2_mex8r"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ivoby"]
 radius = 7.0

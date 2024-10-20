@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=25 format=3 uid="uid://s5rt1lor0f1e"]
+[gd_resource type="SpriteFrames" load_steps=25 format=3 uid="uid://dbemm3ui4uork"]
 
 [ext_resource type="Texture2D" uid="uid://dof42kwdhf58w" path="res://Assets/Characters/Death/DeathFront.png" id="1_h81wm"]
 [ext_resource type="Texture2D" uid="uid://ctx2x5yfymtxe" path="res://Assets/Characters/Death/DeathSide.png" id="2_iygc7"]
