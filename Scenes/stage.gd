@@ -20,10 +20,10 @@ func _process(delta: float) -> void:
 		_everyone_died()
 		_check_all_candles(delta)
 		stagger_update = 0
-	if Input.is_action_just_pressed("ui_focus_next"):
-		MultiplayerManager.worldCandles.clear()
-		MultiplayerManager.worldGenSeed = Time.get_unix_time_from_system()
-		get_tree().reload_current_scene()
+	#if Input.is_action_just_pressed("ui_focus_next"):
+		#MultiplayerManager.worldCandles.clear()
+		#MultiplayerManager.worldGenSeed = Time.get_unix_time_from_system()
+		#get_tree().reload_current_scene()
 
 func _check_all_candles(delta):
 	var ammount_lit = $Excorsist.candles_lit
