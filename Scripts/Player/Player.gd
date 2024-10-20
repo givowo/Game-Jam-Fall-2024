@@ -30,6 +30,9 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	color_update();
 	#print(color_touched)
+	if $"/root/Stage".win_mode > 0:
+		MultiplayerManager.rpc("updateCharacter", _char, global_position, $AnimationHandler.sprite.animation, input_dir, spectate)
+		return
 	
 	modulate.a = 1 if canBeSee else 0.5;
 	#input_delay -= 1

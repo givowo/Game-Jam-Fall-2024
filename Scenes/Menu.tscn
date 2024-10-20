@@ -69,8 +69,8 @@ offset_top = -64.0
 offset_right = 64.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Untitled
-Game"
+text = "Self
+Summoning"
 label_settings = SubResource("LabelSettings_3dv75")
 horizontal_alignment = 1
 

@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://cqql6vlattq6q"]
+
+[ext_resource type="Script" path="res://Scenes/intro.gd" id="1_t5qw3"]
+[ext_resource type="Texture2D" uid="uid://bpa0qydh4ytpf" path="res://Assets/intro_box.png" id="2_sh6c1"]
+[ext_resource type="FontFile" uid="uid://bpprqy7atujoh" path="res://Assets/Px437_CompaqThin_8x8.ttf" id="3_hfg2k"]
+
+[sub_resource type="Theme" id="Theme_ie26l"]
+default_font = ExtResource("3_hfg2k")
+default_font_size = 8
+
+[node name="Intro" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_t5qw3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(80, 72)
+texture = ExtResource("2_sh6c1")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 26.0
+offset_right = 138.0
+offset_bottom = 113.0
+theme = SubResource("Theme_ie26l")
