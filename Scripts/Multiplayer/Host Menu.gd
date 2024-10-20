@@ -9,6 +9,8 @@ var highlighted = 0;
 var typingName = false;
 var playerName = "";
 var spaceDelay = 0;
+var enterJustPressed = false;
+var enterDown = false;
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -18,6 +20,14 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if enterDown && !Input.is_physical_key_pressed(KEY_ENTER):
+		enterDown = false;
+	elif !enterDown && Input.is_physical_key_pressed(KEY_ENTER):
+		enterJustPressed = true;
+		enterDown = true;
+	elif enterDown && Input.is_physical_key_pressed(KEY_ENTER):
+		enterJustPressed = false;
+	
 	if typingName:
 		playerName = hiddenNameInput.text;
 		var nameview = hiddenNameInput.text;
@@ -25,6 +35,11 @@ func _process(delta: float) -> void:
 		if hiddenNameInput.text.length() == 10:
 			hiddenNameInput.text = hiddenNameInput.text.substr(0, 9);
 			hiddenNameInput.caret_column = 9;
+		
+		if enterJustPressed:
+			hiddenNameInput.text += " ";
+			playerName += " ";
+			nameview += " ";
 		
 		if playerName.length() > 0 && playerName[playerName.length() - 1] == " ":
 			playerName = playerName.substr(0, playerName.length() - 1);

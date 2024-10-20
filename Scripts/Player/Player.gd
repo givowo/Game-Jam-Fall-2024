@@ -14,6 +14,8 @@ signal update_character_2
 var death_timer = 0 
 var player_id
 var color_touched = -1
+var canBeSee = false;
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	_char = MultiplayerManager.players[multiplayer.get_unique_id()].character
@@ -26,6 +28,10 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	color_update();
+	#print(color_touched)
+	
+	modulate.a = 1 if canBeSee else 0.5;
 	#input_delay -= 1
 	#input_delay = max(0, input_delay)
 	
@@ -54,11 +60,16 @@ func _process(delta: float) -> void:
 		MultiplayerManager.rpc("updateCharacter", _char, global_position, $AnimationHandler.sprite.animation, input_dir)
 
 func color_update():
-	var found = $TouchRoom.get_overlapping_areas()
-	color_touched = -1
-	for i in found.size():
-		var obj = found[i]
-		color_touched = obj.color
+	#var found = $TouchRoom.get_overlapping_areas()
+	#color_touched = -1
+	#for i in found.size():
+		#var obj = found[i]
+		#color_touched = obj.color
+	
+	#print(floor((global_position - ProcGen.Instance.global_position) / 80))
+	color_touched = ProcGen.Instance.worldColors[floor((global_position - ProcGen.Instance.global_position) / 80)]
+	canBeSee = (color_touched != _char);
+		
 
 func update_character():
 	update_character_2.emit()

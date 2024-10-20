@@ -1,5 +1,7 @@
 extends Node2D
+class_name ProcGen
 
+static var Instance;
 # name, right down left up
 # -2 not wall, -1: any, 0: open, 1: door, 2: wall
 @onready var tiles = [];
@@ -17,9 +19,12 @@ var needToColor = [];
 var emptySpaces = [];
 var needToTraverse = [];
 var accessibleAreas = [];
+var worldColors = {};
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	Instance = self;
+	
 	position += tileSize * Vector2(worldSize,worldSize)
 	print("before gen")
 	if get_parent() == get_tree().root:
@@ -66,11 +71,6 @@ func GenerateWorld(RNGseed = Time.get_unix_time_from_system()) -> void:
 	tilePositions[Vector2(0, 0)] = startingTile;
 	needToColor.append(Vector2(0, 0));
 	emptyTiles.remove_at(emptyTiles.find(Vector2(0, 0)));
-	var testColorStart = ColorRect.new();
-	testColorStart.name = "color";
-	testColorStart.color = Color(1, 1, 1, 0.25);
-	testColorStart.size = Vector2(80, 80);
-	startingTile.add_child(testColorStart);
 	
 	if get_parent() != get_tree().root:
 		var area = load("res://Objects/valid_area.tscn").instantiate();
@@ -97,7 +97,7 @@ func GenerateWorld(RNGseed = Time.get_unix_time_from_system()) -> void:
 			continue;
 		
 		var candle = load("res://Objects/candle.tscn").instantiate();
-		candle.position = (i * tileSize) + Vector2(40, 40);
+		candle.position = (i * tileSize) + Vector2(randi_range(24, 56), randi_range(24, 56));
 		add_child(candle);
 		MultiplayerManager.worldCandles.append(candle);
 		
@@ -139,7 +139,7 @@ func GenerateWorld(RNGseed = Time.get_unix_time_from_system()) -> void:
 	if get_parent() == get_tree().root:
 		return;
 	
-	for i in placedTiles.size():
+	"""for i in placedTiles.size():
 		var array = placedTiles.values()[i];
 		for j in array.size():
 			if (array[j] == 0 || array[j] == 1): 
@@ -148,7 +148,7 @@ func GenerateWorld(RNGseed = Time.get_unix_time_from_system()) -> void:
 					var obj = load("res://Objects/placeholder_place.tscn").instantiate();
 					add_child(obj);
 					obj.position = value
-					#emptySpaces.append(value)
+					#emptySpaces.append(value)"""
 
 func PickRandomTile(edges):
 	var validTiles = [];
@@ -211,7 +211,7 @@ func ColorTheTiles(tilePosition, color = -1):
 
 	if color == -1:
 		var maxThing = max(colorCounts[0], max(colorCounts[1], colorCounts[2]));
-		var colorIndex = rng.rand_weighted(PackedFloat32Array([-colorCounts[0] + maxThing, -colorCounts[1] + maxThing, -colorCounts[2] + maxThing]));
+		var colorIndex = rng.rand_weighted(PackedFloat32Array([-colorCounts[0] * 5 + maxThing * 5 + 1, -colorCounts[1] * 5 + maxThing * 5 + 1, -colorCounts[2] * 5 + maxThing * 5 + 1]));
 		colorCounts[colorIndex] += 1;
 		color = colorIndex;
 		
@@ -219,6 +219,7 @@ func ColorTheTiles(tilePosition, color = -1):
 	#print(tile.get_children())
 	#tile.object_ref.color = color
 	needToColor.remove_at(needToColor.find(tilePosition));
+	worldColors[tilePosition] = color;
 	
 	if tileSides[0] == 0 && needToColor.find(tilePosition + Vector2(1, 0)) != -1:
 		ColorTheTiles(tilePosition + Vector2(1, 0), color);
