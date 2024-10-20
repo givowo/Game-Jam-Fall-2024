@@ -126,6 +126,7 @@ func PlayGame(gameSeed):
 @rpc("any_peer",  "call_local", "reliable")
 func NewLevel():
 	print("new level!");
+	MultiplayerManager.worldCandles.clear()
 	worldGenLevel += 2
 	get_tree().change_scene_to_file("res://Scenes/stage.tscn");
 	return;
