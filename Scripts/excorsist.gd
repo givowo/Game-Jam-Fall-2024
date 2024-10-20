@@ -94,7 +94,7 @@ func _determine_status():
 			$SightBeem.force_raycast_update()
 			if $SightBeem.is_colliding() and ($SightBeem.get_collider() is Player || $SightBeem.get_collider() is Player_Peer) and ($SightBeem.get_collider().canBeSee):
 				#MultiplayerManager.rpc("ChasePlayer", obj.global_position);
-				print("chasing ", MultiplayerManager.players[$SightBeem.get_collider().player_id].name);
+				#print("chasing ", MultiplayerManager.players[$SightBeem.get_collider().player_id].name);
 				ChasePlayer(obj.global_position)
 
 func ChasePlayer(position):
@@ -109,7 +109,7 @@ func _update_status():
 		move_mode = staus_queue[i][1]
 		move_timer = 0
 		staus_queue.remove_at(i)
-		print(move_mode)
+		#print(move_mode)
 		return
 		
 func _got_lost():
