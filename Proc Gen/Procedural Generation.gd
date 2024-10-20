@@ -214,7 +214,7 @@ func ColorTheTiles(tilePosition, color = -1):
 	
 	var existingItems = [];
 	if tileCandles.has(tilePosition):
-		existingItems.append(tileCandles.has(tilePosition));
+		existingItems.append(tileCandles[tilePosition]);
 		
 	for i in randi_range(0, 2):
 		var decoDir := DirAccess.open("res://Assets/Decoration/");
