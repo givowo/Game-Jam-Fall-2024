@@ -23,8 +23,7 @@ func _process(delta: float) -> void:
 
 func _check_all_candles(delta):
 	var ammount_lit = $Excorsist.candles_lit
-	#if ammount_lit >= MultiplayerManager.worldCandles.size():
-	if ammount_lit >= 2:
+	if ammount_lit >= MultiplayerManager.worldCandles.size():
 		win_mode += (16 * delta)
 		if win_mode >= 2.5:
 			if multiplayer.is_server():
