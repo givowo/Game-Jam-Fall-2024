@@ -58,6 +58,7 @@ func GenerateWorld(RNGseed = Time.get_unix_time_from_system()) -> void:
 	var startingRandom = PickRandomTile([-1, -1, -1, -1]);
 	var startingTile = load("res://Proc Gen/Tiles/" + startingRandom[0]).instantiate();
 	startingTile.position = Vector2(0, 0);
+	startingTile.name = str(Vector2(0, 0));
 	tileContainer.add_child(startingTile);
 	placedTiles[Vector2(0, 0)] = startingRandom[1];
 	tilePositions[Vector2(0, 0)] = startingTile;
@@ -80,6 +81,7 @@ func GenerateWorld(RNGseed = Time.get_unix_time_from_system()) -> void:
 			print("COULDNT PLACE TILE AT ", i)
 			continue;
 		var newTile = load("res://Proc Gen/Tiles/" + newRandom[0]).instantiate();
+		newTile.name = str(i);
 		newTile.position = i * tileSize;
 		tileContainer.add_child(newTile);
 		var testColor = ColorRect.new();
@@ -289,7 +291,7 @@ func PickRandomTileAndReplace(position, preserve):
 	
 	preserve = [right, down, left, up];
 	#print("");
-	#print("preserve ", position, " with ", preserve);
+	print("preserve ", position, " with ", preserve);
 	
 	for tile in tiles:
 		if ((right == -1 || (right == -2 && tile[1][0] != 2) || right == tile[1][0]) && (down == -1 || (down == -2 && tile[1][1] != 2) || down == tile[1][1]) && (left == -1 || (left == -2 && tile[1][2] != 2) || left == tile[1][2]) && (up == -1 || (up == -2 && tile[1][3] != 2) || up == tile[1][3])):
@@ -304,9 +306,11 @@ func PickRandomTileAndReplace(position, preserve):
 	var newTileForSpot = validTiles.pick_random();
 	#print("fix tile ", newTileForSpot);
 	
+	
 	var newTile = load("res://Proc Gen/Tiles/" + newTileForSpot[0]).instantiate();
 	newTile.position = position * tileSize;
 	tileContainer.add_child(newTile);
+	newTile.name = str(position);
 	var existingTile = tilePositions[position];
 	var color = existingTile.get_node("color");
 	existingTile.remove_child(color);
@@ -332,6 +336,7 @@ func PickRandomTileAndReplace(position, preserve):
 		var newSideTile = load("res://Proc Gen/Tiles/" + newSideTileData[0]).instantiate();
 		newSideTile.position = (position + direction) * tileSize;
 		tileContainer.add_child(newSideTile);
+		newSideTile.name = str(position + direction);
 		var existingSideTile = tilePositions[position + direction];
 		var colorSide = existingSideTile.get_node("color");
 		existingSideTile.remove_child(colorSide);

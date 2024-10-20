@@ -1,7 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://dajn63ohf2yil"]
+[gd_scene load_steps=5 format=3 uid="uid://dajn63ohf2yil"]
+
+[ext_resource type="Texture2D" uid="uid://b1xcd46o4xcfk" path="res://Assets/Room_Tiles.png" id="1_chfjy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0g7cf"]
 size = Vector2(16, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vt31c"]
+size = Vector2(30, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_woicg"]
 size = Vector2(30, 16)
@@ -23,14 +28,14 @@ shape = SubResource("RectangleShape2D_0g7cf")
 [node name="right3" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="right3"]
-position = Vector2(72, 15)
-shape = SubResource("RectangleShape2D_0g7cf")
+position = Vector2(65, 8)
+shape = SubResource("RectangleShape2D_vt31c")
 
 [node name="right4" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="right4"]
-position = Vector2(72, 65)
-shape = SubResource("RectangleShape2D_0g7cf")
+position = Vector2(15, 8)
+shape = SubResource("RectangleShape2D_vt31c")
 
 [node name="right7" type="StaticBody2D" parent="."]
 position = Vector2(0, 64)
@@ -45,3 +50,10 @@ position = Vector2(0, 64)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="right8"]
 position = Vector2(65, 8)
 shape = SubResource("RectangleShape2D_woicg")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(40, 40)
+rotation = 1.57079
+texture = ExtResource("1_chfjy")
+region_enabled = true
+region_rect = Rect2(464, 576, 80, 80)
