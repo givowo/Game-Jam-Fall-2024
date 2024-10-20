@@ -42,7 +42,7 @@ shape = SubResource("RectangleShape2D_cfdpl")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(39.9999, 40.0001)
-rotation = 4.71238
+rotation = 6.28318
 texture = ExtResource("1_ojs4l")
 region_enabled = true
-region_rect = Rect2(352, 16, 80, 80)
+region_rect = Rect2(240, 16, 80, 80)

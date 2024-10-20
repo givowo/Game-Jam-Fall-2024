@@ -50,4 +50,4 @@ position = Vector2(40, 40)
 rotation = 1.57079
 texture = ExtResource("1_jdsqs")
 region_enabled = true
-region_rect = Rect2(688, 800, 80, 80)
+region_rect = Rect2(801, 800, 80, 80)
