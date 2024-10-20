@@ -1,4 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://doriq6eaip3qw"]
+[gd_scene load_steps=4 format=3 uid="uid://doriq6eaip3qw"]
+
+[ext_resource type="Texture2D" uid="uid://b1xcd46o4xcfk" path="res://Assets/Room_Tiles.png" id="1_umxe5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vpthq"]
 size = Vector2(80, 16)
@@ -31,3 +33,10 @@ rotation = -3.14159
 [node name="CollisionShape2D" type="CollisionShape2D" parent="right2"]
 position = Vector2(8, 65)
 shape = SubResource("RectangleShape2D_q5k4t")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(39.9999, 40.0001)
+rotation = 3.14159
+texture = ExtResource("1_umxe5")
+region_enabled = true
+region_rect = Rect2(16, 576, 80, 80)

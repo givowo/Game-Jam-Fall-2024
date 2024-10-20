@@ -1,3 +1,11 @@
-[gd_scene format=3 uid="uid://6wj8lsn1nais"]
+[gd_scene load_steps=2 format=3 uid="uid://6wj8lsn1nais"]
+
+[ext_resource type="Texture2D" uid="uid://b1xcd46o4xcfk" path="res://Assets/Room_Tiles.png" id="1_jsydw"]
 
 [node name="L" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(39.9999, 40.0001)
+texture = ExtResource("1_jsydw")
+region_enabled = true
+region_rect = Rect2(912, 128, 80, 80)
