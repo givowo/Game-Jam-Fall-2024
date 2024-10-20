@@ -15,15 +15,20 @@ func _ready() -> void:
 	MultiplayerManager.player_disconnected.connect(on_player_disconnected)
 	leftArrowChar.visible = false;
 	rightArrowChar.visible = false;
-	if multiplayer.has_multiplayer_peer() && !multiplayer.is_server():
+	"""if multiplayer.has_multiplayer_peer() && !multiplayer.is_server():
 		mainMenuOptions[1].visible = false;
 		mainMenuOptions.remove_at(1);
-		mainMenuFunctions.remove_at(1);
+		mainMenuFunctions.remove_at(1);"""
 	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if multiplayer.has_multiplayer_peer() && !multiplayer.is_server():
+		mainMenuOptions[1].visible = false;
+		#mainMenuOptions.remove_at(1);
+		#mainMenuFunctions.remove_at(1);
+	
 	if !multiplayer.has_multiplayer_peer():
 		Leave()
 	
@@ -67,6 +72,10 @@ func _process(delta: float) -> void:
 		mainMenuOptions[highlighted].waveStrength = 0;
 		mainMenuOptions[highlighted].textColor = Color(1, 1, 1);
 		highlighted = min(highlighted + 1, mainMenuOptions.size() - 1);
+		
+		if highlighted == 1 && !mainMenuOptions[1].visible:
+			highlighted += 1;
+		
 		mainMenuOptions[highlighted].waveStrength = 1;
 		mainMenuOptions[highlighted].textColor = Color(1, 1, 0);
 		
@@ -74,6 +83,10 @@ func _process(delta: float) -> void:
 		mainMenuOptions[highlighted].waveStrength = 0;
 		mainMenuOptions[highlighted].textColor = Color(1, 1, 1);
 		highlighted = max(highlighted - 1, 0);
+		
+		if highlighted == 1 && !mainMenuOptions[1].visible:
+			highlighted -= 1;
+			
 		mainMenuOptions[highlighted].waveStrength = 1;
 		mainMenuOptions[highlighted].textColor = Color(1, 1, 0);
 
