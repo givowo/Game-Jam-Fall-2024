@@ -22,6 +22,7 @@ var accessibleAreas = [];
 var worldColors = {};
 var tileCandles = {};
 var allDecorations = ["res://Assets/Decoration/Broom.png", "res://Assets/Decoration/Cauldron.png", "res://Assets/Decoration/Chair_F.png", "res://Assets/Decoration/Chair_L.png", "res://Assets/Decoration/Coffen.png", "res://Assets/Decoration/Crystal_Ball.png", "res://Assets/Decoration/lamp.png", "res://Assets/Decoration/Mushroom.png", "res://Assets/Decoration/Skull.png", "res://Assets/Decoration/Table.png", "res://Assets/Decoration/Untitled_Artwork.png"];
+var bricks = load("res://Proc Gen/Bricks.tscn");
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -35,6 +36,8 @@ func _ready() -> void:
 		GenerateWorld(MultiplayerManager.worldGenSeed);
 		#$"../Node2D"._go_big()
 	print("after gen")
+	
+	push_warning(worldColors);
 	pass # Replace with function body.
 
 func GenerateWorld(RNGseed = Time.get_unix_time_from_system()) -> void:
@@ -238,7 +241,9 @@ func ColorTheTiles(tilePosition, color = -1):
 		else:
 			existingItems.append(newSprite.position);
 		
-		
+	var newBricks = bricks.instantiate();
+	tile.add_child(newBricks);
+	tile.move_child(newBricks, 0);
 
 	if color == -1:
 		var maxThing = max(colorCounts[0], max(colorCounts[1], colorCounts[2]));
@@ -267,35 +272,43 @@ func ColorTheTiles(tilePosition, color = -1):
 func FindConneceted(tilePosition, array = -1, line = null):
 	var tileSides = placedTiles[tilePosition];
 
+	var drawLine = false;
+
 	if array == -1:
 		accessibleAreas.append([]);
-		#line = Line2D.new();
-		#line.default_color = Color(randf(), randf(), randf());
-		#add_child(line);
+		if drawLine:
+			line = Line2D.new();
+			line.default_color = Color(randf(), randf(), randf());
+			add_child(line);
 	array = accessibleAreas.size() - 1;
 		
 	accessibleAreas[array].append(tilePosition);
-	#line.add_point(tilePosition * tileSize + tileSize / 2);
+	if drawLine:
+		line.add_point(tilePosition * tileSize + tileSize / 2);
 	
 	needToTraverse.remove_at(needToTraverse.find(tilePosition));
 	
 	if tileSides[0] != 2 && needToTraverse.find(tilePosition + Vector2(1, 0)) != -1:
 		FindConneceted(tilePosition + Vector2(1, 0), array, line);
-		#line.add_point(tilePosition * tileSize + tileSize / 2);
+		if drawLine:
+			line.add_point(tilePosition * tileSize + tileSize / 2);
 		
 	if tileSides[1] != 2 && needToTraverse.find(tilePosition + Vector2(0, 1)) != -1:
 		FindConneceted(tilePosition + Vector2(0, 1), array, line);
-		#line.add_point(tilePosition * tileSize + tileSize / 2);
+		if drawLine:
+			line.add_point(tilePosition * tileSize + tileSize / 2);
 		
 	if tileSides[2] != 2 && needToTraverse.find(tilePosition - Vector2(1, 0)) != -1:
 		FindConneceted(tilePosition - Vector2(1, 0), array, line);
-		#line.add_point(tilePosition * tileSize + tileSize / 2);
+		if drawLine:
+			line.add_point(tilePosition * tileSize + tileSize / 2);
 		
 	if tileSides[3] != 2 && needToTraverse.find(tilePosition - Vector2(0, 1)) != -1:
 		FindConneceted(tilePosition - Vector2(0, 1), array, line);
-		#line.add_point(tilePosition * tileSize + tileSize / 2);
+		if drawLine:
+			line.add_point(tilePosition * tileSize + tileSize / 2);
 		
-	if (false && line.points.size() == 1):
+	if (drawLine && line.points.size() == 1):
 		line.points[0].x -= 5;
 		line.add_point(tilePosition * tileSize + tileSize / 2 + Vector2(5, 0));
 

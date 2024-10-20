@@ -15,7 +15,7 @@ position = Vector2(64, 80)
 rotation = -1.5708
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="right7"]
-position = Vector2(15, 8)
+position = Vector2(15, 8.00005)
 shape = SubResource("RectangleShape2D_l4ul4")
 
 [node name="right8" type="StaticBody2D" parent="."]
@@ -31,11 +31,12 @@ position = Vector2(64, 80)
 rotation = -1.5708
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="right9"]
-position = Vector2(40, -56)
+position = Vector2(40.0002, -55.9999)
 shape = SubResource("RectangleShape2D_5vm3t")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(39.9999, 40.0001)
+position = Vector2(40, 40)
+rotation = 3.14159
 texture = ExtResource("1_omdy1")
 region_enabled = true
-region_rect = Rect2(688, 1024, 80, 80)
+region_rect = Rect2(688, 912, 80, 80)
