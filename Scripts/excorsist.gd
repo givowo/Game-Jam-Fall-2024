@@ -31,8 +31,8 @@ func _process(delta: float) -> void:
 	timeout = 0
 	move_timer = move_timer + (SPEED * delta) 
 	if move_timer >= 100:
-		move_index = (move_index + 1) 
-		if move_index >= move_arr.size()-1:
+		move_index = (move_index + 1)
+		if move_index >=  move_arr.size()-1:
 			_got_lost()
 		move_timer = 0
 		_determine_status()

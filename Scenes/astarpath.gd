@@ -19,17 +19,17 @@ func _ready():
 			$ColGrid.force_shapecast_update()
 			$ColGrid2.global_position = $ColGrid.global_position
 			$ColGrid2.force_shapecast_update()
-			if !$ColGrid2.is_colliding():
-				var pos = $ColGrid.global_position / cell_size
-				if astar_grid.is_in_boundsv(pos):
-					astar_grid.set_point_solid(pos, true)
-			else:
-				for k in $ColGrid.get_collision_count():
-					var obj = $ColGrid.get_collider(k)
-					if $ColGrid.is_colliding() && obj is StaticBody2D:
-						var pos = $ColGrid.global_position / cell_size
-						if astar_grid.is_in_boundsv(pos):
-							astar_grid.set_point_solid(pos, true)
+			#if !$ColGrid2.is_colliding():
+				#var pos = $ColGrid.global_position / cell_size
+				#if astar_grid.is_in_boundsv(pos):
+					#pass
+
+			for k in $ColGrid.get_collision_count():
+				var obj = $ColGrid.get_collider(k)
+				if $ColGrid.is_colliding():
+					var pos = $ColGrid.global_position / cell_size
+					if astar_grid.is_in_boundsv(pos):
+						astar_grid.set_point_solid(pos, true)
 						#var obj2 = load("res://Objects/placeholder_place.tscn").instantiate();
 						#add_child(obj2);
 						#obj2.position = $ColGrid.global_position
@@ -64,8 +64,8 @@ func start_new_path(start_pos, end_pos, must_complete = false):
 
 func _draw():
 	pass
-	#draw_grid()
-	#fill_walls()
+	draw_grid()
+	fill_walls()
 	#draw_rect(Rect2(start * cell_size, cell_size), Color.GREEN_YELLOW)
 	#draw_rect(Rect2(end * cell_size, cell_size), Color.ORANGE_RED)
 	

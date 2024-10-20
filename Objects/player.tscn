@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://qly6njncfynb"]
+[gd_scene load_steps=9 format=3 uid="uid://qly6njncfynb"]
 
 [ext_resource type="Script" path="res://Scripts/Player/Player.gd" id="1_4d540"]
 [ext_resource type="SpriteFrames" uid="uid://hc7iu7w7i4o6" path="res://Assets/Characters/Orange.tres" id="2_hjn04"]
@@ -9,6 +9,9 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_uewnd"]
 radius = 7.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qcw64"]
+size = Vector2(14, 14)
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 128
@@ -48,6 +51,14 @@ script = ExtResource("6_wleuy")
 [node name="ANI_PLAGUE" type="Node" parent="AnimationHandler"]
 process_mode = 4
 script = ExtResource("6_wleuy")
+
+[node name="TouchRoom" type="Area2D" parent="."]
+collision_layer = 256
+collision_mask = 256
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TouchRoom"]
+shape = SubResource("RectangleShape2D_qcw64")
+debug_color = Color(0.950524, 1.73271e-06, 0.568178, 0.42)
 
 [connection signal="update_character_2" from="." to="AnimationHandler" method="_on_player_update_character"]
 [connection signal="animationQueue" from="AnimationHandler" to="AnimationHandler" method="_on_animation_queue"]

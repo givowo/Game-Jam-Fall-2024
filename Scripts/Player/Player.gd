@@ -13,6 +13,7 @@ signal update_character_2
 @onready var world = $"../Procedural Generation"
 var death_timer = 0 
 var player_id
+var color_touched = -1
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	_char = MultiplayerManager.players[multiplayer.get_unique_id()].character
@@ -51,6 +52,13 @@ func _process(delta: float) -> void:
 	can_interact = false #disables after everything so when objects set it doesnt instantly disapear lol
 	if multiplayer.has_multiplayer_peer():
 		MultiplayerManager.rpc("updateCharacter", _char, global_position, $AnimationHandler.sprite.animation, input_dir)
+
+func color_update():
+	var found = $TouchRoom.get_overlapping_areas()
+	color_touched = -1
+	for i in found.size():
+		var obj = found[i]
+		color_touched = obj.color
 
 func update_character():
 	update_character_2.emit()

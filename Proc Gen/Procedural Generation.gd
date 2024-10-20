@@ -73,7 +73,7 @@ func GenerateWorld(RNGseed = Time.get_unix_time_from_system()) -> void:
 	if get_parent() != get_tree().root:
 		var area = load("res://Objects/valid_area.tscn").instantiate();
 		area.position = Vector2(0, 0);
-		add_child(area);
+		startingTile.add_child(area);
 	
 	for i in emptyTiles:
 		var newRandom = PickRandomTile(GetTilesAround(i));
@@ -87,13 +87,13 @@ func GenerateWorld(RNGseed = Time.get_unix_time_from_system()) -> void:
 		placedTiles[i] = newRandom[1];
 		tilePositions[i] = newTile;
 		needToColor.append(i);
+		var area_n = load("res://Objects/valid_area.tscn").instantiate();
+		area_n.position = i * tileSize;
+		newTile.add_child(area_n);
 		
 		if get_parent() == get_tree().root:
 			continue;
 		
-		var area_n = load("res://Objects/valid_area.tscn").instantiate();
-		area_n.position = i * tileSize;
-		add_child(area_n);
 		var candle = load("res://Objects/candle.tscn").instantiate();
 		candle.position = (i * tileSize) + Vector2(40, 40);
 		add_child(candle);
@@ -214,7 +214,8 @@ func ColorTheTiles(tilePosition, color = -1):
 		color = colorIndex;
 		
 	tile.modulate = colors[color];
-	
+	#print(tile.get_children())
+	#tile.object_ref.color = color
 	needToColor.remove_at(needToColor.find(tilePosition));
 	
 	if tileSides[0] == 0 && needToColor.find(tilePosition + Vector2(1, 0)) != -1:

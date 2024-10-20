@@ -1,11 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://4jyayvye03qo"]
+[gd_scene load_steps=3 format=3 uid="uid://4jyayvye03qo"]
+
+[ext_resource type="Script" path="res://Objects/valid_area.gd" id="1_gefmw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5or5f"]
-size = Vector2(82, 82)
+size = Vector2(84, 84)
 
 [node name="ValidArea" type="Area2D"]
 collision_layer = 256
 collision_mask = 256
+script = ExtResource("1_gefmw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(42, 42)
