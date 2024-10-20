@@ -229,13 +229,20 @@ func ColorTheTiles(tilePosition, color = -1):
 		newSprite.texture = load("res://Assets/Decoration/" + newDeco);
 		tile.add_child(newSprite);
 		var overlap = true;
-		while overlap:
+		var tries = 0;
+		while overlap && tries < 10:
 			newSprite.position = Vector2(randi_range(28, 52), randi_range(28, 52));
 			overlap = false;
 			for thing in existingItems:
 				if thing.distance_to(newSprite.position) < 16:
 					overlap = true;
-		existingItems.append(newSprite.position);
+					
+			tries += 1;
+			
+		if tries >= 10:
+			newSprite.queue_free();
+		else:
+			existingItems.append(newSprite.position);
 		
 		
 
