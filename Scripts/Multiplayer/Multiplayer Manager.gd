@@ -14,8 +14,9 @@ var players = {}
 var players_loaded = 0
 var worldGenSeed = 0;
 var worldCandles = [];
+var worldGenLevel = 0
 
-var player_info = {"name": "Name", "character": -1, "host": false, "position": Vector2(0,0), "animation": "Down", "input": Vector2(0,0)};
+var player_info = {"name": "Name", "character": -1, "host": false, "position": Vector2(0,0), "animation": "Down", "input": Vector2(0,0), "died": false};
 
 func _ready():
 	Instance = self;
@@ -121,6 +122,13 @@ func PlayGame(gameSeed):
 	return;
 
 @rpc("any_peer",  "call_local", "reliable")
+func NewLevel():
+	print("new level!");
+	worldGenLevel += 2
+	get_tree().change_scene_to_file("res://Scenes/stage.tscn");
+	return;
+
+@rpc("any_peer",  "call_local", "reliable")
 func SetCharacter(character_id):
 	var lobbyPlayers = [$"../Menu/Lobby/Player 0", $"../Menu/Lobby/Player 1", $"../Menu/Lobby/Player 2"];
 	players[multiplayer.get_remote_sender_id()].character = character_id;
@@ -128,11 +136,12 @@ func SetCharacter(character_id):
 	return;
 	
 @rpc("any_peer", "call_remote", "unreliable")
-func updateCharacter(char, pos, ani, inp):
+func updateCharacter(char, pos, ani, inp, died):
 	players[multiplayer.get_remote_sender_id()].character = char
 	players[multiplayer.get_remote_sender_id()].position = pos
 	players[multiplayer.get_remote_sender_id()].animation = ani
 	players[multiplayer.get_remote_sender_id()].input = char
+	players[multiplayer.get_remote_sender_id()].died = died
 
 @rpc("any_peer", "call_local", "reliable")
 func LightCandle(index):

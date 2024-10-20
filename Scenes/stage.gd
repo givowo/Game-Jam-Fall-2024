@@ -18,10 +18,26 @@ func _process(delta: float) -> void:
 	stagger_update += 1
 	if stagger_update == 10:
 		_check_all_candles()
+		_everyone_died()
 		stagger_update = 0
 
 func _check_all_candles():
 	var ammount_lit = $Excorsist.candles_lit
+	if ammount_lit >= MultiplayerManager.worldCandles.size() - 1:
+		if multiplayer.is_server():
+			MultiplayerManager.rpc("NewLevel")
+
+func _everyone_died():
+	if multiplayer.is_server() && $Player.spectate:
+		var deaths = 0
+		for i in MultiplayerManager.players.size() - 1:
+			if MultiplayerManager.players.values()[i + 1].died:
+				deaths += 1
+				print(deaths)
+		if deaths >= MultiplayerManager.players.size() - 1:
+			multiplayer.multiplayer_peer.close()
+			
+		
 
 func server_closed():
 	MultiplayerManager.players.clear()

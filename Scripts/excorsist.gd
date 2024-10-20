@@ -31,7 +31,7 @@ func _ready():
 
 func _process(delta: float) -> void:
 	
-	SPEED = 300 + (candles_lit * 10)
+	SPEED = 400 + (candles_lit * 2)
 	
 	lastPositions.append(position);
 	
@@ -42,10 +42,10 @@ func _process(delta: float) -> void:
 	move_timer = move_timer + (SPEED * delta) 
 	if move_timer >= 100:
 		move_index = (move_index + 1)
-		if move_index >=  move_arr.size()-1:
-			_got_lost()
 		move_timer = 0
 		_determine_status()
+		if move_index >=  move_arr.size()-1:
+			_got_lost()
 		_update_status()
 	if move_arr.size() > 1:
 		position = lerp(move_arr[min(move_index, move_arr.size()-1)], move_arr[min(move_index+1, move_arr.size()-1)], move_timer /100)
