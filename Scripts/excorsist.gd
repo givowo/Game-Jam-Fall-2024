@@ -34,6 +34,9 @@ func _ready():
 
 
 func _process(delta: float) -> void:
+	if $"/root/Stage".win_mode > 0:
+		return
+	
 	if multiplayer.is_server():
 		processMove(delta);
 	

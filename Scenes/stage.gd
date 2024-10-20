@@ -1,6 +1,6 @@
 extends Node2D
 var stagger_update = 0
-
+var win_mode = 0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	MultiplayerManager.server_disconnected.connect(server_closed)
@@ -18,14 +18,17 @@ func _process(delta: float) -> void:
 	stagger_update += 1
 	if stagger_update == 10:
 		_everyone_died()
-		_check_all_candles()
+		_check_all_candles(delta)
 		stagger_update = 0
 
-func _check_all_candles():
+func _check_all_candles(delta):
 	var ammount_lit = $Excorsist.candles_lit
-	if ammount_lit >= MultiplayerManager.worldCandles.size():
-		if multiplayer.is_server():
-			MultiplayerManager.rpc("NewLevel")
+	#if ammount_lit >= MultiplayerManager.worldCandles.size():
+	if ammount_lit >= 2:
+		win_mode += (16 * delta)
+		if win_mode >= 2.5:
+			if multiplayer.is_server():
+				MultiplayerManager.rpc("NewLevel")
 
 func _everyone_died():
 	if multiplayer.is_server() && $Player.spectate:

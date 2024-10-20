@@ -8,6 +8,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:
+	prev.aniData["Win"] = {"loopPoint" : 12}
 	match owner.input_dir:
 		(Vector2(0,1)):
 			prev.animationQueue.emit("Down")
@@ -20,3 +21,5 @@ func _physics_process(delta: float) -> void:
 	
 	if owner.died:
 		prev.animationQueue.emit("Death")
+	if $"/root/Stage".win_mode > 0:
+		prev.animationQueue.emit("Win")
