@@ -21,6 +21,7 @@ var needToTraverse = [];
 var accessibleAreas = [];
 var worldColors = {};
 var tileCandles = {};
+var allDecorations = ["res://Assets/Decoration/Broom.png", "res://Assets/Decoration/Cauldron.png", "res://Assets/Decoration/Chair_F.png", "res://Assets/Decoration/Chair_L.png", "res://Assets/Decoration/Coffen.png", "res://Assets/Decoration/Crystal_Ball.png", "res://Assets/Decoration/lamp.png", "res://Assets/Decoration/Mushroom.png", "res://Assets/Decoration/Skull.png", "res://Assets/Decoration/Table.png", "res://Assets/Decoration/Untitled_Artwork.png"];
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -215,18 +216,11 @@ func ColorTheTiles(tilePosition, color = -1):
 	var existingItems = [];
 	if tileCandles.has(tilePosition):
 		existingItems.append(tileCandles[tilePosition]);
-		
+	
 	for i in randi_range(0, 2):
-		var decoDir := DirAccess.open("res://Assets/Decoration/");
-		decoDir.list_dir_begin()
-		var newDeco = "";
-		while newDeco == "":
-			var newRand = decoDir.get_files()[randi_range(0, decoDir.get_files().size() - 1)];
-			if newRand.right(6) != "import":
-				newDeco = newRand;
 		var newSprite = Sprite2D.new();
 		newSprite.scale.x = 1 if randf() < 0.5 else -1;
-		newSprite.texture = load("res://Assets/Decoration/" + newDeco);
+		newSprite.texture = load(allDecorations.pick_random());
 		tile.add_child(newSprite);
 		var overlap = true;
 		var tries = 0;
