@@ -1,5 +1,5 @@
 extends Node2D
-
+var stagger_update = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -15,7 +15,15 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	stagger_update += 1
+	if stagger_update == 10:
+		_check_all_candles()
+		stagger_update = 0
+
+func _check_all_candles():
+	print(MultiplayerManager.worldCandles.size())
+	var ammount_lit = $Excorsist.candles_lit
+	print(ammount_lit)
 
 func server_closed():
 	MultiplayerManager.players.clear()

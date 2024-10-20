@@ -22,11 +22,11 @@ var lastPositions = []
 
 func _ready():
 	position = world.tileSize* (Vector2(world.worldSize, world.worldSize) + Vector2(0, -1)) + (world.tileSize/2)
-	move_arr = path.start_new_path(position, Vector2(path.astar_grid.size.x /2,path.astar_grid.size.y - 5) , true)
+	_got_lost()
 	moving = true
 	
 	while global_position.distance_to(ProcGen.Instance.global_position) < 240:
-		global_position = ProcGen.Instance.global_position + ProcGen.Instance.placedTiles.keys().pick_random() * 80 - Vector2(40, 40)
+		global_position = ProcGen.Instance.global_position + ProcGen.Instance.placedTiles.keys().pick_random() * 80 + Vector2(40, 40)
 
 
 func _process(delta: float) -> void:

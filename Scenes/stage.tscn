@@ -34,6 +34,7 @@ max_results = 2
 [node name="Player" parent="." instance=ExtResource("1_hp678")]
 
 [node name="Excorsist" parent="." instance=ExtResource("1_38vj4")]
+position = Vector2(-160, -160)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("1_f5h7r")
