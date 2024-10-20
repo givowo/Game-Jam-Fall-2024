@@ -40,7 +40,7 @@ func _process(delta: float) -> void:
 			if Input.is_action_just_pressed("interact_object"):
 				spec_player += 1
 				spec_player = spec_player % (MultiplayerManager.players.size())
-			if MultiplayerManager.players.keys()[spec_player] == player_id:
+			if MultiplayerManager.players.keys()[min(spec_player, MultiplayerManager.players.size() - 1)] == player_id:
 				spec_player += 1
 				spec_player = spec_player % (MultiplayerManager.players.size())
 	

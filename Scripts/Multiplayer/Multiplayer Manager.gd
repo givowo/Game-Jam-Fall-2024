@@ -94,7 +94,7 @@ func _register_player(new_player_info):
 		lobbyPlayers[i].SetInfo([], false);
 
 func _on_player_disconnected(id):
-	multiplayer.multiplayer_peer = null
+	#multiplayer.multiplayer_peer = null
 	players.erase(id)
 	player_disconnected.emit(id)
 
