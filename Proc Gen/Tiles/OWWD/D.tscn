@@ -47,7 +47,6 @@ shape = SubResource("RectangleShape2D_wigy1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(40, 40)
-rotation = 1.57079
 texture = ExtResource("1_jdsqs")
 region_enabled = true
-region_rect = Rect2(801, 800, 80, 80)
+region_rect = Rect2(576, 352, 80, 80)

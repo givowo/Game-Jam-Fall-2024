@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://byunn3dh5j0yr"]
+[gd_scene load_steps=5 format=3 uid="uid://dv8ahkx1rav03"]
 
 [ext_resource type="Texture2D" uid="uid://b1xcd46o4xcfk" path="res://Assets/Room_Tiles.png" id="1_3rxrt"]
 
@@ -39,6 +39,7 @@ shape = SubResource("RectangleShape2D_hufb0")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(40, 40)
+rotation = -3.14159
 texture = ExtResource("1_3rxrt")
 region_enabled = true
-region_rect = Rect2(688, 800, 80, 80)
+region_rect = Rect2(688, 352, 80, 80)
