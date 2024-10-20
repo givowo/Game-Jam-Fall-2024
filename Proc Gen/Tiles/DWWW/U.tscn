@@ -51,7 +51,7 @@ shape = SubResource("RectangleShape2D_ti5dn")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(39.9999, 40.0001)
-rotation = -1.57079
+rotation = -3.14159
 texture = ExtResource("1_r65uv")
 region_enabled = true
-region_rect = Rect2(16, 464, 80, 80)
+region_rect = Rect2(128, 464, 80, 80)

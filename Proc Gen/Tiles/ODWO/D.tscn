@@ -6,7 +6,7 @@
 size = Vector2(16, 80)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lqwww"]
-size = Vector2(30, 16)
+size = Vector2(16, 16)
 
 [node name="D" type="Node2D"]
 
@@ -34,9 +34,17 @@ rotation = 1.5708
 position = Vector2(25, 32)
 shape = SubResource("RectangleShape2D_lqwww")
 
+[node name="right3" type="StaticBody2D" parent="."]
+position = Vector2(-0.000141144, 79.9999)
+rotation = -3.14159
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="right3"]
+position = Vector2(-72.0001, 8.00038)
+shape = SubResource("RectangleShape2D_lqwww")
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(39.9999, 40.0001)
-rotation = 1.57079
+rotation = 3.14159
 texture = ExtResource("1_y3ft4")
 region_enabled = true
-region_rect = Rect2(576, 464, 80, 80)
+region_rect = Rect2(464, 464, 80, 80)

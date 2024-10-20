@@ -5,7 +5,7 @@ extends Node2D
 @onready var tiles = [];
 
 var rng = RandomNumberGenerator.new();
-var colors = [Color(0.639216, 1, 0, 0.25), Color(1, 0.45098, 0, 0.25), Color(0.635294, 0, 1, 0.25)];
+var colors = [Color(1, 0.45098, 0), Color(0.635294, 0, 1), Color(0.639216, 1, 0)];
 var colorCounts = [1, 1, 1];
 @onready var tileContainer = $Tiles;
 var tileSize = Vector2(80, 80);
@@ -84,11 +84,6 @@ func GenerateWorld(RNGseed = Time.get_unix_time_from_system()) -> void:
 		newTile.name = str(i);
 		newTile.position = i * tileSize;
 		tileContainer.add_child(newTile);
-		var testColor = ColorRect.new();
-		testColor.name = "color";
-		testColor.color = Color(1, 1, 1, 0.25);
-		testColor.size = Vector2(80, 80);
-		newTile.add_child(testColor);
 		placedTiles[i] = newRandom[1];
 		tilePositions[i] = newTile;
 		needToColor.append(i);
@@ -208,17 +203,17 @@ func GetTilesAround(tile):
 	return sides;
 	pass
 
-func ColorTheTiles(tilePosition, color = false):
+func ColorTheTiles(tilePosition, color = -1):
 	var tile = tilePositions[tilePosition];
 	var tileSides = placedTiles[tilePosition];
 
-	if !color:
+	if color == -1:
 		var maxThing = max(colorCounts[0], max(colorCounts[1], colorCounts[2]));
 		var colorIndex = rng.rand_weighted(PackedFloat32Array([-colorCounts[0] + maxThing, -colorCounts[1] + maxThing, -colorCounts[2] + maxThing]));
 		colorCounts[colorIndex] += 1;
-		color = colors[colorIndex];
+		color = colorIndex;
 		
-	tile.get_node("color").color = color;
+	tile.modulate = colors[color];
 	
 	needToColor.remove_at(needToColor.find(tilePosition));
 	

@@ -55,7 +55,7 @@ func _process(delta: float) -> void:
 			return;
 		
 		if nameview.length() < 9:
-			nameview += "_" if fmod(Time.get_ticks_msec() / 200, 2) < 1 else " ";
+			nameview += "_" if fmod(Time.get_ticks_msec() / 200.0, 2) < 1 else " ";
 			
 		for i in range(9 - nameview.length()):
 			nameview += "_";
@@ -87,13 +87,13 @@ func _process(delta: float) -> void:
 			Input.parse_input_event(fakeClick);
 			return;
 		
-		serverView += "_" if fmod(Time.get_ticks_msec() / 200, 2) < 1 else " ";
+		serverView += "_" if fmod(Time.get_ticks_msec() / 200.0, 2) < 1 else " ";
 	
 		serverActualView.text = serverView;
 		return;
 	
 	arrowSelector.global_position.y = mainMenuOptions[highlighted].global_position.y;
-	arrowSelector.global_position.x = mainMenuOptions[highlighted].global_position.x - 12 + cos(Time.get_ticks_msec() / 150) * 3;
+	arrowSelector.global_position.x = mainMenuOptions[highlighted].global_position.x - 12 + cos(Time.get_ticks_msec() / 150.0) * 3;
 	
 	if Input.is_action_just_pressed("move_down"):
 		mainMenuOptions[highlighted].waveStrength = 0;

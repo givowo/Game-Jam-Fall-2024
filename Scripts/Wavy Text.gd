@@ -22,5 +22,5 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	for i in range(letters.size()):
 		letters[i][0].modulate = textColor;
-		letters[i][0].position = letters[i][1] + Vector2(0, sin(Time.get_ticks_msec() / 150 - i) * 2 * waveStrength);
+		letters[i][0].position = letters[i][1] + Vector2(0, sin(Time.get_ticks_msec() / 150.0 - i) * 2 * waveStrength);
 	pass

@@ -1,8 +1,43 @@
-[gd_scene load_steps=2 format=3 uid="uid://c03jjyw0yvugr"]
+[gd_scene load_steps=3 format=3 uid="uid://c03jjyw0yvugr"]
 
 [ext_resource type="Texture2D" uid="uid://b1xcd46o4xcfk" path="res://Assets/Room_Tiles.png" id="1_xvck2"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ih8ol"]
+size = Vector2(16, 16)
+
 [node name="U" type="Node2D"]
+
+[node name="right3" type="StaticBody2D" parent="."]
+position = Vector2(0, 80)
+rotation = -3.14159
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="right3"]
+position = Vector2(-72.0001, 8.00038)
+shape = SubResource("RectangleShape2D_ih8ol")
+
+[node name="right4" type="StaticBody2D" parent="."]
+position = Vector2(0, 80)
+rotation = -3.14159
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="right4"]
+position = Vector2(-8.00008, 7.99991)
+shape = SubResource("RectangleShape2D_ih8ol")
+
+[node name="right5" type="StaticBody2D" parent="."]
+position = Vector2(0, 80)
+rotation = -3.14159
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="right5"]
+position = Vector2(-71.9996, 72.0004)
+shape = SubResource("RectangleShape2D_ih8ol")
+
+[node name="right6" type="StaticBody2D" parent="."]
+position = Vector2(0, 80)
+rotation = -3.14159
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="right6"]
+position = Vector2(-7.99962, 71.9999)
+shape = SubResource("RectangleShape2D_ih8ol")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(39.9999, 40.0001)

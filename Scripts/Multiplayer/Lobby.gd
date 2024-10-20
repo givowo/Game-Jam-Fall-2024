@@ -28,8 +28,8 @@ func _process(delta: float) -> void:
 		Leave()
 	
 	if changingCharacter:
-		leftArrowChar.position.x = -64 + cos(Time.get_ticks_msec() / 150) * 2;
-		rightArrowChar.position.x = -40 - cos(Time.get_ticks_msec() / 150) * 2;
+		leftArrowChar.position.x = -64 + cos(Time.get_ticks_msec() / 150.0) * 2;
+		rightArrowChar.position.x = -40 - cos(Time.get_ticks_msec() / 150.0) * 2;
 		
 		if MultiplayerManager.player_info.character == -1:
 			leftArrowChar.visible = false;
@@ -61,7 +61,7 @@ func _process(delta: float) -> void:
 		return;
 	
 	arrowSelector.global_position.y = mainMenuOptions[highlighted].global_position.y;
-	arrowSelector.global_position.x = mainMenuOptions[highlighted].global_position.x - 12 + cos(Time.get_ticks_msec() / 150) * 3;
+	arrowSelector.global_position.x = mainMenuOptions[highlighted].global_position.x - 12 + cos(Time.get_ticks_msec() / 150.0) * 3;
 	
 	if Input.is_action_just_pressed("move_down"):
 		mainMenuOptions[highlighted].waveStrength = 0;
