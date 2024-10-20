@@ -27,7 +27,7 @@ var bricks = load("res://Proc Gen/Bricks.tscn");
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Instance = self;
-	
+	worldSize += MultiplayerManager.worldGenLevel
 	position += tileSize * Vector2(worldSize,worldSize)
 	print("before gen")
 	if get_parent() == get_tree().root:

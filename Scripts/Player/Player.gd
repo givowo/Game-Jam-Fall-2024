@@ -57,7 +57,7 @@ func _process(delta: float) -> void:
 	
 	can_interact = false #disables after everything so when objects set it doesnt instantly disapear lol
 	if multiplayer.has_multiplayer_peer():
-		MultiplayerManager.rpc("updateCharacter", _char, global_position, $AnimationHandler.sprite.animation, input_dir)
+		MultiplayerManager.rpc("updateCharacter", _char, global_position, $AnimationHandler.sprite.animation, input_dir, spectate)
 
 func color_update():
 	#var found = $TouchRoom.get_overlapping_areas()
