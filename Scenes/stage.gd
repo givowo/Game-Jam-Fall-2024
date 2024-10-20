@@ -3,6 +3,7 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	$Player.player_id = MultiplayerManager.players.keys()[0]
 	for i in MultiplayerManager.players.size() - 1:
 		var obj = load("res://Objects/player_peer.tscn").instantiate();
 		add_child(obj);

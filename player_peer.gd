@@ -1,7 +1,6 @@
 extends Player
 class_name Player_Peer
 
-var player_id = -2
 func _ready():
 	MultiplayerManager.player_disconnected.connect(_on_player_disconnected)
 func _process(delta: float) -> void:

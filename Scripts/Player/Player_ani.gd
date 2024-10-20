@@ -17,3 +17,6 @@ func _physics_process(delta: float) -> void:
 			prev.animationQueue.emit("Right")
 		(Vector2(-1,0)):
 			prev.animationQueue.emit("Left")
+	
+	if owner.died:
+		prev.animationQueue.emit("Death")

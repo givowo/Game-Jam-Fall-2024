@@ -1,14 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://gwwdekxixfsr"]
+[gd_scene load_steps=5 format=3 uid="uid://gwwdekxixfsr"]
 
 [ext_resource type="Script" path="res://Scripts/excorsist.gd" id="1_4ls2q"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ivoby"]
 radius = 7.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_23pgt"]
-radius = 101.178
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hn33j"]
+size = Vector2(14, 14)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_kseal"]
 properties/0/path = NodePath(".:position")
@@ -58,21 +56,11 @@ script = ExtResource("1_4ls2q")
 [node name="TerrainCol" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ivoby")
 
-[node name="FindCandle" type="Area2D" parent="."]
-visible = false
+[node name="TouchPlayer" type="Area2D" parent="."]
 collision_layer = 128
 collision_mask = 128
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="FindCandle"]
-shape = SubResource("CircleShape2D_23pgt")
-debug_color = Color(0.950524, 1.73271e-06, 0.568178, 0.42)
-
-[node name="FindCandle2" type="Area2D" parent="."]
-visible = false
-collision_layer = 128
-collision_mask = 128
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="FindCandle2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TouchPlayer"]
 shape = SubResource("RectangleShape2D_hn33j")
 debug_color = Color(0.950524, 1.73271e-06, 0.568178, 0.42)
 

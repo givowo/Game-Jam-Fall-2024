@@ -21,7 +21,7 @@ func _process(delta: float) -> void:
 	var bodys = $Area2D.get_overlapping_bodies()
 	
 	for i in bodys.size():
-		if bodys[i] is Player && bodys[i] is not Player_Peer:
+		if bodys[i] is Player && !bodys[i].died && bodys[i] is not Player_Peer:
 			if !interacted:
 				is_interactable = true
 				$Interact.material.set_shader_parameter("cycleOffset",color[bodys[i]._char])

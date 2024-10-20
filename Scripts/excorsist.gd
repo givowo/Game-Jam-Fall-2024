@@ -37,6 +37,8 @@ func _process(delta: float) -> void:
 		$Area2D.rotation = move_arr[min(move_index, move_arr.size()-1)].angle_to_point(move_arr[min(move_index+1, move_arr.size()-1)]) - deg_to_rad(90)
 		
 	move_and_slide()
+	
+	_kill_goul()
 	pass
 
 func _determine_status():
@@ -44,7 +46,7 @@ func _determine_status():
 	
 	for i in found.size():
 		var obj = found[i]
-		if obj is Player:
+		if obj is Player && !obj.died:
 			$SightBeem.target_position = obj.position - position
 			$SightBeem.force_raycast_update()
 			if $SightBeem.is_colliding() and ($SightBeem.get_collider() is Player):
@@ -70,7 +72,7 @@ func _got_lost():
 			
 			for i in found.size():
 				var obj = found[i]
-				if obj is Player:
+				if obj is Player && !obj.died:
 					$SightBeem.target_position = obj.position - position
 					$SightBeem.force_raycast_update()
 					if $SightBeem.is_colliding() and ($SightBeem.get_collider() is Player):
@@ -80,5 +82,11 @@ func _got_lost():
 				move_index = 0
 				move_mode = 0
 				timeout = 0
+func _kill_goul():
+	var found = $TouchPlayer.get_overlapping_bodies()
 	
+	for i in found.size():
+		var obj = found[i]
+		if obj is Player && !obj.died:
+			obj.died = true
 				

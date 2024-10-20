@@ -22,16 +22,17 @@ shape = SubResource("CircleShape2D_uewnd")
 [node name="CHAR_WAR" type="AnimatedSprite2D" parent="SpriteManager"]
 sprite_frames = ExtResource("2_hjn04")
 animation = &"Down"
+autoplay = "Down"
 
 [node name="CHAR_FAMINE" type="AnimatedSprite2D" parent="SpriteManager"]
-visible = false
 sprite_frames = ExtResource("3_hq7ps")
 animation = &"Down"
+autoplay = "Down"
 
 [node name="CHAR_PLAGUE" type="AnimatedSprite2D" parent="SpriteManager"]
-visible = false
 sprite_frames = ExtResource("4_eje00")
 animation = &"Down"
+autoplay = "Down"
 
 [node name="AnimationHandler" type="Node" parent="."]
 script = ExtResource("2_s8yus")
