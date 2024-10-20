@@ -73,7 +73,7 @@ collision_layer = 128
 collision_mask = 128
 
 [node name="CollisionShape2D" type="CollisionPolygon2D" parent="Area2D"]
-scale = Vector2(2.84, 3.24)
+scale = Vector2(4.48, 6.12)
 polygon = PackedVector2Array(0, 0, 23.2394, 0, 20.0704, 10.4938, 15.8163, 16.0714, 8, 21, 2, 22, -2, 22, -8, 21, -15.8163, 16.0714, -20.0704, 10.4938, -23.2394, 0)
 
 [node name="SightBeem" type="RayCast2D" parent="."]

@@ -108,12 +108,14 @@ func _on_connected_fail():
 	multiplayer.multiplayer_peer = null
 
 func _on_server_disconnected():
+	#worldCandles.clear()
 	multiplayer.multiplayer_peer = null
 	players.clear()
 	server_disconnected.emit()
 
 @rpc("any_peer",  "call_local", "reliable")
 func PlayGame(gameSeed):
+	worldCandles.clear()
 	print("starting game!");
 	worldGenSeed = gameSeed;
 	if players[multiplayer.get_remote_sender_id()].character == -1:

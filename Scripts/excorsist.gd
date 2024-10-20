@@ -18,7 +18,8 @@ var SPEED = 300
 @onready var path = $"/root/Stage/Node2D"
 @onready var sprite = $AnimatedSprite2D;
 @export var candles_lit = 0
-var lastPositions = []
+@export var stuck_timer = 0
+@export var lastPositions = []
 
 func _ready():
 	position = world.tileSize* (Vector2(world.worldSize, world.worldSize) + Vector2(0, -1)) + (world.tileSize/2)
@@ -53,6 +54,14 @@ func _process(delta: float) -> void:
 		
 	move_and_slide()
 	
+	if lastPositions.size() >= 3 && lastPositions[2] == position:
+		stuck_timer += 1
+		if stuck_timer == 60:
+			var obj = MultiplayerManager.worldCandles.pick_random()
+			staus_queue.append([obj.global_position, 0])
+	else:
+		stuck_timer = 0
+	
 	var moveOffset = (position - lastPositions[0]).normalized();
 	if abs(Vector2(1, 0).angle_to(moveOffset)) < PI / 4:
 		sprite.play("Right");
@@ -75,7 +84,9 @@ func _determine_status():
 			$SightBeem.target_position = obj.position - position
 			$SightBeem.force_raycast_update()
 			if $SightBeem.is_colliding() and ($SightBeem.get_collider() is Player) and ($SightBeem.get_collider().canBeSee):
-				staus_queue.append([obj.global_position, 1])
+				if move_mode == 0:
+					staus_queue.clear()
+				staus_queue.append([obj.global_position, 2])
 				
 func _update_status():
 	for i in staus_queue.size():
@@ -84,11 +95,12 @@ func _update_status():
 		move_mode = staus_queue[i][1]
 		move_timer = 0
 		staus_queue.remove_at(i)
+		print(move_mode)
 		return
 		
 func _got_lost():
 	var obj = MultiplayerManager.worldCandles.pick_random()
-	staus_queue.append([obj.global_position, 1])
+	staus_queue.append([obj.global_position, 0])
 	
 func _kill_goul():
 	var found = $TouchPlayer.get_overlapping_bodies()

@@ -40,7 +40,10 @@ func _on_animated_sprite_2d_animation_looped() -> void:
 
 func Light(char):
 	interacted = true
-	excor.staus_queue.append([global_position, 1])
+	if excor.move_mode <= 1:
+		if excor.move_mode == 0:
+			excor.staus_queue.clear()
+		excor.staus_queue.append([global_position, 1])
 	$AnimatedSprite2D.material.set_shader_parameter("cycleOffset", color[char]);
 	excor.candles_lit += 1
 	pass

@@ -17,13 +17,13 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	stagger_update += 1
 	if stagger_update == 10:
-		_check_all_candles()
 		_everyone_died()
+		_check_all_candles()
 		stagger_update = 0
 
 func _check_all_candles():
 	var ammount_lit = $Excorsist.candles_lit
-	if ammount_lit >= MultiplayerManager.worldCandles.size() - 1:
+	if ammount_lit >= MultiplayerManager.worldCandles.size():
 		if multiplayer.is_server():
 			MultiplayerManager.rpc("NewLevel")
 
