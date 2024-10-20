@@ -14,7 +14,7 @@ signal update_character_2
 var death_timer = 0 
 var player_id
 var color_touched = -1
-var canBeSee = false;
+var canBeSee = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

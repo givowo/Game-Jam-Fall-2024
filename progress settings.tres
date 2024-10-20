@@ -1,0 +1,8 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://dm3d2rqnm372a"]
+
+[ext_resource type="FontFile" uid="uid://b1du2euwdhx0a" path="res://web_ibm_model3x_alt1.woff" id="1_iulnh"]
+
+[resource]
+font = ExtResource("1_iulnh")
+outline_size = 4
+outline_color = Color(1, 0, 0, 1)

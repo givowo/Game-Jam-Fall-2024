@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://Scenes/stage.gd" id="1_t6kwe"]
 [ext_resource type="Script" path="res://Scenes/astarpath.gd" id="5_eljlb"]
 [ext_resource type="Script" path="res://Scripts/Candle Progress.gd" id="7_uil36"]
-[ext_resource type="Texture2D" uid="uid://qc17ffpi10ux" path="res://Assets/candle arrow.png" id="8_bqkih"]
+[ext_resource type="LabelSettings" uid="uid://dm3d2rqnm372a" path="res://progress settings.tres" id="8_lb01h"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s3vua"]
 size = Vector2(1, 1)
@@ -41,10 +41,19 @@ position = Vector2(-160, -160)
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("1_f5h7r")
 
-[node name="UI" type="Node2D" parent="Camera2D"]
-position = Vector2(-80, -72)
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 script = ExtResource("7_uil36")
 
-[node name="Sprite2D" type="Sprite2D" parent="Camera2D/UI"]
-position = Vector2(80, 72)
-texture = ExtResource("8_bqkih")
+[node name="Label" type="Label" parent="UI"]
+visible = false
+layout_mode = 0
+offset_left = 48.0
+offset_top = 26.0
+offset_right = 112.0
+offset_bottom = 42.0
+pivot_offset = Vector2(32, 8)
+label_settings = ExtResource("8_lb01h")
