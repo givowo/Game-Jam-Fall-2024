@@ -1,5 +1,6 @@
 extends CharacterBody2D
-
+#class_name Excosist
+#static var Instance
 
 var SPEED = 300
 @export var direction = 0
@@ -22,16 +23,24 @@ var SPEED = 300
 @export var lastPositions = []
 
 func _ready():
+	#Instance = self;
 	position = world.tileSize* (Vector2(world.worldSize, world.worldSize) + Vector2(0, -1)) + (world.tileSize/2)
-	_got_lost()
-	moving = true
 	
-	while global_position.distance_to(ProcGen.Instance.global_position) < 240:
-		global_position = ProcGen.Instance.global_position + ProcGen.Instance.placedTiles.keys().pick_random() * 80 + Vector2(40, 40)
+	if multiplayer.is_server():
+		_got_lost()
+		moving = true
+		while global_position.distance_to(ProcGen.Instance.global_position) < 240:
+			global_position = ProcGen.Instance.global_position + ProcGen.Instance.placedTiles.keys().pick_random() * 80 + Vector2(40, 40)
 
 
 func _process(delta: float) -> void:
+	if multiplayer.is_server():
+		processMove(delta);
 	
+	_kill_goul()
+	pass
+
+func processMove(delta):
 	SPEED = 400 + (candles_lit * 2)
 	
 	lastPositions.append(position);
@@ -71,9 +80,6 @@ func _process(delta: float) -> void:
 		sprite.play("Left");
 	if abs(Vector2(0, -1).angle_to(moveOffset)) < PI / 4:
 		sprite.play("Up");
-	
-	_kill_goul()
-	pass
 
 func _determine_status():
 	var found = $Area2D.get_overlapping_bodies()
@@ -81,13 +87,18 @@ func _determine_status():
 	for i in found.size():
 		var obj = found[i]
 		if obj is Player && !obj.died:
-			$SightBeem.target_position = obj.position - position
+			$SightBeem.target_position = obj.global_position - global_position;
 			$SightBeem.force_raycast_update()
-			if $SightBeem.is_colliding() and ($SightBeem.get_collider() is Player) and ($SightBeem.get_collider().canBeSee):
-				if move_mode == 0:
-					staus_queue.clear()
-				staus_queue.append([obj.global_position, 2])
-				
+			if $SightBeem.is_colliding() and ($SightBeem.get_collider() is Player || $SightBeem.get_collider() is Player_Peer) and ($SightBeem.get_collider().canBeSee):
+				#MultiplayerManager.rpc("ChasePlayer", obj.global_position);
+				print("chasing ", MultiplayerManager.players[$SightBeem.get_collider().player_id].name);
+				ChasePlayer(obj.global_position)
+
+func ChasePlayer(position):
+	if move_mode == 0:
+		staus_queue.clear()
+	staus_queue.append([position, 2])
+
 func _update_status():
 	for i in staus_queue.size():
 		move_arr = path.start_new_path(global_position, staus_queue[i][0])
@@ -107,6 +118,6 @@ func _kill_goul():
 	
 	for i in found.size():
 		var obj = found[i]
-		if obj is Player && !obj.died:
+		if obj is Player && !obj.died && obj.canBeSee:
 			obj.died = true
 				

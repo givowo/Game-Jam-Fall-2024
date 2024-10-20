@@ -49,6 +49,7 @@ func _ready():
 				return;
 
 func join_game(address = ""):
+	push_warning("joining");
 	print(address);
 	if address.is_empty():
 		address = DEFAULT_SERVER_IP
@@ -60,6 +61,7 @@ func join_game(address = ""):
 	player_info.host = false;
 
 func create_game():
+	push_warning("hosting");
 	var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_server(PORT, MAX_CONNECTIONS)
 	if error:
@@ -149,4 +151,9 @@ func updateCharacter(char, pos, ani, inp, died):
 @rpc("any_peer", "call_local", "reliable")
 func LightCandle(index):
 	worldCandles[index].Light(players[multiplayer.get_remote_sender_id()].character);
+	pass
+	
+@rpc("any_peer", "call_local", "reliable")
+func ChasePlayer(position):
+	#Excosist.Instance.ChasePlayer(position);
 	pass

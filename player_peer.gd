@@ -12,7 +12,8 @@ func _process(delta: float) -> void:
 		
 		if ProcGen.Instance.worldColors.has(floor((global_position - ProcGen.Instance.global_position) / 80)):
 			var color_touched = ProcGen.Instance.worldColors[floor((global_position - ProcGen.Instance.global_position) / 80)]
-			modulate.a = 1 if color_touched != _char else 0.5;
+			canBeSee = color_touched != _char
+			modulate.a = 1 if canBeSee else 0.5;
 		
 		$AnimationHandler.animationQueue.emit(MultiplayerManager.players[player_id].animation)
 	
