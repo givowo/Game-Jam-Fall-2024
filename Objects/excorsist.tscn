@@ -82,5 +82,7 @@ collision_mask = 129
 [node name="NextPlace" type="RayCast2D" parent="."]
 target_position = Vector2(0, 72)
 
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_kseal")

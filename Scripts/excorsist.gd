@@ -54,7 +54,7 @@ func _determine_status():
 		if obj is Player && !obj.died:
 			$SightBeem.target_position = obj.position - position
 			$SightBeem.force_raycast_update()
-			if $SightBeem.is_colliding() and ($SightBeem.get_collider() is Player):
+			if $SightBeem.is_colliding() and ($SightBeem.get_collider() is Player) and ($SightBeem.get_collider().canBeSee):
 				staus_queue.append([obj.global_position, 1])
 				
 func _update_status():
