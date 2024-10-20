@@ -29,6 +29,7 @@ func _process(delta: float) -> void:
 	#input_delay = max(0, input_delay)
 	
 	if died:
+		input_dir = Vector2.ZERO
 		can_interact = false
 		death_timer += 1 * delta
 		if death_timer > 2:

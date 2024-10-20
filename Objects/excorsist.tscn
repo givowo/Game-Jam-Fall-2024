@@ -48,6 +48,9 @@ properties/11/replication_mode = 1
 properties/12/path = NodePath(".:staus_queue")
 properties/12/spawn = true
 properties/12/replication_mode = 1
+properties/13/path = NodePath(".:candles_lit")
+properties/13/spawn = true
+properties/13/replication_mode = 1
 
 [node name="Excorsist" type="CharacterBody2D"]
 collision_layer = 128

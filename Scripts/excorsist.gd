@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 
-const SPEED = 300
+var SPEED = 300
 @export var direction = 0
 @export var sight_dist = 64
 @export var sight_direction = 1
@@ -16,6 +16,7 @@ const SPEED = 300
 @onready var world = $"/root/Stage/Procedural Generation"
 @onready var player = $"/root/Stage/Player"
 @onready var path = $"/root/Stage/Node2D"
+@export var candles_lit = 0
 
 func _ready():
 	position = world.tileSize* (Vector2(world.worldSize, world.worldSize) + Vector2(0, -1)) + (world.tileSize/2)
@@ -25,10 +26,14 @@ func _ready():
 
 func _process(delta: float) -> void:
 	
+	SPEED = 300 + (candles_lit * 10)
+	
 	timeout = 0
 	move_timer = move_timer + (SPEED * delta) 
 	if move_timer >= 100:
 		move_index = (move_index + 1) 
+		if move_index >= move_arr.size()-1:
+			_got_lost()
 		move_timer = 0
 		_determine_status()
 		_update_status()
@@ -61,27 +66,8 @@ func _update_status():
 		staus_queue.remove_at(i)
 		return
 func _got_lost():
-	match move_mode:
-		0:
-			_determine_status()
-			moving = true
-		1:
-			timeout += 1
-			$Area2D.rotation += deg_to_rad(8)
-			var found = $Area2D.get_overlapping_bodies()
-			
-			for i in found.size():
-				var obj = found[i]
-				if obj is Player && !obj.died:
-					$SightBeem.target_position = obj.position - position
-					$SightBeem.force_raycast_update()
-					if $SightBeem.is_colliding() and ($SightBeem.get_collider() is Player):
-						staus_queue.append([obj.global_position, 1])
-			
-			if timeout >= 60:
-				move_index = 0
-				move_mode = 0
-				timeout = 0
+	var obj = MultiplayerManager.worldCandles.pick_random()
+	staus_queue.append([obj.global_position, 1])
 func _kill_goul():
 	var found = $TouchPlayer.get_overlapping_bodies()
 	
