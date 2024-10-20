@@ -33,6 +33,19 @@ func _ready():
 		if OS.get_cmdline_args()[i] == "join":
 			player_info.name = OS.get_cmdline_args()[i+1];
 			join_game();
+	
+	for command in OS.get_cmdline_args():
+		if get_tree().current_scene.name == "Menu":
+			if command == "host" || command == "join":
+				$/root/Menu/Main.visible = false;
+				$/root/Menu/Main.process_mode = Node.PROCESS_MODE_DISABLED;
+				$/root/Menu/Host.visible = false;
+				$/root/Menu/Host.process_mode = Node.PROCESS_MODE_DISABLED;
+				$/root/Menu/Join.visible = false;
+				$/root/Menu/Join.process_mode = Node.PROCESS_MODE_DISABLED;
+				$/root/Menu/Lobby.visible = true;
+				$/root/Menu/Lobby.process_mode = Node.PROCESS_MODE_ALWAYS;
+				return;
 
 func join_game(address = ""):
 	print(address);
@@ -81,6 +94,7 @@ func _register_player(new_player_info):
 		lobbyPlayers[i].SetInfo([], false);
 
 func _on_player_disconnected(id):
+	multiplayer.multiplayer_peer = null
 	players.erase(id)
 	player_disconnected.emit(id)
 
