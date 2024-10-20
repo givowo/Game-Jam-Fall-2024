@@ -2,31 +2,7 @@ extends Node2D
 
 # name, right down left up
 # -2 not wall, -1: any, 0: open, 1: door, 2: wall
-@onready var tiles = [
-	["OWWW", [0, 2, 2, 2]],
-	["DWWW", [1, 2, 2, 2]],
-	["OWWO", [0, 2, 2, 0]],
-	["DWWO", [1, 2, 2, 0]],
-	["OWWD", [0, 2, 2, 1]],
-	["OWOO", [0, 2, 0, 0]],
-	["OWDO", [0, 2, 1, 0]],
-	["DWDO", [1, 2, 1, 0]],
-	["DWDD", [1, 2, 1, 1]],
-	["DWOO", [1, 2, 0, 0]],
-	["DWOD", [1, 2, 0, 1]],
-	["OWDD", [0, 2, 1, 1]],
-	["OOOO", [0, 0, 0, 0]],
-	["DDDD", [1, 1, 1, 1]],
-	["DDDO", [1, 1, 1, 0]],
-	["WWWW", [2, 2, 2, 2]],
-	["OWOW", [0, 2, 0, 2]],
-	["OWDO", [0, 2, 1, 0]],
-	["DWDW", [1, 2, 1, 2]],
-	["ODDO", [0, 1, 1, 0]],
-	["ODOO", [0, 1, 0, 0]],
-	["ODOD", [0, 1, 0, 1]],
-	["DWWD", [1, 2, 2, 1]]
-];
+@onready var tiles = [];
 
 var rng = RandomNumberGenerator.new();
 var colors = [Color(0.639216, 1, 0, 0.25), Color(1, 0.45098, 0, 0.25), Color(0.635294, 0, 1, 0.25)];
@@ -39,6 +15,7 @@ var placedTiles = {};
 var tilePositions = {};
 var needToColor = [];
 var emptySpaces = [];
+var needToTraverse = [];
 var accessibleAreas = [];
 
 # Called when the node enters the scene tree for the first time.
@@ -55,10 +32,16 @@ func GenerateWorld(RNGseed = Time.get_unix_time_from_system()) -> void:
 	seed(RNGseed);
 	rng.seed = RNGseed;
 	
-	for tile in tiles:
-		tile.append([tile[1][3], tile[1][0], tile[1][1], tile[1][2]]);
-		tile.append([tile[1][2], tile[1][3], tile[1][0], tile[1][1]]);
-		tile.append([tile[1][1], tile[1][2], tile[1][3], tile[1][0]]);
+	var dir := DirAccess.open("res://Proc Gen/Tiles/");
+	dir.list_dir_begin()
+	var letterToNumber = {"O": 0, "D": 1, "W": 2};
+	for direc in dir.get_directories():
+		var newTile = [direc, [letterToNumber[direc.substr(0, 1)], letterToNumber[direc.substr(1, 1)], letterToNumber[direc.substr(2, 1)], letterToNumber[direc.substr(3, 1)]]];
+		newTile.append([newTile[1][3], newTile[1][0], newTile[1][1], newTile[1][2]]);
+		newTile.append([newTile[1][2], newTile[1][3], newTile[1][0], newTile[1][1]]);
+		newTile.append([newTile[1][1], newTile[1][2], newTile[1][3], newTile[1][0]]);
+		tiles.append(newTile);
+		#print(newTile);
 	
 	for i in range(0, worldSize * 2 + 1):
 		for j in range(0, worldSize * 2 + 1):
@@ -120,8 +103,35 @@ func GenerateWorld(RNGseed = Time.get_unix_time_from_system()) -> void:
 		MultiplayerManager.worldCandles.append(candle);
 		
 	
-	for tile in needToColor:
+	needToTraverse = needToColor.duplicate(true);
+	while needToTraverse.size() > 0:
+		FindConneceted(needToTraverse.pick_random());
 		pass
+		
+	for i in range(1, accessibleAreas.size()):
+		for tile in accessibleAreas[i]:
+			var preserveTiles = [];
+			if placedTiles[tile][0] == 2:
+				preserveTiles.append(-2);
+			else:
+				preserveTiles.append(placedTiles[tile][0]);
+				
+			if placedTiles[tile][1] == 2:
+				preserveTiles.append(-2);
+			else:
+				preserveTiles.append(placedTiles[tile][1]);
+				
+			if placedTiles[tile][2] == 2:
+				preserveTiles.append(-2);
+			else:
+				preserveTiles.append(placedTiles[tile][2]);
+				
+			if placedTiles[tile][3] == 2:
+				preserveTiles.append(-2);
+			else:
+				preserveTiles.append(placedTiles[tile][3]);
+				
+			PickRandomTileAndReplace(tile, preserveTiles);
 	
 	while needToColor.size() > 0:
 		ColorTheTiles(needToColor.pick_random());
@@ -151,13 +161,13 @@ func PickRandomTile(edges):
 	
 	for tile in tiles:
 		if ((right == -1 || right == tile[1][0]) && (down == -1 || down == tile[1][1]) && (left == -1 || left == tile[1][2]) && (up == -1 || up == tile[1][3])):
-			validTiles.append([tile[0] + "/R.tscn", tile[1]]);
+			validTiles.append([tile[0] + "/R.tscn", tile[1].duplicate(true)]);
 		if ((right == -1 || right == tile[2][0]) && (down == -1 || down == tile[2][1]) && (left == -1 || left == tile[2][2]) && (up == -1 || up == tile[2][3])):
-			validTiles.append([tile[0] + "/D.tscn", tile[2]]);
+			validTiles.append([tile[0] + "/D.tscn", tile[2].duplicate(true)]);
 		if ((right == -1 || right == tile[3][0]) && (down == -1 || down == tile[3][1]) && (left == -1 || left == tile[3][2]) && (up == -1 || up == tile[3][3])):
-			validTiles.append([tile[0] + "/L.tscn", tile[3]]);
+			validTiles.append([tile[0] + "/L.tscn", tile[3].duplicate(true)]);
 		if ((right == -1 || right == tile[4][0]) && (down == -1 || down == tile[4][1]) && (left == -1 || left == tile[4][2]) && (up == -1 || up == tile[4][3])):
-			validTiles.append([tile[0] + "/U.tscn", tile[4]]);
+			validTiles.append([tile[0] + "/U.tscn", tile[4].duplicate(true)]);
 	
 	return validTiles.pick_random();
 	pass
@@ -221,3 +231,134 @@ func ColorTheTiles(tilePosition, color = false):
 		
 	if tileSides[3] == 0 && needToColor.find(tilePosition - Vector2(0, 1)) != -1:
 		ColorTheTiles(tilePosition - Vector2(0, 1), color);
+
+func FindConneceted(tilePosition, array = -1, line = null):
+	var tileSides = placedTiles[tilePosition];
+
+	if array == -1:
+		accessibleAreas.append([]);
+		#line = Line2D.new();
+		#line.default_color = Color(randf(), randf(), randf());
+		#add_child(line);
+	array = accessibleAreas.size() - 1;
+		
+	accessibleAreas[array].append(tilePosition);
+	#line.add_point(tilePosition * tileSize + tileSize / 2);
+	
+	needToTraverse.remove_at(needToTraverse.find(tilePosition));
+	
+	if tileSides[0] != 2 && needToTraverse.find(tilePosition + Vector2(1, 0)) != -1:
+		FindConneceted(tilePosition + Vector2(1, 0), array, line);
+		#line.add_point(tilePosition * tileSize + tileSize / 2);
+		
+	if tileSides[1] != 2 && needToTraverse.find(tilePosition + Vector2(0, 1)) != -1:
+		FindConneceted(tilePosition + Vector2(0, 1), array, line);
+		#line.add_point(tilePosition * tileSize + tileSize / 2);
+		
+	if tileSides[2] != 2 && needToTraverse.find(tilePosition - Vector2(1, 0)) != -1:
+		FindConneceted(tilePosition - Vector2(1, 0), array, line);
+		#line.add_point(tilePosition * tileSize + tileSize / 2);
+		
+	if tileSides[3] != 2 && needToTraverse.find(tilePosition - Vector2(0, 1)) != -1:
+		FindConneceted(tilePosition - Vector2(0, 1), array, line);
+		#line.add_point(tilePosition * tileSize + tileSize / 2);
+		
+	if (false && line.points.size() == 1):
+		line.points[0].x -= 5;
+		line.add_point(tilePosition * tileSize + tileSize / 2 + Vector2(5, 0));
+
+func PickRandomTileAndReplace(position, preserve):
+	var validTiles = [];
+	
+	var right = preserve[0];
+	var down = preserve[1];
+	var left = preserve[2];
+	var up = preserve[3];
+	
+	if Vector2(0, 0).distance_to(position + Vector2(1, 0)) > worldSize:
+		right = 2;
+		
+	if Vector2(0, 0).distance_to(position + Vector2(0, 1)) > worldSize:
+		down = 2;
+		
+	if Vector2(0, 0).distance_to(position - Vector2(1, 0)) > worldSize:
+		left = 2;
+		
+	if Vector2(0, 0).distance_to(position - Vector2(0, 1)) > worldSize:
+		up = 2;
+	
+	preserve = [right, down, left, up];
+	#print("");
+	#print("preserve ", position, " with ", preserve);
+	
+	for tile in tiles:
+		if ((right == -1 || (right == -2 && tile[1][0] != 2) || right == tile[1][0]) && (down == -1 || (down == -2 && tile[1][1] != 2) || down == tile[1][1]) && (left == -1 || (left == -2 && tile[1][2] != 2) || left == tile[1][2]) && (up == -1 || (up == -2 && tile[1][3] != 2) || up == tile[1][3])):
+			validTiles.append([tile[0] + "/R.tscn", tile[1].duplicate(true)]);
+		if ((right == -1 || (right == -2 && tile[2][0] != 2) || right == tile[2][0]) && (down == -1 || (down == -2 && tile[2][1] != 2) || down == tile[2][1]) && (left == -1 || (left == -2 && tile[2][2] != 2) || left == tile[2][2]) && (up == -1 || (up == -2 && tile[2][3] != 2) || up == tile[2][3])):
+			validTiles.append([tile[0] + "/D.tscn", tile[2].duplicate(true)]);
+		if ((right == -1 || (right == -2 && tile[3][0] != 2) || right == tile[3][0]) && (down == -1 || (down == -2 && tile[3][1] != 2) || down == tile[3][1]) && (left == -1 || (left == -2 && tile[3][2] != 2) || left == tile[3][2]) && (up == -1 || (up == -2 && tile[3][3] != 2) || up == tile[3][3])):
+			validTiles.append([tile[0] + "/L.tscn", tile[3].duplicate(true)]);
+		if ((right == -1 || (right == -2 && tile[4][0] != 2) || right == tile[4][0]) && (down == -1 || (down == -2 && tile[4][1] != 2) || down == tile[4][1]) && (left == -1 || (left == -2 && tile[4][2] != 2) || left == tile[4][2]) && (up == -1 || (up == -2 && tile[4][3] != 2) || up == tile[4][3])):
+			validTiles.append([tile[0] + "/U.tscn", tile[4].duplicate(true)]);
+	
+	var newTileForSpot = validTiles.pick_random();
+	#print("fix tile ", newTileForSpot);
+	
+	var newTile = load("res://Proc Gen/Tiles/" + newTileForSpot[0]).instantiate();
+	newTile.position = position * tileSize;
+	tileContainer.add_child(newTile);
+	var existingTile = tilePositions[position];
+	var color = existingTile.get_node("color");
+	existingTile.remove_child(color);
+	newTile.add_child(color);
+	placedTiles[position] = newTileForSpot[1];
+	tilePositions[position] = newTile;
+	existingTile.queue_free();
+	
+	var directions = [Vector2(1, 0), Vector2(0, 1), Vector2(-1, 0), Vector2(0, -1)];
+	for direction in directions:
+		var dirIndex = directions.find(direction);
+		if preserve[directions.find(direction)] != -2:
+			continue;
+		
+		#print("fixing ", position + direction);
+		
+		var newSides = placedTiles[position + direction].duplicate();
+		newSides[(dirIndex + 2) % 4] = newTileForSpot[1][dirIndex];
+		var newSideTileData = GetSpecificTile(newSides);
+		
+		#print("sides ", placedTiles[position + direction], " new ", newSides, " with ", newSideTileData);
+		
+		var newSideTile = load("res://Proc Gen/Tiles/" + newSideTileData[0]).instantiate();
+		newSideTile.position = (position + direction) * tileSize;
+		tileContainer.add_child(newSideTile);
+		var existingSideTile = tilePositions[position + direction];
+		var colorSide = existingSideTile.get_node("color");
+		existingSideTile.remove_child(colorSide);
+		newSideTile.add_child(colorSide);
+		placedTiles[position + direction] = newSideTileData[1];
+		tilePositions[position + direction] = newSideTile;
+		existingSideTile.queue_free();
+	
+	pass
+	
+func GetSpecificTile(sides):
+	for tile in tiles:
+		if AreArraysSame(sides, tile[1], tile[0]):
+			return [tile[0] + "/R.tscn", tile[1].duplicate(true)];
+		if AreArraysSame(sides, tile[2], tile[0]):
+			return [tile[0] + "/D.tscn", tile[2].duplicate(true)];
+		if AreArraysSame(sides, tile[3], tile[0]):
+			return [tile[0] + "/L.tscn", tile[3].duplicate(true)];
+		if AreArraysSame(sides, tile[4], tile[0]):
+			return [tile[0] + "/U.tscn", tile[4].duplicate(true)];
+
+func AreArraysSame(arr1, arr2, name):
+	if arr1.size() != arr2.size():
+		return false;
+		
+	for i in arr1.size():
+		if arr1[i] != arr2[i]:
+			return false;
+			
+	return true;
