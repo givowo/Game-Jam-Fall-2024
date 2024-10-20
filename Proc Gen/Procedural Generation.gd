@@ -66,7 +66,7 @@ func GenerateWorld(RNGseed = Time.get_unix_time_from_system()) -> void:
 	var startingRandom = PickRandomTile([-1, -1, -1, -1]);
 	var startingTile = load("res://Proc Gen/Tiles/" + startingRandom[0]).instantiate();
 	startingTile.position = Vector2(0, 0);
-	startingTile.name = str(Vector2(0, 0));
+	startingTile.name = str(Vector2(0, 0)) + ", " + startingRandom[0];
 	tileContainer.add_child(startingTile);
 	placedTiles[Vector2(0, 0)] = startingRandom[1];
 	tilePositions[Vector2(0, 0)] = startingTile;
@@ -84,7 +84,7 @@ func GenerateWorld(RNGseed = Time.get_unix_time_from_system()) -> void:
 			print("COULDNT PLACE TILE AT ", i)
 			continue;
 		var newTile = load("res://Proc Gen/Tiles/" + newRandom[0]).instantiate();
-		newTile.name = str(i);
+		newTile.name = str(i) + ", " + newRandom[0];
 		newTile.position = i * tileSize;
 		tileContainer.add_child(newTile);
 		placedTiles[i] = newRandom[1];
@@ -346,7 +346,7 @@ func PickRandomTileAndReplace(position, preserve):
 	var newTile = load("res://Proc Gen/Tiles/" + newTileForSpot[0]).instantiate();
 	newTile.position = position * tileSize;
 	tileContainer.add_child(newTile);
-	newTile.name = str(position);
+	newTile.name = str(position) + ", " + newTileForSpot[0];
 	var existingTile = tilePositions[position];
 	
 	placedTiles[position] = newTileForSpot[1];
@@ -370,7 +370,7 @@ func PickRandomTileAndReplace(position, preserve):
 		var newSideTile = load("res://Proc Gen/Tiles/" + newSideTileData[0]).instantiate();
 		newSideTile.position = (position + direction) * tileSize;
 		tileContainer.add_child(newSideTile);
-		newSideTile.name = str(position + direction);
+		newSideTile.name = str(position + direction) + ", " + newSideTileData[0];
 		var existingSideTile = tilePositions[position + direction];
 		
 		placedTiles[position + direction] = newSideTileData[1];
