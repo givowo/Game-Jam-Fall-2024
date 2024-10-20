@@ -116,7 +116,7 @@ func PlayGame(gameSeed):
 	print("starting game!");
 	worldGenSeed = gameSeed;
 	if players[multiplayer.get_remote_sender_id()].character == -1:
-		players[multiplayer.get_remote_sender_id()].character = randi_range(0,3)
+		players[multiplayer.get_remote_sender_id()].character = randi_range(0,2)
 	get_tree().change_scene_to_file("res://Scenes/stage.tscn");
 	return;
 

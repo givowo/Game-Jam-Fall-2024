@@ -16,7 +16,9 @@ var SPEED = 300
 @onready var world = $"/root/Stage/Procedural Generation"
 @onready var player = $"/root/Stage/Player"
 @onready var path = $"/root/Stage/Node2D"
+@onready var sprite = $AnimatedSprite2D;
 @export var candles_lit = 0
+var lastPositions = []
 
 func _ready():
 	position = world.tileSize* (Vector2(world.worldSize, world.worldSize) + Vector2(0, -1)) + (world.tileSize/2)
@@ -27,6 +29,11 @@ func _ready():
 func _process(delta: float) -> void:
 	
 	SPEED = 300 + (candles_lit * 10)
+	
+	lastPositions.append(position);
+	
+	if lastPositions.size() >= 3:
+		lastPositions.remove_at(0);
 	
 	timeout = 0
 	move_timer = move_timer + (SPEED * delta) 
@@ -42,6 +49,16 @@ func _process(delta: float) -> void:
 		$Area2D.rotation = move_arr[min(move_index, move_arr.size()-1)].angle_to_point(move_arr[min(move_index+1, move_arr.size()-1)]) - deg_to_rad(90)
 		
 	move_and_slide()
+	
+	var moveOffset = (position - lastPositions[0]).normalized();
+	if abs(Vector2(1, 0).angle_to(moveOffset)) < PI / 4:
+		sprite.play("Right");
+	if abs(Vector2(0, 1).angle_to(moveOffset)) < PI / 4:
+		sprite.play("Down");
+	if abs(Vector2(-1, 0).angle_to(moveOffset)) < PI / 4:
+		sprite.play("Left");
+	if abs(Vector2(0, -1).angle_to(moveOffset)) < PI / 4:
+		sprite.play("Up");
 	
 	_kill_goul()
 	pass
@@ -65,9 +82,11 @@ func _update_status():
 		move_timer = 0
 		staus_queue.remove_at(i)
 		return
+		
 func _got_lost():
 	var obj = MultiplayerManager.worldCandles.pick_random()
 	staus_queue.append([obj.global_position, 1])
+	
 func _kill_goul():
 	var found = $TouchPlayer.get_overlapping_bodies()
 	
