@@ -42,4 +42,5 @@ func Light(char):
 	interacted = true
 	excor.staus_queue.append([global_position, 1])
 	$AnimatedSprite2D.material.set_shader_parameter("cycleOffset", color[char]);
+	excor.candles_lit += 1
 	pass
