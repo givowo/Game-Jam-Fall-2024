@@ -8,19 +8,29 @@ var grid_size
 var start = Vector2.ZERO
 var end = Vector2.ZERO
 var moving_arr
-
+var arr = []
+var has_created = false
 func _ready():
 	initialize_grid()
 	#WHOS READY FOR NESTED LOOPS!!!
-	_go_big()
+	print("before big")
+
+func _physics_process(delta: float) -> void:
+	if !has_created:
+		_go_big()
+		has_created =true
 
 func _go_big():
 	for i in astar_grid.size.x:
 		for j in astar_grid.size.y:
 			$ColGrid.global_position = Vector2(-world.worldSize*world.tileSize.x, -world.worldSize*world.tileSize.y) + Vector2( 8,8) + Vector2(i* 16, j* 16)  
 			$ColGrid.force_shapecast_update()
+			arr.append($ColGrid.global_position)
 			$ColGrid2.global_position = $ColGrid.global_position
 			$ColGrid2.force_shapecast_update()
+			#var obj2 = load("res://Objects/placeholder_place.tscn").instantiate();
+			#add_child(obj2);
+			#obj2.position = $ColGrid.global_position
 			#if !$ColGrid2.is_colliding():
 				#var pos = $ColGrid.global_position / cell_size
 				#if astar_grid.is_in_boundsv(pos):
@@ -67,6 +77,8 @@ func _draw():
 	pass
 	draw_grid()
 	fill_walls()
+	for i in arr.size():
+		draw_rect(Rect2(arr[i].x, arr[i].y,1, 1), Color(1,0,0,1))
 	#draw_rect(Rect2(start * cell_size, cell_size), Color.GREEN_YELLOW)
 	#draw_rect(Rect2(end * cell_size, cell_size), Color.ORANGE_RED)
 	

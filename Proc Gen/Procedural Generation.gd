@@ -21,12 +21,13 @@ var accessibleAreas = [];
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	position += tileSize * Vector2(worldSize,worldSize)
-	
+	print("before gen")
 	if get_parent() == get_tree().root:
 		GenerateWorld();
 	else:
 		GenerateWorld(MultiplayerManager.worldGenSeed);
 		#$"../Node2D"._go_big()
+	print("after gen")
 	pass # Replace with function body.
 
 func GenerateWorld(RNGseed = Time.get_unix_time_from_system()) -> void:
@@ -288,7 +289,7 @@ func PickRandomTileAndReplace(position, preserve):
 	
 	preserve = [right, down, left, up];
 	#print("");
-	print("preserve ", position, " with ", preserve);
+	#print("preserve ", position, " with ", preserve);
 	
 	for tile in tiles:
 		if ((right == -1 || (right == -2 && tile[1][0] != 2) || right == tile[1][0]) && (down == -1 || (down == -2 && tile[1][1] != 2) || down == tile[1][1]) && (left == -1 || (left == -2 && tile[1][2] != 2) || left == tile[1][2]) && (up == -1 || (up == -2 && tile[1][3] != 2) || up == tile[1][3])):
@@ -309,9 +310,7 @@ func PickRandomTileAndReplace(position, preserve):
 	tileContainer.add_child(newTile);
 	newTile.name = str(position);
 	var existingTile = tilePositions[position];
-	var color = existingTile.get_node("color");
-	existingTile.remove_child(color);
-	newTile.add_child(color);
+	
 	placedTiles[position] = newTileForSpot[1];
 	tilePositions[position] = newTile;
 	existingTile.queue_free();
@@ -335,9 +334,7 @@ func PickRandomTileAndReplace(position, preserve):
 		tileContainer.add_child(newSideTile);
 		newSideTile.name = str(position + direction);
 		var existingSideTile = tilePositions[position + direction];
-		var colorSide = existingSideTile.get_node("color");
-		existingSideTile.remove_child(colorSide);
-		newSideTile.add_child(colorSide);
+		
 		placedTiles[position + direction] = newSideTileData[1];
 		tilePositions[position + direction] = newSideTile;
 		existingSideTile.queue_free();
