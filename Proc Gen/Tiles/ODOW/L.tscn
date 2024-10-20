@@ -39,4 +39,4 @@ position = Vector2(39.9999, 40.0001)
 rotation = 3.14159
 texture = ExtResource("1_xh23p")
 region_enabled = true
-region_rect = Rect2(464, 240, 80, 80)
+region_rect = Rect2(688, 912, 80, 80)
