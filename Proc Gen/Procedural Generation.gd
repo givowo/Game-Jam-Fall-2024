@@ -26,6 +26,7 @@ func _ready() -> void:
 		GenerateWorld();
 	else:
 		GenerateWorld(MultiplayerManager.worldGenSeed);
+		#$"../Node2D"._go_big()
 	pass # Replace with function body.
 
 func GenerateWorld(RNGseed = Time.get_unix_time_from_system()) -> void:

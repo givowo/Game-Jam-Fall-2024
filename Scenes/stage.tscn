@@ -8,7 +8,7 @@
 [ext_resource type="Script" path="res://Scenes/astarpath.gd" id="5_eljlb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s3vua"]
-size = Vector2(8, 8)
+size = Vector2(1, 1)
 
 [node name="Stage" type="Node2D"]
 script = ExtResource("1_t6kwe")

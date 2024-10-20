@@ -12,10 +12,12 @@ var moving_arr
 func _ready():
 	initialize_grid()
 	#WHOS READY FOR NESTED LOOPS!!!
-	
+	_go_big()
+
+func _go_big():
 	for i in astar_grid.size.x:
 		for j in astar_grid.size.y:
-			$ColGrid.global_position = Vector2(-world.worldSize*world.tileSize.x, -world.worldSize*world.tileSize.y) + Vector2( 8,8) + Vector2(i* cell_size.x, j* cell_size.y)  
+			$ColGrid.global_position = Vector2(-world.worldSize*world.tileSize.x, -world.worldSize*world.tileSize.y) + Vector2( 8,8) + Vector2(i* 16, j* 16)  
 			$ColGrid.force_shapecast_update()
 			$ColGrid2.global_position = $ColGrid.global_position
 			$ColGrid2.force_shapecast_update()
@@ -33,7 +35,6 @@ func _ready():
 						#var obj2 = load("res://Objects/placeholder_place.tscn").instantiate();
 						#add_child(obj2);
 						#obj2.position = $ColGrid.global_position
-	
 
 func initialize_grid():
 	grid_size = Rect2(0, 0, (world.worldSize * 2)* cell_size.x, (world.worldSize * 2)* cell_size.y) 
@@ -71,7 +72,7 @@ func _draw():
 	
 func draw_grid():
 	for x in grid_size.size.x:
-		draw_line(Vector2(x * cell_size.x, 0), Vector2(x * cell_size.x, grid_size.size.y * cell_size.y), Color.DARK_GRAY, 2.0)
+		draw_line(Vector2(x * cell_size.x, 0), Vector2(x * cell_size.x, grid_size.size.y * cell_size.y), (Color.DARK_GRAY), 2.0)
 	for y in grid_size.size.y:
 		draw_line(Vector2(0, y * cell_size.y), Vector2(grid_size.size.x * cell_size.x, y * cell_size.y), Color.DARK_GRAY, 2.0)
 
@@ -79,4 +80,4 @@ func fill_walls():
 	for x in grid_size.size.x:
 		for y in grid_size.size.y:
 			if astar_grid.is_point_solid(Vector2i(x, y)):
-				draw_rect(Rect2(x * cell_size.x, y * cell_size.y, cell_size.x, cell_size.y), Color.DARK_GRAY)
+				draw_rect(Rect2(x * cell_size.x, y * cell_size.y, cell_size.x, cell_size.y), Color(0.5,0.5,0.5,0.5))
