@@ -20,6 +20,7 @@ var emptySpaces = [];
 var needToTraverse = [];
 var accessibleAreas = [];
 var worldColors = {};
+var tileCandles = {};
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -97,8 +98,10 @@ func GenerateWorld(RNGseed = Time.get_unix_time_from_system()) -> void:
 			continue;
 		
 		var candle = load("res://Objects/candle.tscn").instantiate();
-		candle.position = (i * tileSize) + Vector2(randi_range(24, 56), randi_range(24, 56));
+		var candlePos = Vector2(randi_range(28, 52), randi_range(28, 52));
+		candle.position = (i * tileSize) + candlePos;
 		add_child(candle);
+		tileCandles[i] = candlePos;
 		MultiplayerManager.worldCandles.append(candle);
 		
 	
@@ -208,6 +211,33 @@ func GetTilesAround(tile):
 func ColorTheTiles(tilePosition, color = -1):
 	var tile = tilePositions[tilePosition];
 	var tileSides = placedTiles[tilePosition];
+	
+	var existingItems = [];
+	if tileCandles.has(tilePosition):
+		existingItems.append(tileCandles.has(tilePosition));
+		
+	for i in randi_range(0, 2):
+		var decoDir := DirAccess.open("res://Assets/Decoration/");
+		decoDir.list_dir_begin()
+		var newDeco = "";
+		while newDeco == "":
+			var newRand = decoDir.get_files()[randi_range(0, decoDir.get_files().size() - 1)];
+			if newRand.right(6) != "import":
+				newDeco = newRand;
+		var newSprite = Sprite2D.new();
+		newSprite.scale.x = 1 if randf() < 0.5 else -1;
+		newSprite.texture = load("res://Assets/Decoration/" + newDeco);
+		tile.add_child(newSprite);
+		var overlap = true;
+		while overlap:
+			newSprite.position = Vector2(randi_range(28, 52), randi_range(28, 52));
+			overlap = false;
+			for thing in existingItems:
+				if thing.distance_to(newSprite.position) < 16:
+					overlap = true;
+		existingItems.append(newSprite.position);
+		
+		
 
 	if color == -1:
 		var maxThing = max(colorCounts[0], max(colorCounts[1], colorCounts[2]));
